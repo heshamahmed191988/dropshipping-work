@@ -15,6 +15,9 @@ using System.Data.Entity;
 
 using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Product;
+using QRCoder;
+using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Jumia.Application.Services
 {
@@ -166,8 +169,8 @@ namespace Jumia.Application.Services
                     AddressId = AddressId,
                 };
 
-                // Generate unique barcode for the order
-                var barcode = BarcodeGenerator.GenerateUniqueBarcode();
+                // Generate unique barcode for the order with order details
+                var barcode = BarcodeGenerator.GenerateUniqueQRCode(order);
                 order.BarcodeImageUrl = barcode;
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
@@ -205,24 +208,42 @@ namespace Jumia.Application.Services
             }
         }
 
+
         public static class BarcodeGenerator
         {
-            // Generate a unique barcode using a combination of current timestamp and a random number
-            public static string GenerateUniqueBarcode()
+            // Generate a unique QR code containing order details
+            public static string GenerateUniqueQRCode(Order order)
             {
-                // Get the current timestamp in ticks and convert it to a string
-                string timestamp = DateTime.UtcNow.Ticks.ToString();
+                // Format order details into a structured table format
+                string orderTable = $"Order ID: {order.Id}\n" +
+                                    $"Date Placed: {order.DatePlaced}\n" +
+                                    $"Total Price: {order.TotalPrice}\n" +
+                                    $"Status: {order.Status}\n" +
+                                    $"User ID: {order.UserID}\n" +
+                                    $"Address ID: {order.AddressId}\n";
 
-                // Generate a random number between 1000 and 9999
-                Random random = new Random();
-                int randomNumber = random.Next(1000, 9999);
+                // Create QR code payload
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(orderTable, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
 
-                // Combine timestamp and random number to create a unique barcode
-                string barcode = timestamp + randomNumber.ToString();
+                // Render QR code as bitmap
+                Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
-                return barcode;
-            }}
-            public async Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(UpdateOrderProductDto updateOrderProduct)
+                // Convert bitmap to Base64 string
+                string base64String;
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    qrCodeImage.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] byteImage = memoryStream.ToArray();
+                    base64String = Convert.ToBase64String(byteImage);
+                }
+
+                return base64String;
+            }
+        }
+
+        public async Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(UpdateOrderProductDto updateOrderProduct)
         {
             try
             {
