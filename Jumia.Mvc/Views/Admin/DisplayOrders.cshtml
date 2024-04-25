@@ -1,0 +1,110 @@
+﻿@model IEnumerable<OrderDto>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    ViewBag.Title = @localizer["Orders"];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/Ordersdisplay.css" />
+    <style>
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>@localizer["Orders"]</h2>
+    <div class="container col-md-12 col-sm-12">
+        <table class="table" style="background-color:white;">
+            <thead>
+                <tr>
+                    <th scope="col">@localizer["Order ID"]</th>
+                    <th scope="col">@localizer["UserName"]</th>
+                    <th scope="col">@localizer["DateListed"]</th>
+                    <th scope="col">@localizer["Total Price"]</th>
+                    <th scope="col">@localizer["City"]</th>
+                    <th scope="col">@localizer["Street"]</th>
+                    <th scope="col">@localizer["Status"]</th>
+                    <th scope="col">@localizer["Action"]</th>
+                    <th scope="col">@localizer["Action"]</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 0; // Initialize index to cycle through cities and streets
+                }
+                @foreach (var order in Model)
+                {
+                    // Ensuring the index is within bounds for both cities and streets
+                    int cityIndex = index % order.Cities.Count;
+                    int streetIndex = index % order.Streets.Count;
+                    <tr>
+                        <td>@order.Id</td>
+                        <td>@order.UserName</td>
+                        <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
+                        <td>@order.TotalPrice</td>
+                        <td>@order.Cities[cityIndex]</td>
+                        <td>@order.Streets[streetIndex]</td>
+                        <td>@order.Status</td>
+
+                        <td>
+                            @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+                            {
+                                @Html.Hidden("orderId", order.Id)
+                                <select name="status" class="form-control">
+                                    @if (order.Status == "Pending")
+                                    {
+                                        <option value="Pending" selected>Pending</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Pending">Pending</option>
+                                    }
+                                    @if (order.Status == "Processing")
+                                    {
+                                        <option value="Processing" selected>Processing</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Processing">Processing</option>
+                                    }
+                                    @if (order.Status == "Shipped")
+                                    {
+                                        <option value="Shipped" selected>Shipped</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Shipped">Shipped</option>
+                                    }
+                                    @if (order.Status == "Delivered")
+                                    {
+                                        <option value="Delivered" selected>Delivered</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Delivered">Delivered</option>
+                                    }
+                                </select>
+                              <td>  <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button><td/>
+                           
+                        </td>
+                        }
+                    </tr>
+                    index++;
+                }
+               
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

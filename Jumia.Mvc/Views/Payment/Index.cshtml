@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Jumia.Dtos.PaymentDto>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+
+@{
+    ViewData["Title"] = "Payments";
+}
+<head>
+    <style>
+        th {
+            color: black !important;
+            background-color: white !important;
+            border-color: #383f45;
+        }
+
+        td {
+            color: black !important;
+            background-color: white !important;
+            border-color: #383f45;
+        }
+
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
+</head>
+<div class="container mt-5" style="max-width:1200px">
+    <h2 class="mb-4">@localizer["Payments"]</h2>
+    <table class="table" style=" border-radius: 0.25rem;">
+        <thead class="thead">
+            <tr>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Order ID"]</th>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Date Paid"]</th>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Payment Method"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model)
+            {
+                <tr>
+                    <td>@payment.OrderId</td>
+                    <td>@payment.DatePaid.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@payment.paymentMethod</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,49 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+
+
+@model CategoryDto
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-5">
+            <div class="card" style=" background-color: white !important;
+    color: white;
+    width: 130%;
+    padding: 13px;
+    border-radius: 15px;
+    margin-left: -84px;">
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="form-group">
+                            <label asp-for="NameAr" class="text-white" style="color: black !important;">@localizer["English Name"]</label>
+                            <input asp-for="NameAr" class="form-control" style="border-radius:1rem;" placeholder="Enter category name" />
+                            <span asp-validation-for="NameAr" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NameEn" class="text-white" style="color: black !important;">@localizer["Arabic Name"]</label>
+                            <input asp-for="NameEn" class="form-control" style="border-radius:1rem;" placeholder="Enter category name" />
+                            <span asp-validation-for="NameEn" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" style="width: 7vw;
+    background-color: #2275fc !important;
+    color: #232f3e;
+    border-radius: 18px;">
+                                @localizer["Save"]
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

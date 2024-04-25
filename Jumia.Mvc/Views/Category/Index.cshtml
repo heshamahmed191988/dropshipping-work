@@ -1,0 +1,85 @@
+﻿@model List<CategoryDto>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+<head>
+    <style>
+        .col-md-8 .btn-1 {
+            color: #007bff !important;
+            font-size: 1.8vw;
+            border: 1px solid #007bff;
+            padding: 0.2vw 1vw;
+            border-radius: 6px;
+        }
+
+            .col-md-8 .btn-1:hover {
+                color: white !important;
+                background-color: #007bff !important;
+            }
+
+        tr:hover {
+            background-color: #ebebeb !important;
+        }
+    </style>
+</head>
+<div style="background-color:#ebebeb;">
+    <div class="row justify-content-center mt-3" style="text-align: end; background-color:#ebebeb;">
+        <div class="col-md-8" style="margin-top: 4vw;
+   margin-left: 23vw;">
+            <a asp-action="Create" class="btn-1" style="">@localizer["Create"]</a>
+        </div>
+    </div>
+    <div class="container mt-3 mb-5 @(isRtl ? "RTL" : "LTR")" style="background-color:#ebebeb;">
+        <div class="row justify-content-center" style="background-color:#ebebeb;">
+            <div class="col-md-8">
+                <div class="card" style="background-color: #F3F6F9 !important;
+    color: black;
+        width: 163%;
+    margin-left: -227px; border-radius:0.25rem;">
+                    <div class="card-body">
+                        @if (Model != null && Model.Any())
+                        {
+                            <table class="table table-striped">
+                                <thead style="background-color:white !important; color:black">
+                                    <tr>
+
+                                        <th>@localizer["English Name"]</th>
+                                        <th>@localizer["Arabic Name"]</th>
+                                        <th>@localizer["Id"]</th>
+
+
+                                        <th style="width:25%">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var category in Model)
+                                    {
+                                        <tr style="background-color:white; padding-top:3px;padding-bottom3px;">
+                                            <td style="width:25% ;">@category.NameEn</td>
+                                            <td style="width:25%">@category.NameAr</td>
+                                            <td>@category.Id</td>
+
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style=""><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a>
+                                                <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style=""><i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>@localizer["No categories found"].</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

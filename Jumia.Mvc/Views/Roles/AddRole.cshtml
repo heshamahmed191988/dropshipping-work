@@ -1,0 +1,33 @@
+﻿@model RoleViewModel
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="background-color: white !important;
+    color: black;
+    margin-top: 7rem;
+    border-radius: 10px;">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">@localizer["Add Role"]</h2>
+
+                    <form asp-action="AddRole" method="post">
+                        <div class="form-group">
+                            <label asp-for="RoleName">@localizer["RoleName"]</label>
+                            <input asp-for="RoleName" class="form-control" style="border-radius: 22px; color: black;" />
+                            <span asp-validation-for="RoleName" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3" style="background-color: #2275fc;color: black;border-radius: 15px;width: 8rem; padding: 8px; align-content: center; margin-left: 12rem;">
+                            @localizer["Add Role"]
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

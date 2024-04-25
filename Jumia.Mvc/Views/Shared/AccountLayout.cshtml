@@ -1,0 +1,345 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Jumia.Mvc</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <!--Font Family-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&family=Pacifico&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Henny+Penny&display=swap" rel="stylesheet">
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+
+
+        .container-fluid {
+            background-color: #dfc33b;
+            padding: 15px;
+        }
+
+
+        /*footer */
+
+        .backtotop {
+            background-color: #2b3949;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .backtotop {
+            background-color: #3a495b;
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: #232f3e;
+            /*  background-color: #0F1111; */
+
+            color: white;
+            right: 0px;
+            left: 0px;
+        }
+
+            .footer .container2 {
+                display: flex;
+                justify-content: center;
+            }
+
+                .footer .container2 .row {
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                }
+
+            .footer .row {
+                height: 320px;
+                width: 70%;
+            }
+
+            .footer .nav_a {
+                text-decoration: none;
+                color: #999999;
+            }
+
+        .container3 {
+            display: flex;
+            justify-content: center;
+            background-color: #141b23
+        }
+
+        .footer .nav_b {
+            color: white
+        }
+
+
+        .container3 .endtable {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .container3 .lastfooter {
+            width: 190px;
+            font-size: 10px
+        }
+
+        .footer, .container3 a {
+            text-decoration: none;
+            color: white;
+            padding: 5px;
+            position: relative
+        }
+
+        .footer, .container3 li {
+            list-style-type: none;
+            position: relative
+        }
+
+        .footer, container3 a {
+            color: #737171;
+            position: relative
+        }
+
+        .footer, .container3 a:hover {
+            color: white;
+        }
+
+            .footer .container2 .row .col-lg-3,
+            .footer .container2 .row .col-md-6 {
+                padding: 0 15px;
+            }
+
+                .footer .container2 .row .col-lg-3 li,
+                .footer .container2 .row .col-md-6 li {
+                    list-style: none;
+                    margin-bottom: 5px;
+                    position: relative;
+                    color: #999999;
+                }
+
+                    .footer .container2 .row .col-lg-3 li:hover,
+                    .footer .container2 .row .col-md-6 li:hover {
+                        border-bottom: 2px solid white;
+                        transition: border-bottom 0.3s ease;
+                    }
+
+                    .footer .container2 .row .col-lg-3 li a,
+                    .footer .container2 .row .col-md-6 li a {
+                        text-decoration: none;
+                        color: white;
+                    }
+
+        .endtable a {
+            padding: 10px;
+            position: relative;
+        }
+
+            .endtable a:hover:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 100%;
+                height: 2px;
+                background-color: white;
+            }
+
+        .endtable span {
+            padding: 10px;
+            position: relative;
+        }
+
+            .endtable span:hover:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 100%;
+                height: 2px;
+                background-color: white;
+            }
+
+        .Copyright {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 20px;
+            background-color: #141b23;
+        }
+
+            .Copyright ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                .Copyright ul li {
+                    display: inline;
+                    margin: 0 10px;
+                    position: relative
+                }
+
+                    .Copyright ul li:hover::after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        bottom: -5px;
+                        width: 100%;
+                        height: 2px;
+                        background-color: white;
+                    }
+
+            .Copyright a {
+                text-decoration: none;
+                color: white;
+                padding: 5px;
+            }
+
+            .Copyright li {
+                list-style-type: none;
+            }
+
+            .Copyright a {
+                color: #737171;
+            }
+
+
+                .Copyright a:hover {
+                    color: white;
+                }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        @RenderBody()
+    </div>
+
+    <a href="#navbar" style="text-decoration:none">
+        <div class="backtotop"> Back To Top </div>
+    </a>
+
+    <div class="footer">
+
+        <div class="container2">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="presento">
+                        <h6>Get to Know Us</h6>
+                        <li> <a href="#" class="nav_a">About Amazon</a>  </li>
+                        <li> <a href="#" class="nav_a">Careers</a>  </li>
+                        <li> <a href="#" class="nav_a">Amazon Science</a> </li>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="links">
+                        <h6>Shop with Us</h6>
+                        <li> <a href="#" class="nav_a">Your Account  </a>  </li>
+                        <li> <a href="#" class="nav_a">Your Orders   </a>  </li>
+                        <li> <a href="#" class="nav_a">Your Addresses</a> </li>
+                        <li> <a href="#" class="nav_a">Your Lists     </a> </li>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="presento">
+                        <h6>Make Money with Us</h6>
+                        <li> <a href="#" class="nav_a">Protect and build your brand</a>  </li>
+                        <li> <a href="#" class="nav_a">Advertise Your Products</a>  </li>
+                        <li> <a href="#" class="nav_a">Amazon Science</a> </li>
+                        <li> <a href="#" class="nav_a">Sell on Amazon</a> </li>
+                        <li> <a href="#" class="nav_a"> Fulfillment by Amazon</a> </li>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="presento">
+                        <h6>Let Us Help You</h6>
+                        <li> <a href="#" class="nav_a">Help</a>  </li>
+                        <li> <a href="#" class="nav_a">Shipping &amp; Delivery</a>  </li>
+                        <li> <a href="#" class="nav_a">Returns &amp; Replacements</a>  </li>
+                        <li> <a href="#" class="nav_a">Amazon App Download</a> </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+    @*  *thrid  fotter*@
+    <div class="container3">
+        <div class="end">
+            <table class="endtable">
+                <tbody>
+                    <tr>
+                        <td class="lastfooter"><a href="#" class="nav_b">Amazon Advertising<br><span class="navFooterDescText"> Find, attract, and<br>engage customers</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Sell on Amazon.ae<br><span class="navFooterDescText">Sell globally, start with UAE</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Sell on Amazon.ae<br><span class="navFooterDescText">Sell globally, start with UAE</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Amazon Web Services<br><span class="navFooterDescText">Scalable Cloud<br>Computing Services</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Goodreads<br><span class="navFooterDescText">Book reviews<br>&amp; recommendations</span></a></td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td class="lastfooter"><a href="#" class="nav_b">Audible<br><span class="navFooterDescText">Download<br>Audio Books</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">IMDb<br><span class="navFooterDescText">Movies, TV<br>&amp; Celebrities</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Alexa<br><span class="navFooterDescText">Actionable Analytics<br>for the Web</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter"><a href="#" class="nav_b">Shopbop<br><span class="navFooterDescText">Designer<br>Fashion Brands</span></a></td>
+                        <td class="lastfooter" style="width: 5%"></td>
+                        <td class="lastfooter">&nbsp;</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="Copyright">
+        <div class="content">
+            <ul>
+                <li class="nav_first"><a href="#" id="" class="nav_a">Conditions of Use & Sale</a></li>
+                <li><a href="#" id="" class="nav_a">Privacy Notice</a></li>
+                <li class="nav_last"><a href="#" id="" class="nav_a">Interest-Based Ads</a></li>
+            </ul>
+            <span style="color: #737171">©1996–2024, Amazon.com, Inc. or its affiliates</span>
+        </div>
+    </div>
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

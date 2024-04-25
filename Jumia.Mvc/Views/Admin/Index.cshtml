@@ -1,0 +1,396 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    ViewData["Title"] = "Employee";
+}@*
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>150</h3>
+
+                        <p>New Orders</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                        <p>Bounce Rate</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>44</h3>
+
+                        <p>User Registrations</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div> *@
+<!-- ./col -->
+@*    <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>65</h3>
+
+                        <p>Unique Visitors</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div> *@
+
+
+<style>
+    /* Enhanced styling for small boxes */
+
+    /* Enhanced styling for small boxes */
+    /* Styling for the logout button */
+
+    .logout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        background-color: #3498db; /* Blue background color */
+        color: #fff; /* White text color */
+        padding: 10px 20px; /* Padding around the button */
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+        .logout-button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+
+        .logout-button i {
+            margin-right: 10px; /* Add space between icon and text */
+        }
+
+        .logout-button span {
+            font-weight: bold; /* Make text bold */
+        }
+
+    .small-box {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        margin-bottom: 20px; /* Add margin between small boxes */
+    }
+
+        .small-box:hover {
+            transform: translateY(-5px); /* Add a slight lift on hover */
+        }
+
+        .small-box .inner {
+            padding: 20px;
+        }
+
+        .small-box h3 {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .small-box h4 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .small-box .icon {
+            font-size: 48px;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .small-box a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .small-box a:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+    /* Vibrant background colors for small boxes */
+    .bg-info {
+        background-color: #2ecc71; /* Green */
+    }
+
+    .bg-warning {
+        background-color: #f39c12; /* Orange */
+    }
+
+    .bg-success {
+        background-color: #3498db; /* Blue */
+    }
+
+    .bg-danger {
+        background-color: #e74c3c; /* Red */
+    }
+
+    /* Responsive styles */
+
+    }
+</style>
+<div class="row w-auto" dir="@(isRtl ? "RTL":"LTR")">
+    <div class="info col-lg-12" style="text-align: center;">
+        <a href="#" class="d-block">
+            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="logout" style="font-size: 20px; color: black;">Welcome @User.Identity.Name</a>
+        </a>
+    </div>
+
+    <!-- small box number of proudect-->
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-info">
+            <div class="inner">
+                <h3 id="productCount"></h3> <!-- Display the product count  -->
+                <h4>@localizer["Total Products"]</h4>
+            </div>
+            <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Product" asp-action="Index">Show proudect <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <!-- small box number of order-->
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-warning">
+            <div class="inner">
+                <h3 id="orderCount"></h3> <!-- Display the order  -->
+                <h4>@localizer["Total orders"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">Show orders <i class="fas fa-arrow-circle-right"></i></a>
+
+        </div>
+    </div>
+
+    <!-- small box payment -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-success">
+            <div class="inner">
+                <h3 id="paymentCount"></h3> <!-- Display payment -->
+                <h4>@localizer["Total Payment"]</h4>
+            </div>
+            <div class="icon">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Payment" asp-action="index">Paymen<i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- small box user register -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-danger">
+            <div class="inner">
+                <h3 id="userCount"></h3> <!-- Display user -->
+                <h4>@localizer["User Registrations"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Admin" asp-action="index">Users<i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-warning">
+            <div class="inner">
+                <h3 id="orderCount"></h3> <!-- Display the order  -->
+                <h4>@localizer["products"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="product" asp-action="index" class="nav-link">Show products <i class="fas fa-arrow-circle-right"></i></a>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-danger">
+            <div class="inner">
+                <h3 id="userCount"></h3> <!-- Display user -->
+                <h4>@localizer["Category"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Category" asp-action="index">Category<i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3 id="userCount"></h3> <!-- Display user -->
+                <h4>@localizer["Add Role"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Roles" asp-action="AddRole">@localizer["Add Role"]<i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3 id="userCount"></h3> <!-- Display user -->
+                <h4>@localizer["Assign Role"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="Roles" asp-action="AddRole">@localizer["Assign Role"]<i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+
+    <div class="logout-container">
+        <p>
+            <a class="logout-button" style="text-align: center;margin-left:5%" asp-area="" asp-controller="Account" asp-action="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>@localizer["Logout"]</span>
+            </a>
+        </p>
+    </div>
+
+
+</div>
+
+<!-- /.row -->
+<!--chart-->
+<div class="row">
+    <div class="col-lg-6">
+        <!--brand-->
+        <div id="productChartContainer">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <script src="/AadminLTE/plugins/sparklines/sparkline.js"></script>
+
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+                <p class="highcharts-description">
+
+                </p>
+            </figure>
+        </div>
+    </div>
+
+    <!--rewiew-->
+    <div class="col-lg-6">
+        <div id="reviewChartContainer">
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+            </figure>
+        </div>
+    </div>
+
+    <!--order sell by year-->
+    <div class="col-lg-6">
+
+        <div id="sellesChartContainer">
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script src="https://code.highcharts.com/modules/sonification.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <figure class="highcharts-figure">
+                <div id="controls">
+                    <select id="preset"></select>
+                    <button id="sonify">Play chart</button>
+                </div>
+                <div id="container"></div>
+            </figure>
+        </div>
+    </div>
+
+    <!--top3-->
+    <div class="col-lg-6">
+        <div id="Top3">
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+            <script src="https://code.highcharts.com/modules/cylinder.js"></script>
+            <script src="https://code.highcharts.com/modules/funnel3d.js"></script>
+            <script src="https://code.highcharts.com/modules/pyramid3d.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <figure class="highcharts-figure">
+                <div id="container"></div>
+            </figure>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<script src="~/js/dashboard.js"></script>
+<script src="~/js/reviewdashbord.js"></script>
+<script src="~/js/proudectcount.js"></script>
+<script src="~/js/paymentdashbord.js"></script>
+<script src="~/js/useregisterdasbord.js"></script>
+<script src="~/js/orderdashbord.js"></script>
+<script src="~/js/sellesbyyeardashbord.js"></script>
+<script src="~/js/top3dasbord.js"></script>
+<script src="~/js/sellesinyeardasbord2.js"></script>

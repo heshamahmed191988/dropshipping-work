@@ -1,0 +1,150 @@
+﻿ @model ProuductViewModel
+ @using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+<style>
+
+    /* form{
+                    background-color:#131921;
+                    padding:10px;
+                    width:30%;
+                    display:flex;
+                    flex-wrap:wrap;
+                    gap:5px;
+                    margin-left:30%
+                }
+
+
+                form input.form-control {
+                    border: none;
+                    outline: none;
+                    color: white;
+                    padding: 5px 10px;
+                    flex-grow: inherit;
+                    background-color: red;
+                    width:95% box-sizing: border-box;
+                }
+
+                form label {
+                    color: white;
+                    margin-bottom: 5px;
+                } */
+    .form {
+        width: 79%;
+        padding: 3%;
+        margin-left: 10%;
+        background-color: white !important;
+        margin-bottom: 5%;
+        border-radius: 2%;
+        margin-top: 0px;
+        position: relative;
+        top: 34px;
+    }
+
+    form input {
+        border-radius: 1rem !important;
+    }
+
+        form input .form-control {
+            border: none;
+            outline: none;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 1rem !important;
+        }
+
+    label {
+        color: black;
+    }
+</style>
+
+<body>
+    <h2>@localizer["Proudect Details"]</h2>
+    <form method="post">
+        <div class="form">
+            <div class="form-group">
+                <label asp-for="NameEn">@localizer["English Name"]</label>
+                <input asp-for="NameEn" class="form-control" />
+
+                <span asp-validation-for="NameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameAr">@localizer["Arabic Name"]</label>
+                <input asp-for="NameAr" class="form-control" />
+
+                <span asp-validation-for="NameAr" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price">@localizer["Price"]</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StockQuantity">@localizer["StockQuantity"]</label>
+                <input asp-for="StockQuantity" class="form-control" />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DescriptionEn">@localizer["DescriptionEn"]</label>
+                <input asp-for="DescriptionEn" class="form-control" />
+                <span asp-validation-for="DescriptionEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescriptionAR">@localizer["DescriptionAR"]</label>
+                <input asp-for="DescriptionAR" class="form-control" />
+                <span asp-validation-for="DescriptionAR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandNameEn">@localizer["BrandNameEn"]</label>
+                <input asp-for="BrandNameEn" class="form-control" />
+                <span asp-validation-for="BrandNameEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandNameAr">@localizer["BrandNameAR"]</label>
+                <input asp-for="BrandNameAr" class="form-control" />
+                <span asp-validation-for="BrandNameAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateListed">@localizer["DateListed"]</label>
+                <input asp-for="DateListed" class="form-control" />
+                <span asp-validation-for="DateListed" style="color:red"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SellerName"></label>
+                <input asp-for="SellerName" class="form-control" />
+                <span asp-validation-for="SellerName" style="color:red"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="CategoryNameEn">@localizer["CategoryNameEn"]</label>
+                <input asp-for="CategoryNameEn" class="form-control" />
+                <span asp-validation-for="CategoryNameEn" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryNameAr">@localizer["CategoryNameAR"]</label>
+                <input asp-for="CategoryNameAr" class="form-control" />
+                <span asp-validation-for="CategoryNameAr" style="color:red"></span>
+            </div>
+        </div>
+    </form>
+    @*
+    <div>
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Price:</strong> @Model.Price</p>
+    <p><strong>StockQuantity:</strong> @Model.StockQuantity</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p><strong>DateListed:</strong> @Model.DateListed</p>
+    <p><strong>SellerName:</strong> @Model.SellerName</p>
+    <p><strong>CategoryName:</strong> @Model.CategoryName</p>
+    </div> *@
+</body>

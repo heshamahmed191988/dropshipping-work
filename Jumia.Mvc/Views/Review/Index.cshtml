@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Jumia.Dtos.ViewModel.Review.ReviewAdminDTO>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    ViewData["Title"] = "Review Index";
+}
+<head>
+    <style>
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            background-color: white !important;
+            color: white;
+            border-radius: 0.25rem;
+        }
+
+            .table:not(.table-dark) {
+                color: black;
+            }
+
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
+</head>
+<h2>@localizer["Review Details"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@localizer["ProductId"]</th>
+            <th hidden>User ID</th>
+            <th>Rating</th>
+            <th>@localizer["Comment"]</th>
+            <th>@localizer["Date Posted"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td>@review.ProductID</td>
+                <td hidden>@review.UserID</td>
+                <td>@review.Rating</td>
+                <td>@review.Comment</td>
+                <td>@review.DatePosted.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>

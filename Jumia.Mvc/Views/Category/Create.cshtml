@@ -1,0 +1,42 @@
+﻿@model CategoryDto
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6" style="margin-top: 5vw;">
+            <div class="card" style=" color: #00000082;border-radius: 20px; padding: 9px;width: 130%;
+    margin-left: -16%;">
+                <div class="card-body">
+                    <h2 class="text-center mb-4 " style="color:black;">Create Category</h2>
+
+                    <form asp-action="Create" method="post">
+                        <div class="form-group">
+                            <label asp-for="NameAr" class="text" style="color: black !important;">@localizer["English Name"]</label>
+                            <input asp-for="NameAr" class="form-control" style="border-radius:15px" placeholder="Enter category name" />
+                            <span asp-validation-for="NameAr" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NameEn" class="text" style="color: black !important;">@localizer["Arabic Name"]</label>
+                            <input asp-for="NameEn" class="form-control" style="border-radius:15px;" placeholder="Enter category name" />
+                            <span asp-validation-for="NameEn" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" style=" width: 7vw;
+                                    background-color: #2275fc !important;
+                                    color: #232f3e;
+                                    border-radius: 18px;">
+                                @localizer["Create"]
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

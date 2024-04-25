@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    Layout = "_layout";
+}
+@model ItemViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/Item/update.css" />
+    <style>
+        a {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 50%;
+    font-size: 1.12vw;">
+        <form method="post" enctype="multipart/form-data" style="color: black;">
+            <div class="img-fluid">
+                <img src="~/ItemImages/@Model.ItemImagestring" alt="@Model.ItemImagestring" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">@localizer["Product Name"]</label>
+                <span asp-validation-for="ProductName" style="color:red; display:block;"></span>
+                <input type="text" class="form-control" asp-for="ProductName" value="@Model.ProductName">
+            </div>
+
+            <div class="mb-3" hidden>
+                <label class="form-label">>@localizer["ProductId"]</label>
+                <input type="text" class="form-control" name="ProductId" value="@Model.ProductId">
+            </div>
+            <div class="mb-3" hidden>
+                <label class="form-label">Item ID</label>
+                <input type="text" class="form-control" asp-for="@Model.Id" value="@Model.Id">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@localizer["Quantity"]</label>
+                <input type="text" class="form-control" asp-for="Quantity" value="@Model.Quantity">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@localizer["Size"]</label>
+                <input type="text" class="form-control" asp-for="Size" value="@Model.Size">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@localizer["Item Image"]</label>
+                <input type="file" class="form-control" name="ItemImage" asp-for="ItemImage">
+                <input type="hidden" asp-for="ItemImagestring" />
+                @*             <img src="~/ItemImages/@Model.ItemImagestring" alt="@Model.ItemImagestring" />
+                *@
+            </div>
+            <div class="mb-3">
+                <label class="form-label">@localizer["Color"]</label>
+                <input type="text" class="form-control" asp-for="Color" value="@Model.Color">
+            </div>
+            <button type="submit" class="btn btn-primary">@localizer["Edit"]</button>
+
+        </form>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

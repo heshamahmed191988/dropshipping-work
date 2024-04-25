@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Jumia.Mvc</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.rtl.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <!--Font Family-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&family=Pacifico&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Henny+Penny&display=swap" rel="stylesheet">
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+
+
+        .container-fluid {
+            background-color: #131921; /* #dfc33b; */
+            padding: 15px;
+            color: white
+        }
+
+        #navbar {
+            position: relative;
+            top: -8px !important;
+        }
+        /*footer */
+
+        .backtotop {
+            background-color: #2b3949;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .backtotop {
+            background-color: #3a495b;
+        }
+
+        .footer {
+            padding: 20px;
+            background-color: #232f3e;
+            /*  background-color: #0F1111; */
+
+            color: white;
+            right: 0px;
+            left: 0px;
+        }
+
+            .footer .container2 {
+                display: flex;
+                justify-content: center;
+            }
+
+                .footer .container2 .row {
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                }
+
+            .footer .row {
+                height: 320px;
+                width: 70%;
+            }
+
+            .footer .nav_a {
+                text-decoration: none;
+                color: #999999;
+            }
+
+        .container3 {
+            display: flex;
+            justify-content: center;
+            background-color: #141b23
+        }
+
+        .footer .nav_b {
+            color: white
+        }
+
+
+        .container3 .endtable {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .container3 .lastfooter {
+            width: 190px;
+            font-size: 10px
+        }
+
+        .footer, .container3 a {
+            text-decoration: none;
+            color: white;
+            padding: 5px;
+            position: relative
+        }
+
+        .footer, .container3 li {
+            list-style-type: none;
+            position: relative
+        }
+
+        .footer, container3 a {
+            color: #737171;
+            position: relative
+        }
+
+        .footer, .container3 a:hover {
+            color: white;
+        }
+
+            .footer .container2 .row .col-lg-3,
+            .footer .container2 .row .col-md-6 {
+                padding: 0 15px;
+            }
+
+                .footer .container2 .row .col-lg-3 li,
+                .footer .container2 .row .col-md-6 li {
+                    list-style: none;
+                    margin-bottom: 5px;
+                    position: relative;
+                    color: #999999;
+                }
+
+                    .footer .container2 .row .col-lg-3 li:hover,
+                    .footer .container2 .row .col-md-6 li:hover {
+                        border-bottom: 2px solid white;
+                        transition: border-bottom 0.3s ease;
+                    }
+
+                    .footer .container2 .row .col-lg-3 li a,
+                    .footer .container2 .row .col-md-6 li a {
+                        text-decoration: none;
+                        color: white;
+                    }
+
+        .endtable a {
+            padding: 10px;
+            position: relative;
+        }
+
+            .endtable a:hover:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 100%;
+                height: 2px;
+                background-color: white;
+            }
+
+        .endtable span {
+            padding: 10px;
+            position: relative;
+        }
+
+            .endtable span:hover:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 100%;
+                height: 2px;
+                background-color: white;
+            }
+
+        .Copyright {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 20px;
+            background-color: #141b23;
+        }
+
+            .Copyright ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                .Copyright ul li {
+                    display: inline;
+                    margin: 0 10px;
+                    position: relative
+                }
+
+                    .Copyright ul li:hover::after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        bottom: -5px;
+                        width: 100%;
+                        height: 2px;
+                        background-color: white;
+                    }
+
+            .Copyright a {
+                text-decoration: none;
+                color: white;
+                padding: 5px;
+            }
+
+            .Copyright li {
+                list-style-type: none;
+            }
+
+            .Copyright a {
+                color: #737171;
+            }
+
+
+                .Copyright a:hover {
+                    color: white;
+                }
+
+        .navbar {
+            background-color: #131921;
+            color: white;
+        }
+
+
+        .nav-link,
+        .navbar-brand {
+            color: white !important;
+        }
+
+            /*  .nav-link img.amazon-logo {
+                                                width: 1000px;
+                                                height: auto;
+                                                border-radius: 5px;
+                                            } */
+
+            .nav-link img.amazon-logo:hover {
+                border: 1px solid black;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav id="navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+            <div class="container-fluid">
+                @* <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Amazon.Mvc</a> *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            @*  <a class="nav-link " asp-area="" asp-controller="admin" asp-action="Index">Home</a> *@
+                            <a class="nav-link" asp-area="" asp-controller="admin" asp-action="Index">
+                                <img src="~/LayoutImg/Logo.png" alt="Amazon Logo" style=" width: 150px; height: auto;  border-radius: 5px;padding:5px; border: 1px solid white;">
+                            </a>
+
+                        </li>
+                    </ul>
+                    @if (User.Identity.IsAuthenticated == true)    @* @if (User.IsInRole("Admin")) *@
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Roles" asp-action="AddRole">Add Role</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Roles" asp-action="RegisterUserWithRole">Assign Role</a>
+                            </li>
+                        </ul>
+                    }
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated == false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="logout">Welcome @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="logout">Logout</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @* <div class="container"> *@
+
+    @RenderBody()
+    @* </div> *@
+
+    @*   <a href="#navbar" style="text-decoration:none">
+    <div class="backtotop"> Back To Top </div>
+    </a> *@
+
+
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+<style>
+    .navbar {
+        background-color: #131921;
+        color: white;
+    }
+</style>
+</html>

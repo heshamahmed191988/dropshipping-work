@@ -1,0 +1,6 @@
+@AmazonWebSite_HostAddress = http://localhost:5110
+
+GET {{AmazonWebSite_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

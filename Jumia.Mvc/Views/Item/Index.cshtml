@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+   @using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Items";
+}
+@model ResultDataList<ItemViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/Item/Index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container col-md-12 col-sm-12">
+        <form method="Get" asp-action="Create">
+            <button type="submit">@localizer["Create Item"]</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">@localizer["Product Name"]</th>
+                    <th scope="col">@localizer["ProductId"]</th>
+                    <th scope="col">@localizer["Item Image"]</th>
+                    <th scope="col">@localizer["Color"]</th>
+                    <th scope="col">@localizer["Quantity"]</th>
+                    <th scope="col">@localizer["Size"]</th>
+                    <th scope="col">@localizer["Edit"]</th>
+                    <th scope="col">@localizer["Delete"]</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var r in Model.Entities)
+                {
+                    <tr>
+                        <td style="width:22%">@r.ProductName</td>
+                        <td style="width:15%">@r.ProductId</td>
+                        <td style="width:22%"><img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true"></td>
+                        <td>@r.Color</td>
+                        <td> @r.Quantity</td>
+                        <td>@r.Size</td>
+                        <td class="link"> <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id"><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a></td>
+                        <td class="link"><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id"><i class="fa-solid fa-trash" style="color: #f20202;"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
