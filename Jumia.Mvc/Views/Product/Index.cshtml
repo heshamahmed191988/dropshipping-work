@@ -38,27 +38,35 @@
     </style>
 </head>
 <body dir="@(isRtl ? "RTL":"LTR")">
+    <div class="container text-center mt-4 mb-4">
+
     <h3 style="text-align:start;padding: 25px;">@localizer["Number Of Products Now"]: @Model.Count</h3>
+    </div>
+
     <div class="container">
-        <button type="submit" class="add1" style=" color: black;text-decoration: none; width: 147px; height:40px; position: absolute;right: 62px;
-    top: 10vw; border: 1px solid #2275fc;margin: 10px;background-color: white; border-radius: 5px;">
-            <a asp-action="Create" class="add1" style="color:black">@localizer["Add new Proudect"]</a>
-        </button>
-        <form asp-controller="Product" asp-action="Index" method="get">
-            <input type="text" name="searchString" placeholder="Enter product name" style="width: 24%;
-    padding: 7px;
-    border-radius: 10px;
-    border: 1px solid #2275fc;">
-            <button type="submit" class="search" style="color:black; text-decoration: none; width: 80px; height: 39px; border: 1px solid #2275fc; margin: 10px; background-color:white;border-radius: 5px;">@localizer["Search"]</button>
-        </form>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="add1" style="color: black; text-decoration: none; width: 100%; height: 40px; border: 1px solid #2275fc; margin-bottom: 10px; background-color: white; border-radius: 5px;">
+                    <a asp-action="Create" class="add1" style="color: black;">@localizer["Add new Proudect"]</a>
+                </button>
+            </div>
+            <div class="col-md-6">
+                <form asp-controller="Product" asp-action="Index" method="get">
+                    <div class="input-group">
+                        <input type="text" name="searchString" class="form-control" placeholder="Enter product name">
+                        <div class="input-group-append">
+                            <button type="submit" class="search btn btn-outline-primary">@localizer["Search"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-
-        <div class="card" style="    width: 109%;
-    margin-left: -48px;">
             @*             <div class="card-header">
             </div> *@
             <div class="card-body">
-                <table id="example1" class="table table-striped"
+                <table id="example1" class="table table-striped table-hover table-responsive-sm"
             <thead>
                 <tr style="background-color:white">
                             <th>Number</th> 
@@ -105,6 +113,21 @@
             </div>
         </div>
     </div>
+
+    <div class="container ">
+        <div class="row">
+            <div class="col">
+                <div class="container mx-auto" style="text-align: center;margin: 20px;">
+                    <p>
+                        <a class="logout-button" asp-area="" asp-controller="admin" asp-action="index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>@localizer["The Main Page"]</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 
@@ -113,199 +136,3 @@
 
 
 
-
-@*
- <style>
-
-
-    .table {
-        width: 99%;
-        align-items: center
-    }
-
-    .trr th {
-        width: 170px;
-    }
-
-    .tb td {
-        margin-top: 10px
-    }
-    h3{
-        font-family: 'Pacifico', cursive;
-
-    }
-</style>
-<body>
-    <h3> Number Of Prouduct Now : @Model.Count</h3>
-    <a asp-action="Create" class="add1" style="color:black; text-decoration: none; width: 180px; height: 50px; border: 1px solid #dfc33b; margin: 10px;">Add new Proudect</a>
-    <form asp-controller="Product" asp-action="Index" method="get">
-        <input type="text" name="searchString" placeholder="Enter product name">
-        <button type="submit">Search</button>
-    </form>
-
-    <table>
-        <thead>
-            <tr class="trr">
-
-                <th class="thh" style=" width:200px;">
-                    <label>Name</label>
-                </th>
-
-                <th>
-                    <label>Price</label>
-                </th>
-
-                <th>
-                    <label> StockQuantity</label>
-                </th>
-                <th>
-                    <label> Description</label>
-                </th>
-                <th>
-                    <label> DateListed</label>
-                </th>
-                <th>
-                    <label> SellerName</label>
-                </th>
-                <th>
-                    <label> Catogery</label>
-                </th>
-
-            </tr>
-        </thead>
-        <tbody class="tb">
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>
-                        @product.Name
-                    </td>
-                    <td>
-                        @product.Price
-                    </td>
-                    <td>
-                        @product.StockQuantity
-                    </td>
-                    <td>
-                        @product.Description
-                    </td>
-                    <td>
-                        @product.DateListed
-                    </td>
-                    <td>
-                        @product.SellerName
-                    </td>
-                    <td>
-                        @product.CategoryName
-                    </td>
-
-                    <td class="crud">
-                        <a asp-action="Edit" asp-route-id="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #e16009; margin: 10px;">Edit..</a> |
-                        <a asp-action="Delete" asp-route-id="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #e16009; margin: 10px;">Delete</a> |
-                        <a asp-action="AssignImage" asp-route-productId="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 60px; border: 1px solid #e16009; margin: 10px;">Assign Image</a> |
-                        <a asp-action="DisplayImages" asp-route-productId="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 60px; border: 1px solid #e16009; margin: 10px;">Display Images</a>
-                    </td>
-                </tr>
-            }
-
-
-
-
-        </tbody>
-    </table>
-
-     <style>
-         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            align-content:center;
-            border-radius: 5% solid green;
-        }
-
-        .trr th {
-            color: #e16009;
-            padding: 10px;
-            text-align: left;
-        }
-
-        .tb td {
-            padding: 8px;
-            border-bottom: 1px solid #e16009;
-
-        }
-
-        .tb tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        a {
-            display: inline-block;
-            padding: 8px 12px;
-            margin: 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
-
-
-
-        .btn-primary {
-            background-color: #007bff;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-
-        a:hover {
-            opacity: 0.7;
-        }
-
-        form {
-            display: inline;
-        }
-
-        input[type="text"] {
-            padding: 8px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            cursor: pointer;
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-
-        button[type="submit"]:hover {
-                background-color: #45a049;
-        }
-
-    </style>
-
-</body> *@

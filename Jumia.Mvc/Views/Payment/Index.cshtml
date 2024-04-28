@@ -29,26 +29,44 @@
         }
     </style>
 </head>
-<div class="container mt-5" style="max-width:1200px">
-    <h2 class="mb-4">@localizer["Payments"]</h2>
-    <table class="table" style=" border-radius: 0.25rem;">
-        <thead class="thead">
-            <tr>
-                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Order ID"]</th>
-                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Date Paid"]</th>
-                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Payment Method"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var payment in Model)
-            {
+<div class="container mt-5" style="max-width: 90%;">
+    <div class="container text-center mt-4 mb-4">
+        <h2 class="display-4 font-weight-bold">@localizer["Payments"]</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
                 <tr>
-                    <td>@payment.OrderId</td>
-                    <td>@payment.DatePaid.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td>@payment.paymentMethod</td>
-
+                    <th scope="col" class="text-center">@localizer["Order ID"]</th>
+                    <th scope="col" class="text-center">@localizer["Date Paid"]</th>
+                    <th scope="col" class="text-center">@localizer["Payment Method"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>@payment.OrderId</td>
+                        <td>@payment.DatePaid.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@payment.paymentMethod</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col">
+            <div class="container mx-auto" style="text-align: center;margin: 20px;">
+                <p>
+                    <a class="logout-button" asp-area="" asp-controller="admin" asp-action="index">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>@localizer["The Main Page"]</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

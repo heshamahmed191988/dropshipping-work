@@ -110,6 +110,9 @@ namespace Jumia.Application.Services
             return userViewModels;
         }
 
+
+      
+
         public async Task<UpdatUserInfo> UpdateUsernameAndPasswordAsync(string userId, string currentPassword, string newUsername, string newPassword, string confirmPassword)
         {
             var user = await _userRepository.GetByIdAsync(userId);

@@ -78,7 +78,7 @@
         </div> *@
 
 
-<style>
+  <style>
     /* Enhanced styling for small boxes */
 
     /* Enhanced styling for small boxes */
@@ -236,7 +236,7 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-            <a class="small-box-footer " asp-area="" asp-controller="Admin" asp-action="index">Users<i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer " asp-area="" asp-controller="user" asp-action="index">Users<i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-6">
@@ -287,26 +287,32 @@
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-            <a class="small-box-footer " asp-area="" asp-controller="Roles" asp-action="AddRole">@localizer["Assign Role"]<i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer " asp-area="" asp-controller="Roles" asp-action="RegisterUserWithRole">@localizer["Assign Role"]<i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
 
-    <div class="logout-container">
-        <p>
-            <a class="logout-button" style="text-align: center;margin-left:5%" asp-area="" asp-controller="Account" asp-action="logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>@localizer["Logout"]</span>
-            </a>
-        </p>
+    <div class="container ">
+        <div class="row">
+            <div class="col">
+                <div class="logout-container mx-auto" style="text-align: center;margin: 20px;">
+                    <p>
+                        <a class="logout-button" asp-area="" asp-controller="Account" asp-action="logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>@localizer["Logout"]</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-
+  
 
 </div>
 
 <!-- /.row -->
 <!--chart-->
-<div class="row">
+@* <div class="row">
     <div class="col-lg-6">
         <!--brand-->
         <div id="productChartContainer">
@@ -376,9 +382,8 @@
                 <div id="container"></div>
             </figure>
         </div>
-    </div>
+    </div> *@
 
-</div>
 
 
 

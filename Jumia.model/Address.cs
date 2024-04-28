@@ -24,6 +24,8 @@ namespace Jumia.Model
         public string ZipCode { get; set; }
         public string UserID { get; set; }
 
+        public int OrderId { get; set; }
+
         // Navigation property
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<OrderAddress> OrderAddresses { get; set; }

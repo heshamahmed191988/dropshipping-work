@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Jumia.Dtos.ViewModel.User.UserViewModel>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.Phone</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container ">
+    <div class="row">
+        <div class="col">
+            <div class="container mx-auto" style="text-align: center;margin: 20px;">
+                <p>
+                    <a class="logout-button" asp-area="" asp-controller="admin" asp-action="index">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>@localizer["The Main Page"]</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

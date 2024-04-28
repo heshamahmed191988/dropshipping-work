@@ -102,6 +102,7 @@ namespace Jumia.Context.Migrations
                     State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ZipCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

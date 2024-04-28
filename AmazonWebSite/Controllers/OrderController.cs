@@ -6,6 +6,8 @@ using Jumia.Dtos.ResultView;
 using Jumia.Dtos.ViewModel.Product;
 using Jumia.Model;
 using System.Configuration;
+using System.Net.Http;
+using Jumia.Dtos;
 namespace AmazonWebSite.Controllers
 {
     [Route("api/[controller]")]
@@ -15,12 +17,41 @@ namespace AmazonWebSite.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IConfiguration configuration;
+        private readonly IPaymentServices paymentServices;
 
-        public OrderController(IOrderService orderService, IConfiguration configuration)
+        public OrderController(IOrderService orderService, IConfiguration configuration,IPaymentServices paymentServices)
         {
             _orderService = orderService;
             this.configuration = configuration;
+            this.paymentServices = paymentServices;
         }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateOrderAsync([FromBody] Createorder createorder)
+        //{
+        //    try
+        //    {
+        //        // Pass createorder properties to the service method
+        //        var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId);
+
+        //        // Check the result and return appropriate response
+        //        if (result.IsSuccess)
+        //        {
+        //            return Ok(result);
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(result);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+
+
+
+        ///refactor order try to make it work 
         [HttpPost]
         public async Task<IActionResult> CreateOrderAsync([FromBody] Createorder createorder)
         {
@@ -32,6 +63,9 @@ namespace AmazonWebSite.Controllers
                 // Check the result and return appropriate response
                 if (result.IsSuccess)
                 {
+                    // Create payment for the order
+                    var paymentDto = await CreatePaymentAsync(result.Entity.Id);
+
                     return Ok(result);
                 }
                 else
@@ -44,6 +78,54 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+        private async Task<PaymentDto> CreatePaymentAsync(int orderId)
+        {
+            var paymentDto = await paymentServices.CreatePaymentAsync(orderId);
+            return paymentDto;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //// GET: api/Order
         [HttpGet]

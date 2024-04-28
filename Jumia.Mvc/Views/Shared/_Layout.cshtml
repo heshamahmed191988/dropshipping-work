@@ -38,327 +38,81 @@
     <link rel="stylesheet" href="~/AadminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <style>
         .nav-item {
-            color: #191c24;
-            padding: 7px;
+            color: #2c3e50; /* Dark text color */
+            padding: 10px; /* Increased padding */
             font-size: 20px;
         }
 
             .nav-item:hover {
-                background-color: #edecec;
-                color: #009CFF;
+                background-color: #f5f5f5; /* Light background on hover */
+                color: #3498db; /* Highlighted text color */
+                border-radius: 10px; /* Rounded corners on hover */
             }
 
-        .p-4 {
-            text-align: center;
-            margin-left: 14vw;
-        }
-
+        /* Sidebar styles */
         .sidebar a {
-            color: #191c24 !important;
+            color: #2c3e50 !important; /* Dark text color */
         }
 
             .sidebar a:hover {
-                color: #009CFF !important
+                color: #3498db !important; /* Highlighted text color */
             }
 
         .main-sidebar {
-            background-color: white !important;
+            background-color: #ecf0f1 !important; /* Light gray background */
         }
 
-        .nav-item:hover {
-            border-radius: 16px;
+        /* Language selector styles */
+        .p-4 {
+            text-align: center;
         }
 
-        .nav-item p {
-            margin-bottom: 0.5rem;
+        /* Content section styles */
+        .content {
+            background-color: #f9f9f9; /* Light background */
+            padding: 20px; /* Increased padding */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
         }
 
-            .nav-item p a {
-                color: #191c24 !important;
+        /* Select Language link styles */
+        .p-4 a {
+            color: #2c3e50 !important; /* Dark text color */
+        }
+
+            .p-4 a:hover {
+                color: #3498db !important; /* Highlighted text color */
             }
-
-        .nav-item:hover p a {
-            color: #009CFF !important;
-        }
     </style>
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
+      </head>
+       <body class="hold-transition sidebar-mini layout-fixed">
 
-        <!-- Preloader -->
-        @*         <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="~/AadminLTE/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-        </div> *@
 
-        <!-- Navbar -->
-        @*         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        *@            <!-- Left navbar links -->
-        @*             <ul class="navbar-nav">
-        *@                @* <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">@localizer["Home"]</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">@localizer["Contact"]</a>
-        </li> *@
-        <div class="p-4 ">
-            <partial name="_selectLanguage" />
-        </div>
-        @*             </ul>
-        *@
-        <!-- Right navbar links -->
-        @*             <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-        <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-        <form class="form-inline">
-        <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-        <button class="btn btn-navbar" type="submit">
-        <i class="fas fa-search"></i>
-        </button>
-        <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-        <i class="fas fa-times"></i>
-        </button>
-        </div>
-        </div>
-        </form>
-        </div>
-        </li> *@
-
-        <!-- Messages Dropdown Menu -->
-        @* <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="far fa-comments"></i>
-        <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a href="#" class="dropdown-item">
-        <!-- Message Start -->
-        <div class="media">
-        <img src="~/AadminLTE/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-        <div class="media-body">
-        <h3 class="dropdown-item-title">
-        Brad Diesel
-        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-        </h3>
-        <p class="text-sm">@localizer["Call me whenever you can"]...</p>
-        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@localizer["4 Hours Ago"] </p>
-        </div>
-        </div>
-        <!-- Message End -->
-        </a> *@
-        @*   <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-        <!-- Message Start -->
-        <div class="media">
-        <img src="~/AadminLTE/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-        <div class="media-body">
-        <h3 class="dropdown-item-title">
-        John Pierce
-        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-        </h3>
-        <p class="text-sm">@localizer["I got your message bro"]</p>
-        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@localizer["4 Hours Ago"]</p>
-        </div>
-        </div> *@
-        <!-- Message End -->
-        </a>
-        @*  <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item"> *@
-        <!-- Message Start -->
-        @* <div class="media">
-        <img src="~/AadminLTE/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-        <div class="media-body">
-        <h3 class="dropdown-item-title">
-        Nora Silvester
-        <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-        </h3>
-        <p class="text-sm">The subject goes here</p>
-        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-        </div>
-        </div> *@
-        <!-- Message End -->
-        @*                  </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer">@localizer["See All Messages"]</a>
-        </div> *@
-        </li>
-        <!-- Notifications Dropdown Menu -->
-        @*                 <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="far fa-bell"></i>
-        <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">15 Notifications</span>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-        <i class="fas fa-envelope mr-2"></i> 4 new messages
-        <span class="float-right text-muted text-sm">3 mins</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-        <i class="fas fa-users mr-2"></i> 8 friend requests
-        <span class="float-right text-muted text-sm">12 hours</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-        <i class="fas fa-file mr-2"></i> 3 new reports
-        <span class="float-right text-muted text-sm">2 days</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-        <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-        </li> *@
-        @* <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-        <i class="fas fa-th-large"></i>
-        </a>
-        </li> *@
-        @*             </ul>
-        </nav> *@
-        <!-- /.navbar -->
-        <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#323c58;color:white">
-            <!-- Brand Logo -->
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #009CFF;">
-
-                    <div class="info">
-                        <a href="#" class="d-block"> <a class="nav-link " asp-area="" asp-controller="Account" asp-action="logout" style="font-size: 20px;">Welcome @User.Identity.Name</a></a>
-                    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="p-4 mx-auto">
+                    <partial name="_selectLanguage" />
                 </div>
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-table"></i>
-                                <a asp-area="" asp-controller="Admin" asp-action="index">@localizer["Dash Bord"]</a>
-                            </p>
-                        </li>
-
-
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-layer-group"></i>
-                                <a asp-area="" asp-controller="Category" asp-action="Index">@localizer["Category"]</a>
-                            </p>
-                        </li>
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-shopping-cart"></i>
-                                <a asp-area="" asp-controller="Product" asp-action="Index">@localizer["products"]</a>
-                            </p>
-                        </li>
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-shopping-cart"></i>
-                                <a asp-area="" asp-controller="Item" asp-action="Index">@localizer["Items"]</a>
-                            </p>
-                        </li>
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fa-solid fa-file"></i>
-                                <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders">@localizer["Orders"]</a>
-                            </p>
-                        </li>
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fa-solid fa-credit-card"></i>
-                                <a asp-area="" asp-controller="Payment" asp-action="Index">@localizer["Payments"]</a>
-                            </p>
-                        </li>
-
-
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-star"></i>
-                                <a asp-area="" asp-controller="Review" asp-action="Index">@localizer["Reviews"]</a>
-                            </p>
-                        </li>
-
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-user-plus"></i>
-
-                                <a asp-area="" asp-controller="Roles" asp-action="AddRole">@localizer["Add Role"]</a>
-                            </p>
-                        </li>
-
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-user-tie"></i>
-                                <a asp-area="" asp-controller="Roles" asp-action="RegisterUserWithRole">@localizer["Assign Role"]</a>
-                            </p>
-                        </li>
-                        <li class="nav-item menu-open">
-                            <p>
-                                <i class="fas fa-arrow-left"></i>
-                                <a asp-area="" asp-controller="Account" asp-action="logout">@localizer["Logout"]</a>
-                            </p>
-                        </li>
-
-
-
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
-        </aside>
+        </div>
+    </div>
+       
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="background-color:#ebebeb;">
-            <!-- Content Header (Page header) -->
-            <!-- /.content-header -->
-            <!-- Main content -->
+     
             <section class="content">
                 <div class="container-fluid">
                     @RenderBody()
 
-                </div><!-- /.container-fluid -->
+              
             </section>
-            <!-- /.content -->
+   @*  <footer class="footer bg-dark text-light text-center py-3">
+        <div class="container">
+            <span class="text-muted">© 2024 Your Company. All rights reserved.</span>
         </div>
-
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; @DateTime.Now.Year <a href=""> for Amazon</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
-        </footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-    </div>
+    </footer>
+ *@
+  
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="~/AadminLTE/plugins/jquery/jquery.min.js"></script>
@@ -389,7 +143,7 @@
     <!-- overlayScrollbars -->
     <script src="~/AadminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="~/AadminLTE/dist/js/adminlte.js"></script>pt>
+    <script src="~/AadminLTE/dist/js/adminlte.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/AadminLTE/dist/js/pages/dashboard.js"></script>
     <!-- DataTables  & Plugins -->

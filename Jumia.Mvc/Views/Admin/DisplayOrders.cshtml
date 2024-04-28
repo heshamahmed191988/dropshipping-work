@@ -8,23 +8,31 @@
 }
 @{
     ViewBag.Title = @localizer["Orders"];
+
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/css/Ordersdisplay.css" />
-    <style>
-        tr:hover {
-            background-color: #caccd094 !important;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+@*     <link rel="stylesheet" href="~/css/Ordersdisplay.css" />
+ *@    <style>
+  
+tr:hover {
+    background-color: white !important;
+}
     </style>
 </head>
 <body>
-    <h2>@localizer["Orders"]</h2>
-    <div class="container col-md-12 col-sm-12">
-        <table class="table" style="background-color:white;">
+    <div class="container text-center mt-4 mb-4">
+        <h2 class="display-4 font-weight-bold">@localizer["Orders"]</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive-sm" style="background-color:white;">
             <thead>
                 <tr>
                     <th scope="col">@localizer["Order ID"]</th>
@@ -34,8 +42,11 @@
                     <th scope="col">@localizer["City"]</th>
                     <th scope="col">@localizer["Street"]</th>
                     <th scope="col">@localizer["Status"]</th>
+                    <th scope="col">@localizer["barcode"]</th>
                     <th scope="col">@localizer["Action"]</th>
+                   
                     <th scope="col">@localizer["Action"]</th>
+                   
 
                 </tr>
             </thead>
@@ -56,6 +67,11 @@
                         <td>@order.Cities[cityIndex]</td>
                         <td>@order.Streets[streetIndex]</td>
                         <td>@order.Status</td>
+                        <td>
+                            <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                        </td>
+
+
 
                         <td>
                             @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
@@ -106,5 +122,21 @@
             </tbody>
         </table>
     </div>
+    <div class="container ">
+        <div class="row">
+            <div class="col">
+                <div class="container mx-auto" style="text-align: center;margin: 20px;">
+                    <p>
+                        <a class="logout-button" asp-area="" asp-controller="admin" asp-action="index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>@localizer["The Main Page"]</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

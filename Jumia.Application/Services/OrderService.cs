@@ -162,26 +162,32 @@ namespace Jumia.Application.Services
 
                 var order = new Order
                 {
+                   
                     DatePlaced = DateTime.Now,
                     TotalPrice = totalPrice,
                     Status = "Pending",
                     UserID = UserID,
                     AddressId = AddressId,
+                    
                 };
-
+                var createdOrder = await _orderRepository.CreateAsync(order);
+                await _orderRepository.SaveChangesAsync();
+                if (createdOrder.Id == 0) // Assuming 0 is the default value for Id
+                {
+                    throw new Exception("Order ID not set after saving changes.");
+                }
                 // Generate unique barcode for the order with order details
                 var barcode = BarcodeGenerator.GenerateUniqueQRCode(order);
                 order.BarcodeImageUrl = barcode;
 
-                var createdOrder = await _orderRepository.CreateAsync(order);
-                await _orderRepository.SaveChangesAsync();
+              
 
                 foreach (var id in ProductIDs)
                 {
                     await _orderProuduct.CreateAsync(new OrderProduct
                     {
                         ProductId = id.productID,
-                        OrderId = createdOrder.Id,
+                        OrderId = order.Id,
                         TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
                         Quantity = id.quantity
                     });
@@ -345,6 +351,7 @@ namespace Jumia.Application.Services
                 TotalPrice = o.TotalPrice,
                 Status = o.Status,
                 AddressId = o.AddressId,
+                BarcodeImageUrl = o.BarcodeImageUrl,
                 Cities = o.User?.Addresses.Select(a => a.City).ToList() ?? new List<string> { "Unknown City" },
                 Streets = o.User?.Addresses.Select(a => a.Street).ToList() ?? new List<string> { "Unknown Street" }
             }).ToList();
