@@ -114,6 +114,66 @@
         </div>
     </div>
 
+
+
+
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("index", "product", new { pageNumber = 1, pageSize = ViewBag.PageSize })">First</a>
+            </li>
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("index", "product", new { pageNumber = ViewBag.PageNumber - 1, pageSize = ViewBag.PageSize })">Previous</a>
+            </li>
+
+            <!-- Display dynamic page numbers -->
+            @if (ViewBag.TotalPages <= 3)
+            {
+                // If total pages are 3 or less, display all pages
+                for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("index", "product", new { pageNumber = i, pageSize = ViewBag.PageSize })">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                // If total pages are more than 3
+                int startPage = Math.Max(ViewBag.PageNumber - 1, 1);
+                int endPage = Math.Min(ViewBag.PageNumber + 1, ViewBag.TotalPages);
+
+                if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+
+                for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("index", "product", new { pageNumber = i, pageSize = ViewBag.PageSize })">@i</a>
+                    </li>
+                }
+
+                if (endPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+            }
+
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("product", "admin", new { pageNumber = ViewBag.PageNumber + 1, pageSize = ViewBag.PageSize })">Next</a>
+            </li>
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("product", "admin", new { pageNumber = ViewBag.TotalPages, pageSize = ViewBag.PageSize })">Last</a>
+            </li>
+        </ul>
+    </div>
+
     <div class="container ">
         <div class="row">
             <div class="col">

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240428032202_init")]
+    [Migration("20240429042505_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -225,6 +225,7 @@ namespace Jumia.Context.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BarcodeImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DatePlaced")
@@ -811,7 +812,8 @@ namespace Jumia.Context.Migrations
                 {
                     b.Navigation("OrderAddresses");
 
-                    b.Navigation("Payment");
+                    b.Navigation("Payment")
+                        .IsRequired();
 
                     b.Navigation("Products");
                 });

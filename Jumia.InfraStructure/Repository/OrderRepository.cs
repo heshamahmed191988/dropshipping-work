@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.Order;
 //using System.Data.Entity;
 
-//using System.Data.Entity;
-
 namespace Jumia.InfraStructure.Repository
 {
     public class OrderRepository : Repository<Order, int>, IOrderReposatory
@@ -180,6 +178,32 @@ namespace Jumia.InfraStructure.Repository
             var address = await context.addresses.FirstOrDefaultAsync(a => a.Id == addressId);
             return address;
         }
+
+
+        public async Task<int> GetTotalOrdersCountAsync()
+        {
+            try
+            {
+                // Query the Orders DbSet and count the total number of orders
+                var totalOrdersCount = await context.orders.CountAsync();
+                return totalOrdersCount;
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions here
+                // Log or throw as needed
+                throw new Exception("Failed to retrieve total orders count: " + ex.Message, ex);
+            }
+        }
+
+
+        public async Task<List<Order>> SearchOrdersByIdAsync(int orderId)
+        {
+            return await context.orders
+                .Where(o => o.Id == orderId)
+                .ToListAsync();
+        }
+
         //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
         //{
         //    var ordersDto = from order in context.orders

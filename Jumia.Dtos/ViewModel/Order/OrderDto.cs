@@ -19,6 +19,7 @@ namespace Jumia.Dtos.ViewModel.Order
         [Required]
         public DateTime DatePlaced { get; set; }
         public string? BarcodeImageUrl { get; set; }
+        public decimal? DeliveryPrice { get; set; } = 5;
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

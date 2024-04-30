@@ -39,6 +39,8 @@ namespace Jumia.Mvc
                 options.SlidingExpiration = true; // Enable sliding expiration
             });
 
+           
+
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IItemServices, ItemServices>();
@@ -108,7 +110,21 @@ namespace Jumia.Mvc
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+     name: "admin",
+     pattern: "{controller=Admin}/{action=DisplayOrders}/{pageNumber?}/{pageSize?}");
+            app.MapControllerRoute(
+    name: "product",
+    pattern: "{controller=Product}/{action=Index}/{pageNumber?}/{pageSize?}");
 
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=admin}/{action=Index}/{id?}");
+
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=admin}/{action=Index}/{id?}");
             app.Run();
         }
     }

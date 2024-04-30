@@ -125,7 +125,7 @@ namespace Jumia.Application.Services
         //    }
         //}
 
-        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId)
+        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId, decimal? DeliveryPrice)
         {
             try
             {
@@ -162,23 +162,28 @@ namespace Jumia.Application.Services
 
                 var order = new Order
                 {
-                   
                     DatePlaced = DateTime.Now,
                     TotalPrice = totalPrice,
                     Status = "Pending",
                     UserID = UserID,
                     AddressId = AddressId,
+                    DeliveryPrice = DeliveryPrice
                     
                 };
+
                 var createdOrder = await _orderRepository.CreateAsync(order);
                 await _orderRepository.SaveChangesAsync();
+                var barcode = BarcodeGenerator.GenerateUniqueQRCode(order);
+                order.BarcodeImageUrl = barcode;
+                
+           
+
                 if (createdOrder.Id == 0) // Assuming 0 is the default value for Id
                 {
                     throw new Exception("Order ID not set after saving changes.");
                 }
                 // Generate unique barcode for the order with order details
-                var barcode = BarcodeGenerator.GenerateUniqueQRCode(order);
-                order.BarcodeImageUrl = barcode;
+              
 
               
 
@@ -187,6 +192,7 @@ namespace Jumia.Application.Services
                     await _orderProuduct.CreateAsync(new OrderProduct
                     {
                         ProductId = id.productID,
+                       
                         OrderId = order.Id,
                         TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
                         Quantity = id.quantity
@@ -340,25 +346,52 @@ namespace Jumia.Application.Services
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
         {
             var orders = await _orderRepository.GetAllOrdersAsync();
-            //return _mapper.Map<IEnumerable<OrderDto>>(orders);
 
             var ordersDto = orders.Select(o => new OrderDto
             {
                 Id = o.Id,
-                UserID = o.User?.Id ?? string.Empty, 
-                UserName = o.User?.UserName ?? "Unknown User", 
+                UserID = o.User?.Id ?? string.Empty,
+                UserName = o.User?.UserName ?? "Unknown User",
                 DatePlaced = o.DatePlaced,
                 TotalPrice = o.TotalPrice,
                 Status = o.Status,
                 AddressId = o.AddressId,
                 BarcodeImageUrl = o.BarcodeImageUrl,
-                Cities = o.User?.Addresses.Select(a => a.City).ToList() ?? new List<string> { "Unknown City" },
-                Streets = o.User?.Addresses.Select(a => a.Street).ToList() ?? new List<string> { "Unknown Street" }
+                Cities = o.User?.Addresses?.Select(a => a.City).ToList() ?? new List<string>(),
+                Streets = o.User?.Addresses?.Select(a => a.Street).ToList() ?? new List<string>()
             }).ToList();
 
-            
+            // Alternatively, you can handle "Unknown City" and "Unknown Street" here if needed
+
             return ordersDto;
         }
+
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync(int pageNumber, int pageSize)
+        {
+            var orders = await _orderRepository.GetAllOrdersAsync();
+
+            // Calculate the number of items to skip based on the page number and page size
+            var itemsToSkip = (pageNumber - 1) * pageSize;
+
+            var ordersDto = orders.Skip(itemsToSkip)
+                                  .Take(pageSize)
+                                  .Select(o => new OrderDto
+                                  {
+                                      Id = o.Id,
+                                      UserID = o.User?.Id ?? string.Empty,
+                                      UserName = o.User?.UserName ?? "Unknown User",
+                                      DatePlaced = o.DatePlaced,
+                                      TotalPrice = o.TotalPrice,
+                                      Status = o.Status,
+                                      AddressId = o.AddressId,
+                                      BarcodeImageUrl = o.BarcodeImageUrl,
+                                      Cities = o.User?.Addresses?.Select(a => a.City).ToList() ?? new List<string>(),
+                                      Streets = o.User?.Addresses?.Select(a => a.Street).ToList() ?? new List<string>()
+                                  }).ToList();
+
+            return ordersDto;
+        }
+
 
         public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         {
@@ -392,6 +425,55 @@ namespace Jumia.Application.Services
             var order = await _orderRepository.GetOrderDetailsByordrId(orderid);
             return order;
         }
+        public async Task<int> GetTotalOrdersCountAsync()
+        {
+            try
+            {
+                return await _orderRepository.GetTotalOrdersCountAsync();
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions here
+                // Log or throw as needed
+                throw new Exception("Failed to retrieve total orders count: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<List<OrderDto>> SearchOrdersByIdAsync(int orderId)
+        {
+            var orders = await _orderRepository.SearchOrdersByIdAsync(orderId);
+            var orderDtos = new List<OrderDto>();
+
+            foreach (var order in orders)
+            {
+                var orderDto = new OrderDto
+                {
+                    Id = order.Id,
+                    UserID = order.UserID,
+                    UserName = order.User.UserName ?? "Unknown User", // Assuming User is a navigation property
+                    AddressId = order.AddressId,
+                    Cities = order.OrderAddresses?
+        .Where(a => a.Address != null && a.Address.City != null)
+        .Select(a => a.Address.City)
+        .ToList() ?? new List<string>(), // Handle null with an empty list
+                    Streets = order.OrderAddresses?
+        .Where(a => a.Address != null && a.Address.Street != null)
+        .Select(a => a.Address.Street)
+        .ToList() ?? new List<string>(),
+                    DatePlaced = order.DatePlaced,
+                    BarcodeImageUrl = order.BarcodeImageUrl,
+                    DeliveryPrice = order.DeliveryPrice,
+                    TotalPrice = order.TotalPrice,
+                    Status = order.Status
+                  
+                };
+
+                orderDtos.Add(orderDto);
+            }
+
+            return orderDtos;
+        }
+
 
     }
 }

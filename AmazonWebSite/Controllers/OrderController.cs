@@ -57,8 +57,8 @@ namespace AmazonWebSite.Controllers
         {
             try
             {
-                // Pass createorder properties to the service method
-                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId);
+                // Pass createorder properties to the service method, including the delivery price
+                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId, createorder.DeliveryPrice);
 
                 // Check the result and return appropriate response
                 if (result.IsSuccess)
@@ -78,6 +78,7 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
         private async Task<PaymentDto> CreatePaymentAsync(int orderId)

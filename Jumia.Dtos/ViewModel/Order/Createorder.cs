@@ -12,5 +12,8 @@ namespace Jumia.Dtos.ViewModel.Order
         public List<OrderQuantity> orderQuantities {  get; set; }
         public int AddressId { get; set; }
 
+        public decimal? DeliveryPrice { get; set; } = 5;
+
+
     }
 }

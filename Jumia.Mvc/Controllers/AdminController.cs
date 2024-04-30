@@ -48,11 +48,42 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<IActionResult> DisplayOrders()
+        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize =50)
         {
-            var ordersDto = await orderService.GetAllOrdersAsync();
-            return View(ordersDto);
+            try
+            {
+                // Get orders data list for the specified page
+                var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
+                var ordersDto = ordersDataList.ToList(); // Convert to list
+
+                // If a search string is provided, filter orders based on it
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    // Assuming order.UserName is the property you want to search in
+                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                         .ToList();
+                }
+
+                // Calculate total pages
+                var totalOrders = await orderService.GetTotalOrdersCountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalOrders / pageSize);
+
+                ViewBag.PageNumber = pageNumber; // Pass pageNumber to the view
+                ViewBag.TotalPages = totalPages; // Pass totalPages to the view
+
+                return View(ordersDto);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                TempData["ErrorMessage"] = "An error occurred while retrieving orders: " + ex.Message;
+                return RedirectToAction(nameof(DisplayOrders));
+            }
         }
+
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -284,6 +315,9 @@ namespace Jumia.Mvc.Controllers
 
             return Json(topSellers);
         }
+
+
+
     }
 
 }

@@ -24,7 +24,7 @@ namespace Jumia.Model
         [Required]
         [MaxLength(50)]
         public string ?Status { get; set; }
-        public string? BarcodeImageUrl { get; set; }
+        public string? BarcodeImageUrl { get; set; } = "fdgdggd";
         [Column(TypeName = "decimal(18,2)")]
 
         public decimal? DeliveryPrice { get; set; } = 5;

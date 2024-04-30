@@ -61,5 +61,22 @@ namespace Jumia.InfraStructure
         {
             return await _jumiacontext.products.Where(p => p.CategoryID == categoryId && p.BrandNameEn.Equals(brandName) && !p.IsDeleted).ToListAsync();
         }
+
+
+        public async Task<int> GetTotalProductsCountAsync()
+        {
+            try
+            {
+                // Query the Orders DbSet and count the total number of orders
+                var totalProductsCount = await _jumiacontext.products.CountAsync();
+                return totalProductsCount;
+            }
+            catch (Exception ex)
+            {
+                // Handle any potential exceptions here
+                // Log or throw as needed
+                throw new Exception("Failed to retrieve total orders count: " + ex.Message, ex);
+            }
+        }
     }
 }

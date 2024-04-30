@@ -30,6 +30,19 @@ tr:hover {
     <div class="container text-center mt-4 mb-4">
         <h2 class="display-4 font-weight-bold">@localizer["Orders"]</h2>
     </div>
+    <form method="get" action="@Url.Action("DisplayOrders", "Admin")" class="mb-4">
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label for="searchStringInput" class="sr-only">@localizer["Search"]</label>
+                <input type="text" class="form-control" id="searchStringInput" name="searchString" placeholder="@localizer["Search Orders"]">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
+            </div>
+        </div>
+    </form>
+
+
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive-sm" style="background-color:white;">
@@ -57,15 +70,14 @@ tr:hover {
                 @foreach (var order in Model)
                 {
                     // Ensuring the index is within bounds for both cities and streets
-                    int cityIndex = index % order.Cities.Count;
-                    int streetIndex = index % order.Streets.Count;
+                   
                     <tr>
                         <td>@order.Id</td>
                         <td>@order.UserName</td>
                         <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
                         <td>@order.TotalPrice</td>
-                        <td>@order.Cities[cityIndex]</td>
-                        <td>@order.Streets[streetIndex]</td>
+                        <td>@(order.Cities != null && order.Cities.Any() ? order.Cities[index % order.Cities.Count] : "")</td>
+                        <td>@(order.Streets != null && order.Streets.Any() ? order.Streets[index % order.Streets.Count] : "")</td>
                         <td>@order.Status</td>
                         <td>
                             <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 100px; max-height: 100px;">
@@ -122,6 +134,74 @@ tr:hover {
             </tbody>
         </table>
     </div>
+
+
+
+
+
+
+    <!-- Pagination -->
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = 1, pageSize = ViewBag.PageSize })">First</a>
+            </li>
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = ViewBag.PageNumber - 1, pageSize = ViewBag.PageSize })">Previous</a>
+            </li>
+
+            <!-- Display dynamic page numbers -->
+            @if (ViewBag.TotalPages <= 3)
+            {
+                // If total pages are 3 or less, display all pages
+                for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = i, pageSize = ViewBag.PageSize })">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                // If total pages are more than 3
+                int startPage = Math.Max(ViewBag.PageNumber - 1, 1);
+                int endPage = Math.Min(ViewBag.PageNumber + 1, ViewBag.TotalPages);
+
+                if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+
+                for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = i, pageSize = ViewBag.PageSize })">@i</a>
+                    </li>
+                }
+
+                if (endPage < ViewBag.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+            }
+
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = ViewBag.PageNumber + 1, pageSize = ViewBag.PageSize })">Next</a>
+            </li>
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayOrders", "admin", new { pageNumber = ViewBag.TotalPages, pageSize = ViewBag.PageSize })">Last</a>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+
     <div class="container ">
         <div class="row">
             <div class="col">
@@ -136,6 +216,10 @@ tr:hover {
             </div>
         </div>
     </div>
+
+
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>

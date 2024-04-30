@@ -22,11 +22,12 @@ namespace Jumia.Mvc.Controllers
             this.userService = userService;
         }
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int pageNumber = 1, int pageSize = 50)
         {
             try
             {
-                var productsDataList = await _proudectService.GetAllPagination(500, 1);
+                // Get products data list for the specified page
+                var productsDataList = await _proudectService.GetAllPagination(pageSize, pageNumber);
                 var products = productsDataList.Entities;
 
                 // If a search string is provided, filter products based on it
@@ -38,6 +39,12 @@ namespace Jumia.Mvc.Controllers
                                       .ToList();
                 }
 
+                // Calculate total pages
+                var totalPages = (int)Math.Ceiling((double)productsDataList.Count / pageSize);
+
+                ViewBag.PageNumber = pageNumber; // Pass pageNumber to the view
+                ViewBag.TotalPages = totalPages; // Pass totalPages to the view
+
                 return View(products);
             }
             catch (Exception ex)
@@ -47,6 +54,7 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
 
         public async Task<ActionResult> Create()
         {

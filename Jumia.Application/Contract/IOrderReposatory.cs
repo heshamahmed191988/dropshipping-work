@@ -19,5 +19,8 @@ namespace Jumia.Application.Contract
         Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid);
         Task<List<OrderProduct>> GetByOrderIdAsync(int orderId);
         Task<Address> GetAddressByIdAsync(int addressId);
+        Task<int> GetTotalOrdersCountAsync();
+
+        Task<List<Order>> SearchOrdersByIdAsync(int orderId);
     }
 }
