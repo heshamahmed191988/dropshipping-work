@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using Jumia.Dtos.ViewModel.Order;
+using OfficeOpenXml;
 namespace Jumia.Mvc.Controllers
 {
     [Authorize]
@@ -80,10 +82,143 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+        public async Task<IActionResult> ExportAllOrdersToExcel(string searchString)
+        {
+            try
+            {
+                const int pageSize = 5000000; // Set the page size
+                int pageNumber = 1; // Initialize the page number
+                var allOrders = new List<OrderDto>(); // List to store all orders
 
+                // Loop through all pages to fetch orders
+                while (true)
+                {
+                    // Get orders data list for the current page
+                    var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
+                    var ordersDto = ordersDataList.ToList(); // Convert to list
 
+                    // If a search string is provided, filter orders based on it
+                    if (!string.IsNullOrEmpty(searchString))
+                    {
+                        // Assuming order.UserName is the property you want to search in
+                        ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                             .ToList();
+                    }
 
+                    // Add fetched orders to the list
+                    allOrders.AddRange(ordersDto);
 
+                    // Break the loop if the current page is the last page
+                    if (ordersDto.Count < pageSize)
+                        break;
+
+                    pageNumber++; // Move to the next page
+                }
+
+                // Create a new Excel package
+                using (var package = new ExcelPackage())
+                {
+                    // Add a new worksheet
+                    var worksheet = package.Workbook.Worksheets.Add("All Orders");
+
+                    // Add headers
+                    worksheet.Cells[1, 1].Value = "Order ID";
+                    worksheet.Cells[1, 2].Value = "Username";
+                    worksheet.Cells[1, 3].Value = "Date Listed";
+                    worksheet.Cells[1, 4].Value = "Total Price";
+                    worksheet.Cells[1, 5].Value = "City";
+                    worksheet.Cells[1, 6].Value = "Street";
+                    worksheet.Cells[1, 7].Value = "Status";
+
+                    // Fill data rows
+                    for (int i = 0; i < allOrders.Count; i++)
+                    {
+                        var order = allOrders[i];
+                        worksheet.Cells[i + 2, 1].Value = order.Id;
+                        worksheet.Cells[i + 2, 2].Value = order.UserName;
+                        worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
+                        worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
+                        // Add other properties as needed
+
+                        // Note: Adjust the cell indices and add more properties if needed
+                    }
+
+                    // Auto-fit columns
+                    worksheet.Cells.AutoFitColumns();
+
+                    // Convert the package to a byte array
+                    var excelBytes = package.GetAsByteArray();
+
+                    // Return the Excel file
+                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AllOrders.xlsx");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                TempData["ErrorMessage"] = "An error occurred while exporting all orders to Excel: " + ex.Message;
+                return RedirectToAction(nameof(DisplayOrders));
+            }
+        }
+
+        public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, int pageNumber = 1, int pageSize = 50)
+        {
+            try
+            {
+                var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
+                var ordersDto = ordersDataList.ToList();
+
+                // If a search string is provided, filter orders based on it
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    // Assuming order.UserName is the property you want to search in
+                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                         .ToList();
+                }
+
+                // Create a new Excel package
+                using (var package = new ExcelPackage())
+                {
+                    // Add a new worksheet
+                    var worksheet = package.Workbook.Worksheets.Add("Current Page Orders");
+
+                    // Add headers
+                    worksheet.Cells[1, 1].Value = "Order ID";
+                    worksheet.Cells[1, 2].Value = "Username";
+                    worksheet.Cells[1, 3].Value = "Date Listed";
+                    worksheet.Cells[1, 4].Value = "Total Price";
+                    worksheet.Cells[1, 5].Value = "City";
+                    worksheet.Cells[1, 6].Value = "Street";
+                    worksheet.Cells[1, 7].Value = "Status";
+
+                    // Fill data rows
+                    for (int i = 0; i < ordersDto.Count; i++)
+                    {
+                        var order = ordersDto[i];
+                        worksheet.Cells[i + 2, 1].Value = order.Id;
+                        worksheet.Cells[i + 2, 2].Value = order.UserName;
+                        worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
+                        worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
+                        // Add other properties as needed
+                    }
+
+                    // Auto-fit columns
+                    worksheet.Cells.AutoFitColumns();
+
+                    // Convert the package to a byte array
+                    var excelBytes = package.GetAsByteArray();
+
+                    // Return the Excel file
+                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "CurrentPageOrders.xlsx");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                TempData["ErrorMessage"] = "An error occurred while exporting the current page orders to Excel: " + ex.Message;
+                return RedirectToAction(nameof(DisplayOrders));
+            }
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -30,6 +30,26 @@ tr:hover {
     <div class="container text-center mt-4 mb-4">
         <h2 class="display-4 font-weight-bold">@localizer["Orders"]</h2>
     </div>
+
+    <form method="get" action="@Url.Action("DisplayOrders", "Admin")" class="mb-4">
+        <div class="form-row align-items-center">
+            <!-- Button to export current page to Excel -->
+            <div class="col-auto">
+                <a href="@Url.Action("ExportCurrentPageToExcel", "Admin")" class="btn btn-success">Export Current Page to Excel</a>
+            </div>
+            <!-- Button to export all pages to Excel -->
+            <div class="col-auto">
+                <a href="@Url.Action("ExportAllOrdersToExcel", "Admin")" class="btn btn-success">Export All Orders to Excel</a>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+
+
     <form method="get" action="@Url.Action("DisplayOrders", "Admin")" class="mb-4">
         <div class="form-row align-items-center">
             <div class="col-auto">
