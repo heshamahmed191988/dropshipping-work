@@ -100,8 +100,9 @@ tr:hover {
                         <td>@(order.Streets != null && order.Streets.Any() ? order.Streets[index % order.Streets.Count] : "")</td>
                         <td>@order.Status</td>
                         <td>
-                            <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                            <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 400px; height: 50px;">
                         </td>
+
 
 
 

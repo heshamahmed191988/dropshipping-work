@@ -12,12 +12,14 @@ using Jumia.Dtos.ResultView;
 using Jumia.Model;
 using Jumia.Dtos;
 using System.Data.Entity;
+using Spire.Barcode;
 
 using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Product;
 using QRCoder;
 using System.Drawing;
 using Newtonsoft.Json;
+using Spire.Barcode;
 
 namespace Jumia.Application.Services
 {
@@ -173,7 +175,7 @@ namespace Jumia.Application.Services
 
                 var createdOrder = await _orderRepository.CreateAsync(order);
                 await _orderRepository.SaveChangesAsync();
-                var barcode = BarcodeGenerator.GenerateUniqueQRCode(order);
+                var barcode = BarcodeGenerator.GenerateUniqueBarcode(order);
                 order.BarcodeImageUrl = barcode;
                 
            
@@ -223,30 +225,41 @@ namespace Jumia.Application.Services
 
         public static class BarcodeGenerator
         {
-            // Generate a unique QR code containing order details
-            public static string GenerateUniqueQRCode(Order order)
+            // Generate a unique barcode containing order details
+            public static string GenerateUniqueBarcode(Order order)
             {
-                // Format order details into a structured table format
-                string orderTable = $"Order ID: {order.Id}\n" +
-                                    $"Date Placed: {order.DatePlaced}\n" +
-                                    $"Total Price: {order.TotalPrice}\n" +
-                                    $"Status: {order.Status}\n" +
-                                    $"User ID: {order.UserID}\n" +
-                                    $"Address ID: {order.AddressId}\n";
+                // Format order details into a structured format
+                string orderDetails = $"Order ID: {order.Id}\n" +
+                                      //$"Date Placed: {order.DatePlaced}\n" +
+                                      //$"Total Price: {order.TotalPrice}\n" +
+                                      $"Status: {order.Status}\n";
+                                      //$"User ID: {order.UserID}\n" +
+                                      //$"Address ID: {order.AddressId}\n";
 
-                // Create QR code payload
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(orderTable, QRCodeGenerator.ECCLevel.Q);
-                QRCode qrCode = new QRCode(qrCodeData);
+                // Initialize a barcode generator instance
+                BarcodeSettings settings = new BarcodeSettings
+                {
+                    Data = orderDetails,
+                    Data2D = orderDetails,
+                    Type = BarCodeType.Code128,
+                    ShowText = true,
+                    TextFont = new Font("Arial", 8f)
+                };
 
-                // Render QR code as bitmap
-                Bitmap qrCodeImage = qrCode.GetGraphic(20);
+                // Increase the size of the barcode image
+                settings.BarHeight = 15;
+            
 
-                // Convert bitmap to Base64 string
+                BarCodeGenerator generator = new BarCodeGenerator(settings);
+
+                // Generate the barcode image
+                Image barcodeImage = generator.GenerateImage();
+
+                // Convert the barcode image to Base64 string
                 string base64String;
                 using (MemoryStream memoryStream = new MemoryStream())
                 {
-                    qrCodeImage.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                    barcodeImage.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
                     byte[] byteImage = memoryStream.ToArray();
                     base64String = Convert.ToBase64String(byteImage);
                 }
