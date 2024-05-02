@@ -24,6 +24,9 @@ namespace Jumia.Model
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? clientPrice { get; set; }
+        [Required]
         [MaxLength(256)]
         public string NameAr { get; set; }
         public string NameEn { get; set; }
@@ -35,11 +38,11 @@ namespace Jumia.Model
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal MaxPrice { get; set; }
+        public decimal ?MaxPrice { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal MinPrice { get; set; }
+        public decimal? MinPrice { get; set; }
 
         [Required]
         public int StockQuantity { get; set; }

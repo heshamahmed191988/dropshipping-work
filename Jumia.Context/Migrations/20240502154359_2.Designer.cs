@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240429042505_init")]
-    partial class init
+    [Migration("20240502154359_2")]
+    partial class _2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,6 @@ namespace Jumia.Context.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -59,7 +58,6 @@ namespace Jumia.Context.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ZipCode")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -225,7 +223,6 @@ namespace Jumia.Context.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BarcodeImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DatePlaced")
@@ -353,10 +350,12 @@ namespace Jumia.Context.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("MaxPrice")
+                    b.Property<decimal?>("MaxPrice")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("MinPrice")
+                    b.Property<decimal?>("MinPrice")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("NameAr")
@@ -377,6 +376,10 @@ namespace Jumia.Context.Migrations
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("clientPrice")
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -812,8 +815,7 @@ namespace Jumia.Context.Migrations
                 {
                     b.Navigation("OrderAddresses");
 
-                    b.Navigation("Payment")
-                        .IsRequired();
+                    b.Navigation("Payment");
 
                     b.Navigation("Products");
                 });

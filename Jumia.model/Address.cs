@@ -19,9 +19,9 @@ namespace Jumia.Model
         [MaxLength(100)]
         public string City { get; set; }
         [MaxLength(100)]
-        public string State { get; set; }
+        public string ?State { get; set; }
         [MaxLength(20)]
-        public string ZipCode { get; set; }
+        public string? ZipCode { get; set; }
         public string UserID { get; set; }
 
         public int OrderId { get; set; }
