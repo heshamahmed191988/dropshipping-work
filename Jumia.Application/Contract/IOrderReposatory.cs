@@ -22,5 +22,6 @@ namespace Jumia.Application.Contract
         Task<int> GetTotalOrdersCountAsync();
 
         Task<List<Order>> SearchOrdersByIdAsync(int orderId);
+        Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
     }
 }

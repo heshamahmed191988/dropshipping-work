@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
 using Jumia.Dtos.ViewModel.Order;
 using OfficeOpenXml;
+using Spire.Barcode;
 namespace Jumia.Mvc.Controllers
 {
     [Authorize]
@@ -20,11 +21,13 @@ namespace Jumia.Mvc.Controllers
         private readonly IOrderService orderService;
         private readonly IConfiguration _configuration;
         private readonly IStringLocalizer<AdminController> _localizer;
+
         public AdminController(IOrderService orderService, IConfiguration configuration,IStringLocalizer<AdminController> localizer) 
         {
             this.orderService = orderService;
             _configuration = configuration;
             _localizer = localizer;
+          
         }
         [Authorize]
         public IActionResult Index()
@@ -82,6 +85,9 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+
+
+
         public async Task<IActionResult> ExportAllOrdersToExcel(string searchString)
         {
             try
@@ -100,7 +106,7 @@ namespace Jumia.Mvc.Controllers
                     // If a search string is provided, filter orders based on it
                     if (!string.IsNullOrEmpty(searchString))
                     {
-                        // Assuming order.UserName is the property you want to search in
+                        // Assuming order.Status is the property you want to search in
                         ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                              .ToList();
                     }
@@ -129,6 +135,7 @@ namespace Jumia.Mvc.Controllers
                     worksheet.Cells[1, 5].Value = "City";
                     worksheet.Cells[1, 6].Value = "Street";
                     worksheet.Cells[1, 7].Value = "Status";
+                    worksheet.Cells[1, 8].Value = "Barcode Image"; // Changed to indicate barcode image
 
                     // Fill data rows
                     for (int i = 0; i < allOrders.Count; i++)
@@ -138,9 +145,24 @@ namespace Jumia.Mvc.Controllers
                         worksheet.Cells[i + 2, 2].Value = order.UserName;
                         worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
                         worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
-                        // Add other properties as needed
+                        worksheet.Cells[i + 2, 5].Value = order.Cities;
+                        worksheet.Cells[i + 2, 6].Value = order.Streets;
+                        worksheet.Cells[i + 2, 7].Value = order.Status;
 
-                        // Note: Adjust the cell indices and add more properties if needed
+                        // Convert Base64 string to byte array
+                        byte[] imageBytes = Convert.FromBase64String(order.BarcodeImageUrl);
+
+                        // Add the barcode image to the worksheet
+                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + i, new MemoryStream(imageBytes));
+                        barcodeImage.SetPosition(i + 1, 0, 7, 0); // This will place the barcode in column 8, at the same row height as the other details
+
+                        // Set the size of the barcode image to fit inside the cell
+                        barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed
+
+                        // Optionally, set the properties to ensure the image fits well inside the cell
+                        barcodeImage.EditAs = OfficeOpenXml.Drawing.eEditAs.OneCell; // This makes the image move and size with the cell
+                        barcodeImage.From.ColumnOff = 0;
+                        barcodeImage.From.RowOff = 0; 
                     }
 
                     // Auto-fit columns
@@ -160,6 +182,11 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+        public static int Pixel2MTU(int pixels)
+{
+    // 1 pixel = 9525 EMU
+    return pixels * 9525;
+}
 
         public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, int pageNumber = 1, int pageSize = 50)
         {
@@ -190,7 +217,7 @@ namespace Jumia.Mvc.Controllers
                     worksheet.Cells[1, 5].Value = "City";
                     worksheet.Cells[1, 6].Value = "Street";
                     worksheet.Cells[1, 7].Value = "Status";
-
+                    worksheet.Cells[1, 8].Value = "Barcode Image";
                     // Fill data rows
                     for (int i = 0; i < ordersDto.Count; i++)
                     {
@@ -199,6 +226,23 @@ namespace Jumia.Mvc.Controllers
                         worksheet.Cells[i + 2, 2].Value = order.UserName;
                         worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
                         worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
+                        worksheet.Cells[i + 2, 5].Value = order.Cities;
+                        worksheet.Cells[i + 2, 6].Value = order.Streets;
+                        worksheet.Cells[i + 2, 7].Value = order.Status;
+
+                        byte[] imageBytes = Convert.FromBase64String(order.BarcodeImageUrl);
+
+                        // Add the barcode image to the worksheet
+                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + i, new MemoryStream(imageBytes));
+                        barcodeImage.SetPosition(i + 1, 0, 7, 0); // This will place the barcode in column 8, at the same row height as the other details
+
+                        // Set the size of the barcode image to fit inside the cell
+                        barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed
+
+                        // Optionally, set the properties to ensure the image fits well inside the cell
+                        barcodeImage.EditAs = OfficeOpenXml.Drawing.eEditAs.OneCell; // This makes the image move and size with the cell
+                        barcodeImage.From.ColumnOff = 0;
+                        barcodeImage.From.RowOff = 0;
                         // Add other properties as needed
                     }
 

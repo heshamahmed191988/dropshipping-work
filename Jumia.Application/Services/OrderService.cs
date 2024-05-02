@@ -488,5 +488,12 @@ namespace Jumia.Application.Services
         }
 
 
+
+        public async Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus)
+        {
+            return await _orderRepository.UpdateOrderStatusAsync2(orderId, newStatus);
+        }
+
+
     }
 }

@@ -92,5 +92,12 @@
   "Action": "Action",
   "Update": "Update",
   "barcode": "Barcode",
-  "The Main Page": "The Main Page"
+  "The Main Page": "The Main Page",
+  "Deliverd": "Deliverd",
+  "NotDeliverd": "Not Deliverd",
+  "Processing": "Processing",
+  "Add Orders": "Add Orders",
+  "Select": "Select",
+  "Update Selected Orders Status": "Update Selected Orders Status"
+
 }

@@ -1,0 +1,97 @@
+﻿@model List<OrderDto>
+
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    ViewBag.Title = @localizer["Orders"];
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5">@ViewBag.Title</h1>
+
+@*     @using (Html.BeginForm("ScanBarcode", "Order", FormMethod.Post, new { @class = "mb-4" }))
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <label for="barcode" class="form-label">Scan Barcode:</label>
+                <div class="input-group">
+                    <input type="text" id="barcode" name="barcode" class="form-control" required>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    } *@
+
+    <h2 class="text-center mb-4">@localizer["Add Orders"]</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <input type="text" id="orderId" class="form-control mb-2" placeholder="Order ID">
+            <button type="button" class="btn btn-success btn-block" onclick="addOrder()">@localizer["Add Orders"]</button>
+        </div>
+    </div>
+
+    <div id="ordersSection" style="display: none;">
+        <h2 class="text-center mb-4">@localizer["Orders"]</h2>
+        <form action="@Url.Action("UpdateScannedOrdersStatus", "Order")" method="post">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@localizer["Order ID"]</th>
+                            <th>@localizer["Status"]</th>
+                            <th>@localizer["Select"]</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <!-- Orders will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <input type="submit" class="btn btn-primary btn-block" value="@localizer["Update Selected Orders Status"]">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center mt-5">
+        <a class="btn btn-outline-secondary" asp-area="" asp-controller="admin" asp-action="index">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>@localizer["Back to Main Page"]</span>
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var orders = [];
+
+        function addOrder() {
+            var orderId = document.getElementById("orderId").value;
+
+            if (orderId) {
+                orders.push({ Id: orderId, Status: "Processing" });
+                renderOrders();
+            }
+        }
+
+        function renderOrders() {
+            var tableBody = document.getElementById("orderTableBody");
+            tableBody.innerHTML = "";
+
+            orders.forEach(function (order) {
+                var row = "<tr><td>" + order.Id + "</td><td>" + order.Status + "</td><td><div class='form-check'><input class='form-check-input' type='checkbox' name='orderIds' value='" + order.Id + "' checked></div></td></tr>";
+                tableBody.innerHTML += row;
+            });
+
+            // Show the orders section after orders have been added
+            document.getElementById("ordersSection").style.display = "block";
+        }
+    </script>
+}

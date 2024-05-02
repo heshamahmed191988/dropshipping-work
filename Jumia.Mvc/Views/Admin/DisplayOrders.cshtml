@@ -143,6 +143,15 @@ tr:hover {
                                     {
                                         <option value="Delivered">Delivered</option>
                                     }
+
+                                    @if (order.Status == "NotDelivered")
+                                    {
+                                        <option value="NotDelivered" selected>NotDelivered</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="NotDelivered">NotDelivered</option>
+                                    }
                                 </select>
                               <td>  <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button><td/>
                            

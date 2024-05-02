@@ -24,6 +24,7 @@ namespace Jumia.Application.Services
         Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId, decimal? DeliveryPrice);
         Task<int> GetTotalOrdersCountAsync();
         Task<List<OrderDto>> SearchOrdersByIdAsync(int orderId);
+        Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
 
     }
 }

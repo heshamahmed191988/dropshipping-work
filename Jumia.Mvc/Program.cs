@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Spire.Barcode;
 using System.Globalization;
 
 namespace Jumia.Mvc
@@ -39,8 +40,8 @@ namespace Jumia.Mvc
                 options.SlidingExpiration = true; // Enable sliding expiration
             });
 
-           
 
+            //builder.Services.AddSingleton<BarCodeGenerator>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IItemServices, ItemServices>();
@@ -111,15 +112,33 @@ namespace Jumia.Mvc
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
             app.MapControllerRoute(
-     name: "admin",
-     pattern: "{controller=Admin}/{action=DisplayOrders}/{pageNumber?}/{pageSize?}");
-            app.MapControllerRoute(
-    name: "product",
-    pattern: "{controller=Product}/{action=Index}/{pageNumber?}/{pageSize?}");
+              name: "admin",
+              pattern: "{controller=Admin}/{action=DisplayOrders}/{pageNumber?}/{pageSize?}");
+                     app.MapControllerRoute(
+             name: "product",
+             pattern: "{controller=Product}/{action=Index}/{pageNumber?}/{pageSize?}");
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=admin}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+       name: "OrderScanBarcode",
+       pattern: "Order/ScanBarcode",
+       defaults: new { controller = "Order", action = "ScanBarcode" }
+   );
+
+            app.MapControllerRoute(
+                name: "OrderUpdateStatus",
+                pattern: "Order/UpdateScannedOrdersStatus",
+                defaults: new { controller = "Order", action = "UpdateScannedOrdersStatus" }
+            );
+
+            // Additional routes for other controllers...
+
+        
+
+
 
 
             app.MapControllerRoute(

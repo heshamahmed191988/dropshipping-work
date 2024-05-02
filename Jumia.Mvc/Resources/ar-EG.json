@@ -92,7 +92,13 @@
   "Action": "تغيير الحالة",
   "Update": "تحديث",
   "barcode": "الباركود",
-  "The Main Page": "الصفحة الرئيسية"
+  "The Main Page": "الصفحة الرئيسية",
+  "Deliverd": "تم التوصيل",
+  "NotDeliverd": "لم يتم التوصيل",
+  "Processing": "جاهز للتوصيل ",
+  "Add Orders": "اضف طلبات",
+  "Select": "اختر",
+  "Update Selected Orders Status": "حدث الاوردرات المختارة "
 
 
 

@@ -204,6 +204,26 @@ namespace Jumia.InfraStructure.Repository
                 .ToListAsync();
         }
 
+
+        public async Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus)
+        {
+            var order = await context.orders.FindAsync(orderId);
+            if (order != null)
+            {
+                order.Status = newStatus;
+                await context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+
+
+
+
+
+
+
         //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
         //{
         //    var ordersDto = from order in context.orders

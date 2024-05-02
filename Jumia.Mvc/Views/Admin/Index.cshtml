@@ -243,12 +243,39 @@
         <div class="small-box  bg-warning">
             <div class="inner">
                 <h3 id="orderCount"></h3> <!-- Display the order  -->
-                <h4>@localizer["products"]</h4>
+                <h4>@localizer["Processing"]</h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a class="small-box-footer " asp-area="" asp-controller="product" asp-action="index" class="nav-link">Show products <i class="fas fa-arrow-circle-right"></i></a>
+            <a class="small-box-footer " asp-area="" asp-controller="order" asp-action="index" class="nav-link">change order status <i class="fas fa-arrow-circle-right"></i></a>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-warning">
+            <div class="inner">
+                <h3 id="orderCount"></h3> <!-- Display the order  -->
+                <h4>@localizer["Deliverd"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="order" asp-action="deliverd" class="nav-link">change order status <i class="fas fa-arrow-circle-right"></i></a>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box  bg-warning">
+            <div class="inner">
+                <h3 id="orderCount"></h3> <!-- Display the order  -->
+                <h4>@localizer["NotDeliverd"]</h4>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a class="small-box-footer " asp-area="" asp-controller="order" asp-action="Notdeliverd" class="nav-link">change order status <i class="fas fa-arrow-circle-right"></i></a>
 
         </div>
     </div>
