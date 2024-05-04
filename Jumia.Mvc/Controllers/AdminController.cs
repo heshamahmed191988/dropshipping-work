@@ -158,6 +158,13 @@ namespace Jumia.Mvc.Controllers
 
                         // Set the size of the barcode image to fit inside the cell
                         barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed
+                        int dpi = 300; // Set the desired DPI
+                        int widthInPixels = 100; // Set the desired width in pixels
+                        int heightInPixels = 20;
+                        barcodeImage.SetSize(widthInPixels, heightInPixels);
+
+                        // Set the size of the barcode image to fit inside the cell
+                        barcodeImage.SetSize(widthInPixels, heightInPixels);
 
                         // Optionally, set the properties to ensure the image fits well inside the cell
                         barcodeImage.EditAs = OfficeOpenXml.Drawing.eEditAs.OneCell; // This makes the image move and size with the cell

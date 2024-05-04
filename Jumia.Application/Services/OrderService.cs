@@ -21,6 +21,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using Spire.Barcode;
 using Jumia.model;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Jumia.Application.Services
 {
@@ -264,7 +265,12 @@ namespace Jumia.Application.Services
 
                 // Increase the size of the barcode image
                 settings.BarHeight = 15;
-            
+                
+                settings.ResolutionType = ResolutionType.UseDpi;
+                //settings.AutoResize = true;
+                settings.DpiX = 300;
+                settings.DpiY = 300;
+
 
                 BarCodeGenerator generator = new BarCodeGenerator(settings);
 
