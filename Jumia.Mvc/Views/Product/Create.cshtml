@@ -109,7 +109,16 @@
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
-
+        <div class="form-group">
+            <label asp-for="MaxPrice">Max price</label>
+            <input asp-for="MaxPrice" class="form-control" />
+            <span asp-validation-for="MaxPrice" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MinPrice">Min price</label>
+            <input asp-for="MinPrice" class="form-control" />
+            <span asp-validation-for="MinPrice" class="text-danger"></span>
+        </div>
         <div class="form-group">
             <label asp-for="StockQuantity">@localizer["StockQuantity"]</label>
             <input asp-for="StockQuantity" class="form-control" />

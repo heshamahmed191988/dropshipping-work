@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.User;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Jumia.Dtos.ViewModel.Product
 {
     public class ProuductViewModel
@@ -33,6 +34,14 @@ namespace Jumia.Dtos.ViewModel.Product
         [Required]
         //[Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MaxPrice { get; set; }
+
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MinPrice { get; set; }
+
         public ICollection<string>? itemscolor { get; set; }
         [Required]
         public int StockQuantity { get; set; }

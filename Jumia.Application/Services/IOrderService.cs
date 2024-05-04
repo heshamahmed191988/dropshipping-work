@@ -26,5 +26,6 @@ namespace Jumia.Application.Services
         Task<List<OrderDto>> SearchOrdersByIdAsync(int orderId);
         Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
 
+
     }
 }

@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.Order;
 //using System.Data.Entity;
+using Jumia.model;
+//using System.Data.Entity;
 
 namespace Jumia.InfraStructure.Repository
 {
@@ -164,7 +166,7 @@ namespace Jumia.InfraStructure.Repository
                DatePlaced = o.DatePlaced,
                TotalPrice = o.TotalPrice,
                Status = o.Status,
-               BarcodeImageUrl = o.BarcodeImageUrl,
+               //BarcodeImageUrl = o.BarcodeImageUrl,
            })
            .ToListAsync();
 
@@ -219,9 +221,24 @@ namespace Jumia.InfraStructure.Repository
 
 
 
-
-
-
+        public async Task<Order> CreateOrder(Order order)
+        {
+            context.orders.Add(order);
+            await context.SaveChangesAsync();
+            return order;
+        }
+        public async Task<Address> CreateAddress(Address address)
+        {
+            context.addresses.Add(address);
+            await context.SaveChangesAsync();
+            return address;
+        }
+        public async Task<OrderAddress> CreateOrderAddress(OrderAddress orderAddress)
+        {
+            context.orderAddresses.Add(orderAddress);
+            await context.SaveChangesAsync();
+            return orderAddress;
+        }
 
 
         //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)

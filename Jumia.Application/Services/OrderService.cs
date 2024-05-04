@@ -20,6 +20,7 @@ using QRCoder;
 using System.Drawing;
 using Newtonsoft.Json;
 using Spire.Barcode;
+using Jumia.model;
 
 namespace Jumia.Application.Services
 {
@@ -155,11 +156,21 @@ namespace Jumia.Application.Services
                 var address = await _orderRepository.GetAddressByIdAsync(AddressId);
                 if (address == null)
                 {
-                    return new ResultView<OrderDto>
+                    // If address doesn't exist, create a new one
+                    var addressCreateDto = new AddressCreateDto
                     {
-                        IsSuccess = false,
-                        Message = "Invalid address ID provided."
+                        Street = "Sample Street", // Replace with actual street value
+                        City = "Sample City",     // Replace with actual city value
+                        State = "Sample State",   // Replace with actual state value
+                        ZipCode = "12345",        // Replace with actual zip code value
+                        UserId = UserID
                     };
+
+                    // Map AddressCreateDto to Address entity
+                    var newAddress = _mapper.Map<Address>(addressCreateDto);
+
+                    // Create the address
+                    address = await _orderRepository.CreateAddress(newAddress);
                 }
 
                 var order = new Order
@@ -168,33 +179,37 @@ namespace Jumia.Application.Services
                     TotalPrice = totalPrice,
                     Status = "Pending",
                     UserID = UserID,
-                    AddressId = AddressId,
+                    AddressId = address.Id, // Assign the address ID
                     DeliveryPrice = DeliveryPrice
-                    
                 };
 
-                var createdOrder = await _orderRepository.CreateAsync(order);
+                var createdOrder = await _orderRepository.CreateOrder(order);
                 await _orderRepository.SaveChangesAsync();
                 var barcode = BarcodeGenerator.GenerateUniqueBarcode(order);
                 order.BarcodeImageUrl = barcode;
-                
-           
+
+                // If order creation is successful, create order address
+                var orderAddress = new OrderAddress
+                {
+                    OrderId = createdOrder.Id,
+                    AddressId = address.Id
+                };
+                await _orderRepository.CreateOrderAddress(orderAddress);
+                await _orderRepository.SaveChangesAsync();
 
                 if (createdOrder.Id == 0) // Assuming 0 is the default value for Id
                 {
                     throw new Exception("Order ID not set after saving changes.");
                 }
-                // Generate unique barcode for the order with order details
-              
 
-              
+                // Generate unique barcode for the order with order details
 
                 foreach (var id in ProductIDs)
                 {
                     await _orderProuduct.CreateAsync(new OrderProduct
                     {
                         ProductId = id.productID,
-                       
+
                         OrderId = order.Id,
                         TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
                         Quantity = id.quantity
@@ -221,6 +236,7 @@ namespace Jumia.Application.Services
                 };
             }
         }
+
 
 
         public static class BarcodeGenerator

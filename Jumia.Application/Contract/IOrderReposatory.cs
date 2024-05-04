@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Jumia.Dtos.ViewModel.Order;
+using Jumia.model;
 
 
 namespace Jumia.Application.Contract
@@ -23,5 +24,13 @@ namespace Jumia.Application.Contract
 
         Task<List<Order>> SearchOrdersByIdAsync(int orderId);
         Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
+
+        Task<Order> CreateOrder(Order order);
+
+        Task<Address> CreateAddress(Address address);
+
+        Task<OrderAddress> CreateOrderAddress(OrderAddress orderAddress);
+        
+
     }
 }

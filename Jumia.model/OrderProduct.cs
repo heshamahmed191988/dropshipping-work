@@ -15,7 +15,7 @@ namespace Jumia.Model
         public int Id { get; set; }
         [Required]
         public int OrderId { get; set; }
-        [Required]
+       // [Required]
         public int ProductId { get; set; }
         [Required]
         public int Quantity { get; set; }
