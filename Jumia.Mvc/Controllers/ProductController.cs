@@ -216,6 +216,13 @@ namespace Jumia.Mvc.Controllers
                 {
                     if (imageFile.Length > 0)
                     {
+                        // Check if the file size exceeds 2MB
+                        if (imageFile.Length > 2 * 1024 * 1024) // 2MB in bytes
+                        {
+                            TempData["ErrorMessage"] = "File size cannot exceed 2MB.";
+                            return RedirectToAction("AssignImage", new { productId = productId });
+                        }
+
                         var fileName = Path.GetFileName(imageFile.FileName);
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", fileName);
 
@@ -246,6 +253,8 @@ namespace Jumia.Mvc.Controllers
 
             return RedirectToAction(nameof(DisplayImages), new { productId = productId });
         }
+
+
 
 
         [HttpGet]

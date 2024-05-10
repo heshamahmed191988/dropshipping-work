@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jumia.InfraStructure", "Jum
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jumia.Mvc", "Jumia.Mvc\Jumia.Mvc.csproj", "{BFB5E257-115A-4160-BE49-5062540C2E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonWebSite", "AmazonWebSite\AmazonWebSite.csproj", "{9A00966A-991E-4DCA-95B3-67D430317F4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmazonWebSite", "AmazonWebSite\AmazonWebSite.csproj", "{9A00966A-991E-4DCA-95B3-67D430317F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

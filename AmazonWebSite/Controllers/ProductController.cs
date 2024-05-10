@@ -122,6 +122,8 @@ namespace AmazonWebSite.Controllers
                 id = p.Id,
                 BrandNameAr = p.BrandNameAr,
                 BrandNameEn = p.BrandNameEn,
+                MaxPrice = p.MaxPrice,
+                MinPrice = p.MinPrice,
                 ProductImages = new List<string>(), // Initialize to ensure it's not null.
                 itemscolor = new List<string>() // Assuming colors will be populated below.
             }).ToList();
@@ -189,6 +191,8 @@ namespace AmazonWebSite.Controllers
                 id = p.Id,
                 BrandNameAr = p.BrandNameAr,
                 BrandNameEn = p.BrandNameEn,
+                MaxPrice = p.MaxPrice,
+                MinPrice = p.MinPrice,
                 ProductImages = new List<string>(), // Initialize to ensure it's not null.
                 itemscolor = new List<string>() // Assuming colors will be populated below.
             }).ToList();
@@ -246,6 +250,8 @@ namespace AmazonWebSite.Controllers
                 id = p.Id,
                 BrandNameAr = p.BrandNameAr,
                 BrandNameEn = p.BrandNameEn,
+                MaxPrice = p.MaxPrice,
+                MinPrice = p.MinPrice,
 
                 ProductImages = new List<string>(), // Initialize here to ensure it's not null
                 itemscolor = new List<string>() // Assuming you'll populate this similarly
@@ -369,6 +375,8 @@ namespace AmazonWebSite.Controllers
                 Id = product.Id,
                 BrandNameAr = product.BrandNameAr,
                 BrandNameEn = product.BrandNameEn,
+                MaxPrice = product.MaxPrice,
+                MinPrice = product.MinPrice,
                 Productimages = new List<string>(), // Initialize here to ensure it's not null
                 itemimages = new List<string>(), // Assuming similar adjustment needed
                 colors = new List<string>() // Initialize here; assuming you'll populate this similarly
@@ -469,6 +477,8 @@ namespace AmazonWebSite.Controllers
                         BrandNameAr = product.BrandNameAr,
                         BrandNameEn = product.BrandNameEn,
                         StockQuantity = product.StockQuantity,
+                        MaxPrice = product.MaxPrice,
+                        MinPrice = product.MinPrice,
                         itemscolor = new List<string> { color }, // Set the dynamically fetched color
                         ProductImages = imagesBase64
                     });
@@ -499,6 +509,8 @@ namespace AmazonWebSite.Controllers
                 StockQuantity = p.StockQuantity,
                 DescriptionAr = p.DescriptionAR,
                 DescriptionEn = p.DescriptionEn,
+                MaxPrice = p.MaxPrice,
+                MinPrice = p.MinPrice,
                 ProductImages = new List<string>()
             }).ToList();
 
@@ -558,6 +570,8 @@ namespace AmazonWebSite.Controllers
                 DescriptionAr = p.DescriptionAR,
                 BrandNameAr = p.BrandNameAr,
                 BrandNameEn = p.BrandNameEn,
+                MaxPrice = p.MaxPrice,
+                MinPrice = p.MinPrice,
                 ProductImages = new List<string>()
             }).ToList();
 
@@ -660,6 +674,8 @@ namespace AmazonWebSite.Controllers
                         BrandNameAr = product.BrandNameAr,
                         BrandNameEn = product.BrandNameEn,
                         StockQuantity = product.StockQuantity,
+                        MaxPrice = product.MaxPrice,
+                        MinPrice = product.MinPrice,
                         itemscolor = new List<string> { color }, // Set the fetched color
                         ProductImages = imagesBase64 // Assign the list of base64 images
                     });
@@ -731,6 +747,8 @@ namespace AmazonWebSite.Controllers
                         BrandNameAr = product.BrandNameAr,
                         BrandNameEn = product.BrandNameEn,
                         StockQuantity = product.StockQuantity,
+                        MaxPrice = product.MaxPrice,
+                        MinPrice = product.MinPrice,
                         itemscolor = new List<string> { color }, // Set the fetched color
                         ProductImages = imagesBase64 // Assign the list of base64 images
                     });
@@ -795,6 +813,8 @@ namespace AmazonWebSite.Controllers
                         BrandNameAr = product.BrandNameAr,
                         BrandNameEn = product.BrandNameEn,
                         StockQuantity = product.StockQuantity,
+                        MaxPrice = product.MaxPrice,
+                        MinPrice = product.MinPrice,
                         ProductImages = imagesBase64,
                         itemscolor = new List<string> { color } // Assuming color is a string. Adjust as necessary.
                     });

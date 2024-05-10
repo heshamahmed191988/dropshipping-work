@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Spire.Barcode;
 using Jumia.model;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Identity;
 
 namespace Jumia.Application.Services
 {
@@ -32,19 +33,25 @@ namespace Jumia.Application.Services
         private readonly IOrderProuduct _orderProuduct;
         private readonly IProductReposatory _productReposatory;
         private readonly IAddressRepository addressRepository;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserRepository userRepository;
         private readonly IMapper _mapper;
 
 
 
         public OrderService(IOrderReposatory orderRepository, 
             IMapper mapper, IProductService productService, IOrderProuduct orderProuduct,
-            IProductReposatory productReposatory,IAddressRepository addressRepository)
+            IProductReposatory productReposatory,IAddressRepository addressRepository,
+            UserManager<ApplicationUser> userManager,
+            IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
             _productService = productService;
             _orderProuduct = orderProuduct;
             _productReposatory = productReposatory;
             this.addressRepository = addressRepository;
+            this.userManager = userManager;
+            this.userRepository = userRepository;
             _mapper = mapper;
 
         }
@@ -136,13 +143,11 @@ namespace Jumia.Application.Services
                 decimal totalPrice = 0;
                 foreach (var orderProductDto in ProductIDs)
                 {
-                    // Assuming unitAmount is now provided by the orderProductDto
                     decimal productPrice = orderProductDto.unitAmount;
                     if (productPrice >= 0)
                     {
                         totalPrice += productPrice * orderProductDto.quantity;
 
-                        // Optional: Fetch product to update stock quantity if necessary
                         var product = await _productReposatory.GetByIdAsync(orderProductDto.productID);
                         if (product != null)
                         {
@@ -153,11 +158,9 @@ namespace Jumia.Application.Services
                 }
                 await _productReposatory.SaveChangesAsync();
 
-                // Verify the AddressId is valid
                 var address = await _orderRepository.GetAddressByIdAsync(AddressId);
                 if (address == null)
                 {
-                    // If address doesn't exist, create a new one
                     var addressCreateDto = new AddressCreateDto
                     {
                         Street = "Sample Street", // Replace with actual street value
@@ -167,10 +170,8 @@ namespace Jumia.Application.Services
                         UserId = UserID
                     };
 
-                    // Map AddressCreateDto to Address entity
                     var newAddress = _mapper.Map<Address>(addressCreateDto);
 
-                    // Create the address
                     address = await _orderRepository.CreateAddress(newAddress);
                 }
 
@@ -189,7 +190,6 @@ namespace Jumia.Application.Services
                 var barcode = BarcodeGenerator.GenerateUniqueBarcode(order);
                 order.BarcodeImageUrl = barcode;
 
-                // If order creation is successful, create order address
                 var orderAddress = new OrderAddress
                 {
                     OrderId = createdOrder.Id,
@@ -203,14 +203,11 @@ namespace Jumia.Application.Services
                     throw new Exception("Order ID not set after saving changes.");
                 }
 
-                // Generate unique barcode for the order with order details
-
                 foreach (var id in ProductIDs)
                 {
                     await _orderProuduct.CreateAsync(new OrderProduct
                     {
                         ProductId = id.productID,
-
                         OrderId = order.Id,
                         TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
                         Quantity = id.quantity
@@ -219,8 +216,6 @@ namespace Jumia.Application.Services
                 await _orderProuduct.SaveChangesAsync();
 
                 var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
-                // Optionally add address information to the createdOrderDto here if your OrderDto includes address details
-
                 return new ResultView<OrderDto>
                 {
                     IsSuccess = true,
@@ -238,7 +233,7 @@ namespace Jumia.Application.Services
             }
         }
 
-
+   
 
         public static class BarcodeGenerator
         {
@@ -427,6 +422,39 @@ namespace Jumia.Application.Services
             return ordersDto;
         }
 
+        public async Task<IEnumerable<OrderWithAddressDTO>> GetAllOrdersWithAddressAsync(int pageNumber, int pageSize)
+        {
+            // Call the repository function to get orders with addresses
+            var ordersWithAddresses = await _orderRepository.GetAllOrdersWithAddressesAsync();
+
+            // Apply pagination
+            var pagedOrders = ordersWithAddresses
+                .OrderByDescending(o => o.DatePlaced)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Map the orders to DTO
+            var orderDTOs = pagedOrders.Select(o => new OrderWithAddressDTO
+            {
+                OrderId = o.Id,
+                UserName = o.User.UserName,
+                DatePlaced = o.DatePlaced,
+                TotalPrice = o.TotalPrice,
+                Status = o.Status,
+                BarcodeImageUrl = o.BarcodeImageUrl,
+                DeliveryPrice = o.DeliveryPrice,
+                AddressId = o.Address.Id,
+                Street = o.Address.Street,
+                City = o.Address.City,
+                State = o.Address.State,
+                ZipCode = o.Address.ZipCode
+            });
+
+            return orderDTOs;
+        }
+
+
 
         public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         {
@@ -516,6 +544,6 @@ namespace Jumia.Application.Services
             return await _orderRepository.UpdateOrderStatusAsync2(orderId, newStatus);
         }
 
-
+       
     }
 }

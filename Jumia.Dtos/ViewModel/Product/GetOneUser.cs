@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,10 @@ namespace Jumia.Dtos.ViewModel.Product
         public string BrandNameAr { get; set; }
 
         public string BrandNameEn { get; set; }
-
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MaxPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MinPrice { get; set; }
         public ICollection<string> Productimages { get; set; }
         public string descriptionAr { get; set; }
         public string descriptionEn { get; set; }

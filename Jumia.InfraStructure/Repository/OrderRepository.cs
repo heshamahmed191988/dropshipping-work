@@ -28,12 +28,19 @@ namespace Jumia.InfraStructure.Repository
             // Fetch orders with related users and addresses eagerly loaded
             var orders = await context.orders
                                       .Include(o => o.User)
-                                          .ThenInclude(u => u.Addresses) // Include addresses related to the user
+                                         .Include(o => o.Address)
                                       .ToListAsync();
 
             return orders;
         }
 
+        public async Task<List<Order>> GetAllOrdersWithAddressesAsync()
+        {
+            return await context.orders
+                .Include(o => o.Address)
+                 .Include(o => o.User)
+                .ToListAsync();
+        }
         //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         //{
         //    var order = await context.orders.FindAsync(orderId);

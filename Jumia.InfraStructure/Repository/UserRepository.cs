@@ -14,7 +14,7 @@ namespace Jumia.InfraStructure.Repository
 
         public UserRepository(JumiaContext context) : base(context)
         {
-        }
+            }
 
         // Implement any additional methods specific to ApplicationUser here
     }

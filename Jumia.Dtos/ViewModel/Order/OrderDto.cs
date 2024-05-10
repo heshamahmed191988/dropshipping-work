@@ -16,6 +16,9 @@ namespace Jumia.Dtos.ViewModel.Order
         public int AddressId { get; set; }
         public List<string> ?Cities { get; set; } = new List<string>(); // Collection of cities
         public List<string> ?Streets { get; set; } = new List<string>();
+
+        public string ?Street { get; set; }
+        public string ?City { get; set; }
         [Required]
         public DateTime DatePlaced { get; set; }
         public string? BarcodeImageUrl { get; set; }

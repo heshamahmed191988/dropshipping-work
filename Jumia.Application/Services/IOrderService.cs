@@ -25,6 +25,7 @@ namespace Jumia.Application.Services
         Task<int> GetTotalOrdersCountAsync();
         Task<List<OrderDto>> SearchOrdersByIdAsync(int orderId);
         Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
+        Task<IEnumerable<OrderWithAddressDTO>> GetAllOrdersWithAddressAsync(int pageNumber, int pageSize);
 
 
     }

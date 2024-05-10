@@ -87,6 +87,12 @@
             <label for="imageFiles">@localizer["Image File"]</label>
             <input type="file" name="imageFiles" class="form-control" multiple />
         </div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <button type="submit" class="btn btn-primary">@localizer["Upload Image"]</button>
         <a asp-action="Index" class="btn btn-secondary" style="margin: 10px;">@localizer["Back  TO List"]</a>
     </form>

@@ -30,7 +30,9 @@ namespace Jumia.Application.Contract
         Task<Address> CreateAddress(Address address);
 
         Task<OrderAddress> CreateOrderAddress(OrderAddress orderAddress);
-        
+        Task<List<Order>> GetAllOrdersWithAddressesAsync();
+
+
 
     }
 }

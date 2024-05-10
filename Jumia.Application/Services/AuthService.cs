@@ -90,11 +90,13 @@ namespace Jumia.Application.Services
         public async Task<int?> GetAddressIdByUserIdAsync(string userId)
         {
             // Directly query the Addresses table to find an address for the given userId
-            var address = await context.addresses
-                .Where(a => a.UserID == userId)
-                .FirstOrDefaultAsync(); // Get the first address that matches the userId
+            var latestAddressId = await context.addresses
+        .Where(a => a.UserID == userId)
+        .OrderByDescending(a => a.Id) // Order by Id in descending order
+        .Select(a => a.Id) // Select the Id of the latest address
+        .FirstOrDefaultAsync(); // Get the Id of the latest address that matches the userId
 
-            return address?.Id; // Return the ID of the address, or null if not found
+            return latestAddressId; // Return the ID of the address, or null if not found
         }
 
 

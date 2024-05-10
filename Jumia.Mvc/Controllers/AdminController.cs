@@ -53,18 +53,18 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize =50)
+        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize = 50)
         {
             try
             {
-                // Get orders data list for the specified page
-                var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
+                // Get orders data list for the specified page with addresses
+                var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
                 var ordersDto = ordersDataList.ToList(); // Convert to list
 
                 // If a search string is provided, filter orders based on it
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    // Assuming order.UserName is the property you want to search in
+                    // Assuming order.Status is the property you want to search in
                     ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                          .ToList();
                 }

@@ -12,5 +12,6 @@ namespace Jumia.Dtos.ResultView
         public string Message { get; set; }
 
         public TEntity Entity { get; set; }
+
     }
 }

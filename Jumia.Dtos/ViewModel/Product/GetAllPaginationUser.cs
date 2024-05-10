@@ -17,6 +17,12 @@ namespace Jumia.Dtos.ViewModel.Product
         [Required]
         public int StockQuantity { get; set; }
         public ICollection<string> itemscolor { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MaxPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? MinPrice { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? clientPrice { get; set; }
         public virtual ICollection<string> ProductImages { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }

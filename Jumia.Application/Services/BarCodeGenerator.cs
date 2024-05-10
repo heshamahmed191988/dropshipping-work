@@ -1,18 +1,14 @@
 ﻿using Jumia.Model;
 using Spire.Barcode;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Jumia.Application.Services
 {
     public static class BarcodeGenerator
     {
         // Generate a unique barcode containing order details
-        public static string GenerateUniqueBarcode(Order order)
+        public static byte[] GenerateUniqueBarcode(Order order)
         {
             // Format order details into a structured format
             string orderDetails = $"Order ID: {order.Id}\n" +
@@ -35,22 +31,17 @@ namespace Jumia.Application.Services
             // Increase the size of the barcode image
             settings.BarHeight = 15;
 
-
             BarCodeGenerator generator = new BarCodeGenerator(settings);
 
             // Generate the barcode image
             Image barcodeImage = generator.GenerateImage();
 
-            // Convert the barcode image to Base64 string
-            string base64String;
+            // Convert the barcode image to byte array
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 barcodeImage.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                byte[] byteImage = memoryStream.ToArray();
-                base64String = Convert.ToBase64String(byteImage);
+                return memoryStream.ToArray();
             }
-
-            return base64String;
         }
     }
 }

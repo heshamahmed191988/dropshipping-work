@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OrderDto>
+﻿@model IEnumerable<OrderWithAddressDTO>
 @using System.Globalization
 @using Microsoft.AspNetCore.Mvc.Localization;
 
@@ -84,20 +84,18 @@ tr:hover {
                 </tr>
             </thead>
             <tbody>
-                @{
-                    int index = 0; // Initialize index to cycle through cities and streets
-                }
+               
                 @foreach (var order in Model)
                 {
                     // Ensuring the index is within bounds for both cities and streets
                    
                     <tr>
-                        <td>@order.Id</td>
+                        <td>@order.OrderId</td>
                         <td>@order.UserName</td>
                         <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
                         <td>@order.TotalPrice</td>
-                        <td>@(order.Cities != null && order.Cities.Any() ? order.Cities[index % order.Cities.Count] : "")</td>
-                        <td>@(order.Streets != null && order.Streets.Any() ? order.Streets[index % order.Streets.Count] : "")</td>
+                        <td>@order.City</td>
+                        <td>@order.Street</td>
                         <td>@order.Status</td>
                         <td>
                             <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 400px; height: 50px;">
@@ -109,7 +107,7 @@ tr:hover {
                         <td>
                             @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
                             {
-                                @Html.Hidden("orderId", order.Id)
+                                @Html.Hidden("orderId", order.OrderId)
                                 <select name="status" class="form-control">
                                     @if (order.Status == "Pending")
                                     {
@@ -158,7 +156,7 @@ tr:hover {
                         </td>
                         }
                     </tr>
-                    index++;
+                 
                 }
                
             </tbody>
