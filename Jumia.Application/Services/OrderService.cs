@@ -23,6 +23,7 @@ using Spire.Barcode;
 using Jumia.model;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Identity;
+using Jumia.Dtos.ViewModel.User;
 
 namespace Jumia.Application.Services
 {
@@ -543,7 +544,10 @@ namespace Jumia.Application.Services
         {
             return await _orderRepository.UpdateOrderStatusAsync2(orderId, newStatus);
         }
+        public async Task<IncreaseEarning> IncreaseUserEarnings(string userId, decimal amountToAdd)
+        {
+            return await userRepository.IncreaseEarnings(userId, amountToAdd);
+        }
 
-       
     }
 }

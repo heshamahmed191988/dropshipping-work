@@ -1,4 +1,5 @@
-﻿using Jumia.Model;
+﻿using Jumia.Dtos.ViewModel.Order;
+using Jumia.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Jumia.Application.Contract
 {
     public interface IUserRepository : IRepository<ApplicationUser, string>
     {
-        // Define additional methods specific to the ApplicationUser entity if necessary
+        Task<IncreaseEarning> IncreaseEarnings(string userId, decimal amountToAdd);
+        Task<decimal?> GetEarningByUserIdAsync(string userId);
     }
 }

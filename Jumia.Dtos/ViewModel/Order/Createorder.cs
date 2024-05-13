@@ -13,7 +13,7 @@ namespace Jumia.Dtos.ViewModel.Order
         public int AddressId { get; set; }
 
         public decimal? DeliveryPrice { get; set; } = 5;
-
+        public decimal  Earning { get; set; }
 
     }
 }

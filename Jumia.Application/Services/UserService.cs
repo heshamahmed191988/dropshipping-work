@@ -144,7 +144,10 @@ namespace Jumia.Application.Services
             var updatedUserViewModel = _mapper.Map<UpdatUserInfo>(user);
             return updatedUserViewModel;
         }
-
+        public async Task<decimal?> GetUserEarningAsync(string userId)
+        {
+            return await _userRepository.GetEarningByUserIdAsync(userId);
+        }
     }
 }
 

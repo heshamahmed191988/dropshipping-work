@@ -44,6 +44,20 @@ namespace AmazonWebSite.Controllers
                 return Unauthorized("Invalid current password or username");
             }
         }
+
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<decimal?>> GetUserEarning(string userId)
+        {
+            var earning = await _userService.GetUserEarningAsync(userId);
+            if (earning == null)
+            {
+                return NotFound();
+            }
+            return Ok(earning);
+        }
     }
+
+
+
 
 }

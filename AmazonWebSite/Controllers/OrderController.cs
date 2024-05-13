@@ -18,12 +18,14 @@ namespace AmazonWebSite.Controllers
         private readonly IOrderService _orderService;
         private readonly IConfiguration configuration;
         private readonly IPaymentServices paymentServices;
+        private readonly IUserService userService;
 
-        public OrderController(IOrderService orderService, IConfiguration configuration,IPaymentServices paymentServices)
+        public OrderController(IOrderService orderService, IConfiguration configuration,IPaymentServices paymentServices,IUserService userService)
         {
             _orderService = orderService;
             this.configuration = configuration;
             this.paymentServices = paymentServices;
+            this.userService = userService;
         }
         //[HttpPost]
         //public async Task<IActionResult> CreateOrderAsync([FromBody] Createorder createorder)
@@ -63,6 +65,15 @@ namespace AmazonWebSite.Controllers
                 // Check the result and return appropriate response
                 if (result.IsSuccess)
                 {
+                    // Increase user earnings after order creation
+                    var increaseEarningResult = await _orderService.IncreaseUserEarnings(createorder.UserID, createorder.Earning); // Assuming TotalPrice represents earnings for this order
+
+                    if (increaseEarningResult == null)
+                    {
+                        // Handle case where user is not found
+                        return StatusCode(500, "Failed to increase user earnings: User not found");
+                    }
+
                     // Create payment for the order
                     var paymentDto = await CreatePaymentAsync(result.Entity.Id);
 
@@ -78,6 +89,7 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
 
@@ -262,6 +274,23 @@ namespace AmazonWebSite.Controllers
             {
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+
+
+
+
+
+
+        [HttpPost("{userId}/earnings/increase")]
+        public async Task<IActionResult> IncreaseUserEarnings(string userId, decimal amountToAdd)
+        {
+            var updatedUser = await _orderService.IncreaseUserEarnings(userId, amountToAdd);
+
+            if (updatedUser == null)
+                return NotFound(); // Handle case where user is not found
+
+            return Ok(updatedUser);
         }
     }
 }
