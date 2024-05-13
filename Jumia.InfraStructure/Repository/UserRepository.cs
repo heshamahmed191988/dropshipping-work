@@ -2,6 +2,7 @@
 using Jumia.Context;
 using Jumia.Dtos.ViewModel.Order;
 using Jumia.Dtos.ViewModel.User;
+using Jumia.model;
 using Jumia.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -50,6 +51,48 @@ namespace Jumia.InfraStructure.Repository
                 .Select(u => u.Earning)
                 .FirstOrDefaultAsync();
         }
-        // Implement any additional methods specific to ApplicationUser here
+
+        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber)
+        {
+            // Find the user by userId
+            var user = await _jumiacontext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                // User not found
+                return false;
+            }
+
+            // Check if the requested amount is greater than the user's earnings
+            if (requestedAmount > user.Earning)
+            {
+                // Requested amount exceeds user's earnings
+                return false;
+            }
+
+            // Deduct the requested amount from the user's earnings
+            user.Earning -= requestedAmount;
+
+            // Create a new transaction record
+            var transaction = new Transaction
+            {
+                UserId = userId,
+                User = user,
+                userName = user.UserName,
+                Amount = requestedAmount,
+                WithdrawalMethod = withdrawalMethod,
+                Phone = phoneNumber,
+                DatePlaced = DateTime.Now
+            };
+
+            // Add the transaction to the context
+            _jumiacontext.Transactions.Add(transaction);
+
+            // Save changes to the database
+            await _jumiacontext.SaveChangesAsync();
+
+            return true;
+        }
     }
+    // Implement any additional methods specific to ApplicationUser here
 }
+

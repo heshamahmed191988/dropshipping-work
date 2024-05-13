@@ -55,9 +55,26 @@ namespace AmazonWebSite.Controllers
             }
             return Ok(earning);
         }
+
+        [HttpPost("withdrawal")]
+        public async Task<IActionResult> RequestWithdrawal([FromBody] WithdrawalRequest withdrawalRequest)
+        {
+            var success = await _userService.RequestWithdrawal(withdrawalRequest.UserId, withdrawalRequest.RequestedAmount, withdrawalRequest.WithdrawalMethod, withdrawalRequest.PhoneNumber);
+            if (success)
+            {
+                return Ok("Withdrawal request successful.");
+            }
+            else
+            {
+                return BadRequest("Withdrawal request failed. Please check your requested amount and try again.");
+            }
+        }
     }
 
-
-
-
+ 
 }
+
+
+
+
+

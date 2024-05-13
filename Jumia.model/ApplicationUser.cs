@@ -39,12 +39,17 @@ namespace Jumia.Model
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+
+    
+
         public ApplicationUser()
         {
             Orders = new HashSet<Order>();
             Products = new HashSet<Product>();
             Reviews = new HashSet<Review>();
-            Addresses = new HashSet<Address>(); // Initialize the addresses collection
+            Addresses = new HashSet<Address>();
+            Transactions = new HashSet<Transaction>();
         }
     }
 }

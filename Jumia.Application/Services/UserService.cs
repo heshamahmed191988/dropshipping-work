@@ -148,6 +148,11 @@ namespace Jumia.Application.Services
         {
             return await _userRepository.GetEarningByUserIdAsync(userId);
         }
+
+        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber)
+        {
+            return await _userRepository.RequestWithdrawal(userId, requestedAmount, withdrawalMethod, phoneNumber);
+        }
     }
 }
 

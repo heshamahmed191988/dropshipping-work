@@ -19,6 +19,7 @@ namespace Jumia.Application.Services
         Task<bool> DeleteUserAsync(string id);
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
         Task<decimal?> GetUserEarningAsync(string userId);
+        Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber);
 
     }
 }

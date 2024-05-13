@@ -23,6 +23,7 @@ namespace Jumia.Context
         public DbSet<ProductImage> productImages { get; set; }
         public DbSet<Review> reviews { get; set; }
         public DbSet<OrderAddress> orderAddresses { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
 
         public JumiaContext() : base()
@@ -79,6 +80,13 @@ namespace Jumia.Context
             modelBuilder.Entity<Item>().HasOne(a=>a.Product)
                 .WithMany(a=>a.items)
                 .HasForeignKey(a=>a.ProductID);
+
+
+            modelBuilder.Entity<Transaction>()
+               .HasOne(t => t.User)
+               .WithMany(u => u.Transactions)
+               .HasForeignKey(t => t.UserId)
+               .IsRequired();
 
 
         }
