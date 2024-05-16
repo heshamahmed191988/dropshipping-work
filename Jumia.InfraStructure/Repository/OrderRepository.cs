@@ -38,8 +38,10 @@ namespace Jumia.InfraStructure.Repository
         {
             return await context.orders
                 .Include(o => o.Address)
-                 .Include(o => o.User)
-                .ToListAsync();
+                .Include(o => o.User)
+                .Include(o => o.Products) // Include the products related to the order
+           .ThenInclude(op => op.Product) // Include the product details
+       .ToListAsync();
         }
         //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         //{

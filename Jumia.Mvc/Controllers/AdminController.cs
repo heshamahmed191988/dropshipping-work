@@ -57,7 +57,7 @@ namespace Jumia.Mvc.Controllers
         {
             try
             {
-                // Get orders data list for the specified page with addresses
+                // Get orders data list for the specified page with addresses and products
                 var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
                 var ordersDto = ordersDataList.ToList(); // Convert to list
 
@@ -85,6 +85,7 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+
 
 
 

@@ -425,7 +425,7 @@ namespace Jumia.Application.Services
 
         public async Task<IEnumerable<OrderWithAddressDTO>> GetAllOrdersWithAddressAsync(int pageNumber, int pageSize)
         {
-            // Call the repository function to get orders with addresses
+            // Call the repository function to get orders with addresses and products
             var ordersWithAddresses = await _orderRepository.GetAllOrdersWithAddressesAsync();
 
             // Apply pagination
@@ -449,7 +449,14 @@ namespace Jumia.Application.Services
                 Street = o.Address.Street,
                 City = o.Address.City,
                 State = o.Address.State,
-                ZipCode = o.Address.ZipCode
+                ZipCode = o.Address.ZipCode,
+                Products = o.Products.Select(op => new ProductDTO
+                {
+                    Id = op.Product.Id,
+                    NameEn = op.Product.NameEn,
+                    NameAr=op.Product.NameAr,
+                    StockQuantity = op.Quantity
+                }).ToList()
             });
 
             return orderDTOs;
