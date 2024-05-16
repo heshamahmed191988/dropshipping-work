@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Jumia.model
+namespace Jumia.Model
 {
     public class Transaction
     {

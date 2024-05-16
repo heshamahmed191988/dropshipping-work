@@ -1,0 +1,64 @@
+﻿@using Jumia.Model
+@model List<Transaction>
+
+<h2>Transactions</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Amount</th>
+            <th>Withdrawal Method</th>
+            <th>Phone Number</th>
+            <th>Date Placed</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.UserId</td>
+                <td>@(transaction.userName ?? "N/A")</td> <!-- Handle null UserName -->
+                <td>@transaction.Amount</td>
+                <td>@transaction.WithdrawalMethod</td>
+                <td>@transaction.Phone</td>
+                <td>@transaction.DatePlaced</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="container">
+        <ul class="pagination justify-content-center">
+            <!-- Pagination links -->
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayTransactions", new { searchString = ViewBag.SearchString, pageNumber = 1, pageSize = ViewBag.PageSize })">First</a>
+            </li>
+            <!-- Previous page -->
+            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayTransactions", new { searchString = ViewBag.SearchString, pageNumber = ViewBag.PageNumber - 1, pageSize = ViewBag.PageSize })">Previous</a>
+            </li>
+
+            <!-- Dynamic page numbers -->
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("DisplayTransactions", new { searchString = ViewBag.SearchString, pageNumber = i, pageSize = ViewBag.PageSize })">@i</a>
+                </li>
+            }
+
+            <!-- Next page -->
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayTransactions", new { searchString = ViewBag.SearchString, pageNumber = ViewBag.PageNumber + 1, pageSize = ViewBag.PageSize })">Next</a>
+            </li>
+            <!-- Last page -->
+            <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("DisplayTransactions", new { searchString = ViewBag.SearchString, pageNumber = ViewBag.TotalPages, pageSize = ViewBag.PageSize })">Last</a>
+            </li>
+        </ul>
+    </div>
+}
+

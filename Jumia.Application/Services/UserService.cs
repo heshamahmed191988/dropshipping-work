@@ -13,6 +13,7 @@ using Jumia.Dtos.ViewModel.User;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Jumia.Application.Contract;
+using Jumia.model;
 namespace Jumia.Application.Services
 {
     public class UserService : IUserService
@@ -153,7 +154,22 @@ namespace Jumia.Application.Services
         {
             return await _userRepository.RequestWithdrawal(userId, requestedAmount, withdrawalMethod, phoneNumber);
         }
+        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize)
+        {
+            // Calculate skip count based on page number and page size
+            int skipCount = (pageNumber - 1) * pageSize;
+
+            // Fetch transactions from the repository using pagination
+            return await _userRepository.GetTransactionsWithPaginationAsync(skipCount, pageSize);
+        }
+
+        public async Task<int> GetTotalTransactionCountAsync()
+        {
+            return await _userRepository.GetTotalTransactionCountAsync();
+        }
     }
+
+
 }
 
 

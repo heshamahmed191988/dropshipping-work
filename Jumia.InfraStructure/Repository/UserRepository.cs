@@ -92,7 +92,34 @@ namespace Jumia.InfraStructure.Repository
 
             return true;
         }
+
+        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize)
+        {
+            if (pageNumber < 1)
+            {
+                pageNumber = 1; // Ensure pageNumber is at least 1
+            }
+
+            // Calculate the number of records to skip
+            int skipCount = (pageNumber - 1) * pageSize;
+
+            return await _jumiacontext.Transactions
+                .OrderByDescending(t => t.DatePlaced)
+                .Skip(skipCount)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<int> GetTotalTransactionCountAsync()
+        {
+            return await _jumiacontext.Transactions.CountAsync();
+        }
     }
+
+
+
     // Implement any additional methods specific to ApplicationUser here
 }
 

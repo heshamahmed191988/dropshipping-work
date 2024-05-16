@@ -1,4 +1,5 @@
 ﻿using Jumia.Dtos.ViewModel.Order;
+using Jumia.model;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace Jumia.Application.Contract
         Task<IncreaseEarning> IncreaseEarnings(string userId, decimal amountToAdd);
         Task<decimal?> GetEarningByUserIdAsync(string userId);
         Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber);
+        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int skipCount, int pageSize);
+        Task<int> GetTotalTransactionCountAsync();
     }
 }

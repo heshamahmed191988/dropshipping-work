@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Jumia.Application\Jumia.Application.csproj" />
     <ProjectReference Include="..\Jumia.Context\Jumia.Context.csproj" />
     <ProjectReference Include="..\Jumia.InfraStructure\Jumia.InfraStructure.csproj" />
+    <ProjectReference Include="..\Jumia.model\Jumia.model.csproj" />
   </ItemGroup>
 
   <ItemGroup>

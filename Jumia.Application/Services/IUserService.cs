@@ -1,4 +1,6 @@
 ﻿using Jumia.Dtos.ViewModel.User;
+using Jumia.model;
+using Jumia.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,8 @@ namespace Jumia.Application.Services
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
         Task<decimal?> GetUserEarningAsync(string userId);
         Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber);
+        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize);
+        Task<int> GetTotalTransactionCountAsync();
 
     }
 }
