@@ -79,8 +79,10 @@ tr:hover {
                     <th scope="col">@localizer["Action"]</th>
                    
                     <th scope="col">@localizer["Action"]</th>
-                    <th scope="col">@localizer["Product Name"]</th>
-                    <th scope="col">@localizer["Quantity"]</th>
+                    <th scope="col">@localizer["Product Details"]</th>
+
+                 @*    <th scope="col">@localizer["Product Name"]</th>
+                    <th scope="col">@localizer["Quantity"]</th> *@
                    
 
                 </tr>
@@ -90,8 +92,7 @@ tr:hover {
                 @foreach (var order in Model)
                 {
 
-                    @foreach (var product in order.Products)
-                    {
+
                     // Ensuring the index is within bounds for both cities and streets
                    
                     <tr>
@@ -156,16 +157,20 @@ tr:hover {
                                         <option value="NotDelivered">NotDelivered</option>
                                     }
                                 </select>
-                              <td>  <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button><td/>
+                            <td> <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button>
+                            </td>
                            
-                        </td>
                         }
-                            <td>@product.NameEn</td>
-                            <td>@product.StockQuantity</td>
+                        <td class="product-details">
+                                @foreach (var product in order.Products)
+                                {
+                                <div>@localizer["Product Name"]: @product.NameEn - @localizer["Quantity"]: @product.StockQuantity</div>
+                                }
+                        </td>
                     </tr>
                  
                 }
-               }
+               
             </tbody>
         </table>
     </div>

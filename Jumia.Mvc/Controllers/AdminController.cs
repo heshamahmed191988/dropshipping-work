@@ -53,11 +53,11 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize = 50)
+        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize =50)
         {
             try
             {
-                // Get orders data list for the specified page with addresses and products
+                // Get orders data list for the specified page with addresses
                 var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
                 var ordersDto = ordersDataList.ToList(); // Convert to list
 
@@ -88,20 +88,19 @@ namespace Jumia.Mvc.Controllers
 
 
 
-
         public async Task<IActionResult> ExportAllOrdersToExcel(string searchString)
         {
             try
             {
                 const int pageSize = 5000000; // Set the page size
                 int pageNumber = 1; // Initialize the page number
-                var allOrders = new List<OrderDto>(); // List to store all orders
+                var allOrders = new List<OrderWithAddressDTO>(); // List to store all orders
 
                 // Loop through all pages to fetch orders
                 while (true)
                 {
                     // Get orders data list for the current page
-                    var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
+                    var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
                     var ordersDto = ordersDataList.ToList(); // Convert to list
 
                     // If a search string is provided, filter orders based on it
@@ -136,42 +135,53 @@ namespace Jumia.Mvc.Controllers
                     worksheet.Cells[1, 5].Value = "City";
                     worksheet.Cells[1, 6].Value = "Street";
                     worksheet.Cells[1, 7].Value = "Status";
-                    worksheet.Cells[1, 8].Value = "Barcode Image"; // Changed to indicate barcode image
+                    worksheet.Cells[1,10].Value = "Barcode Image"; // Changed to indicate barcode image
+                    worksheet.Cells[1, 8].Value = "Product Name"; // Added product name column
+                    worksheet.Cells[1, 9].Value = "Quantity"; // Added quantity column
+
+                    int rowIndex = 2; // Start from the second row for data
 
                     // Fill data rows
-                    for (int i = 0; i < allOrders.Count; i++)
+                    // Fill data rows
+                    foreach (var order in allOrders)
                     {
-                        var order = allOrders[i];
-                        worksheet.Cells[i + 2, 1].Value = order.Id;
-                        worksheet.Cells[i + 2, 2].Value = order.UserName;
-                        worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
-                        worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
-                        worksheet.Cells[i + 2, 5].Value = order.Cities;
-                        worksheet.Cells[i + 2, 6].Value = order.Streets;
-                        worksheet.Cells[i + 2, 7].Value = order.Status;
+                        foreach (var product in order.Products)
+                        {
+                            // Write order details
+                            worksheet.Cells[rowIndex, 1].Value = order.OrderId;
+                            worksheet.Cells[rowIndex, 2].Value = order.UserName;
+                            worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
+                            worksheet.Cells[rowIndex, 4].Value = order.TotalPrice;
+                            worksheet.Cells[rowIndex, 5].Value = order.City;
+                            worksheet.Cells[rowIndex, 6].Value = order.Street;
+                            worksheet.Cells[rowIndex, 7].Value = order.Status;
+
+                            // Write product details
+                            worksheet.Cells[rowIndex, 8].Value = product.NameEn;
+                            worksheet.Cells[rowIndex, 9].Value = product.StockQuantity;
+                            rowIndex++;
+                        }
 
                         // Convert Base64 string to byte array
                         byte[] imageBytes = Convert.FromBase64String(order.BarcodeImageUrl);
 
                         // Add the barcode image to the worksheet
-                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + i, new MemoryStream(imageBytes));
-                        barcodeImage.SetPosition(i + 1, 0, 7, 0); // This will place the barcode in column 8, at the same row height as the other details
+                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + rowIndex, new MemoryStream(imageBytes));
+                        barcodeImage.SetPosition(rowIndex - 2, 0, 9, 0); // This will place the barcode in column 9, at the same row height as the other details
 
                         // Set the size of the barcode image to fit inside the cell
                         barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed
-                        int dpi = 300; // Set the desired DPI
-                        int widthInPixels = 100; // Set the desired width in pixels
-                        int heightInPixels = 20;
-                        barcodeImage.SetSize(widthInPixels, heightInPixels);
-
-                        // Set the size of the barcode image to fit inside the cell
-                        barcodeImage.SetSize(widthInPixels, heightInPixels);
 
                         // Optionally, set the properties to ensure the image fits well inside the cell
                         barcodeImage.EditAs = OfficeOpenXml.Drawing.eEditAs.OneCell; // This makes the image move and size with the cell
                         barcodeImage.From.ColumnOff = 0;
-                        barcodeImage.From.RowOff = 0; 
+                        barcodeImage.From.RowOff = 0;
+
+                        // Increment the row index for the next order
+                        rowIndex++;
                     }
+
+
 
                     // Auto-fit columns
                     worksheet.Cells.AutoFitColumns();
@@ -190,23 +200,25 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+
         public static int Pixel2MTU(int pixels)
 {
     // 1 pixel = 9525 EMU
     return pixels * 9525;
 }
 
-        public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, int pageNumber = 1, int pageSize = 50)
+        public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, int pageNumber = 1, int pageSize = 70)
         {
             try
             {
-                var ordersDataList = await orderService.GetAllOrdersAsync(pageNumber, pageSize);
-                var ordersDto = ordersDataList.ToList();
+               // const int pageSize = 5000000; // Set the page size
+                var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
+                var ordersDto = ordersDataList.ToList(); // Convert to list
 
                 // If a search string is provided, filter orders based on it
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    // Assuming order.UserName is the property you want to search in
+                    // Assuming order.Status is the property you want to search in
                     ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                                          .ToList();
                 }
@@ -215,7 +227,7 @@ namespace Jumia.Mvc.Controllers
                 using (var package = new ExcelPackage())
                 {
                     // Add a new worksheet
-                    var worksheet = package.Workbook.Worksheets.Add("Current Page Orders");
+                    var worksheet = package.Workbook.Worksheets.Add("All Orders");
 
                     // Add headers
                     worksheet.Cells[1, 1].Value = "Order ID";
@@ -225,24 +237,38 @@ namespace Jumia.Mvc.Controllers
                     worksheet.Cells[1, 5].Value = "City";
                     worksheet.Cells[1, 6].Value = "Street";
                     worksheet.Cells[1, 7].Value = "Status";
-                    worksheet.Cells[1, 8].Value = "Barcode Image";
-                    // Fill data rows
-                    for (int i = 0; i < ordersDto.Count; i++)
-                    {
-                        var order = ordersDto[i];
-                        worksheet.Cells[i + 2, 1].Value = order.Id;
-                        worksheet.Cells[i + 2, 2].Value = order.UserName;
-                        worksheet.Cells[i + 2, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
-                        worksheet.Cells[i + 2, 4].Value = order.TotalPrice;
-                        worksheet.Cells[i + 2, 5].Value = order.Cities;
-                        worksheet.Cells[i + 2, 6].Value = order.Streets;
-                        worksheet.Cells[i + 2, 7].Value = order.Status;
+                    worksheet.Cells[1, 8].Value = "Product Name"; // Added product name column
+                    worksheet.Cells[1, 9].Value = "Quantity"; // Added quantity column
+                    worksheet.Cells[1, 10].Value = "Barcode Image"; // Changed to indicate barcode image
 
+                    int rowIndex = 2; // Start from the second row for data
+
+                    // Fill data rows
+                    foreach (var order in ordersDto)
+                    {
+                        foreach (var product in order.Products)
+                        {
+                            // Write order details
+                            worksheet.Cells[rowIndex, 1].Value = order.OrderId;
+                            worksheet.Cells[rowIndex, 2].Value = order.UserName;
+                            worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
+                            worksheet.Cells[rowIndex, 4].Value = order.TotalPrice;
+                            worksheet.Cells[rowIndex, 5].Value = order.City;
+                            worksheet.Cells[rowIndex, 6].Value = order.Street;
+                            worksheet.Cells[rowIndex, 7].Value = order.Status;
+
+                            // Write product details
+                            worksheet.Cells[rowIndex, 8].Value = product.NameEn;
+                            worksheet.Cells[rowIndex, 9].Value = product.StockQuantity;
+                            rowIndex++;
+                        }
+
+                        // Convert Base64 string to byte array
                         byte[] imageBytes = Convert.FromBase64String(order.BarcodeImageUrl);
 
                         // Add the barcode image to the worksheet
-                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + i, new MemoryStream(imageBytes));
-                        barcodeImage.SetPosition(i + 1, 0, 7, 0); // This will place the barcode in column 8, at the same row height as the other details
+                        var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + rowIndex, new MemoryStream(imageBytes));
+                        barcodeImage.SetPosition(rowIndex - 2, 0, 10, 0); // This will place the barcode in column 10, at the same row height as the other details
 
                         // Set the size of the barcode image to fit inside the cell
                         barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed
@@ -251,7 +277,9 @@ namespace Jumia.Mvc.Controllers
                         barcodeImage.EditAs = OfficeOpenXml.Drawing.eEditAs.OneCell; // This makes the image move and size with the cell
                         barcodeImage.From.ColumnOff = 0;
                         barcodeImage.From.RowOff = 0;
-                        // Add other properties as needed
+
+                        // Increment the row index for the next order
+                        rowIndex++;
                     }
 
                     // Auto-fit columns
@@ -261,13 +289,13 @@ namespace Jumia.Mvc.Controllers
                     var excelBytes = package.GetAsByteArray();
 
                     // Return the Excel file
-                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "CurrentPageOrders.xlsx");
+                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AllOrders.xlsx");
                 }
             }
             catch (Exception ex)
             {
                 // Handle any exceptions
-                TempData["ErrorMessage"] = "An error occurred while exporting the current page orders to Excel: " + ex.Message;
+                TempData["ErrorMessage"] = "An error occurred while exporting all orders to Excel: " + ex.Message;
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
