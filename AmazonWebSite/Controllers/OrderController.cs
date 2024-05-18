@@ -264,6 +264,11 @@ namespace AmazonWebSite.Controllers
                         orderitemid = order.orderitemid,
                         Quantity = order.Quantity,
                         productid = order.productid,
+                        SelectedPrice = order.SelectedPrice,
+                        City=order.City,
+                        Street=order.Street,
+                        State = order.State,
+                        ZipCode = order.ZipCode,
 
                     });
                 }

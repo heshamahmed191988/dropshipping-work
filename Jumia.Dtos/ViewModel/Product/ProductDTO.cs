@@ -40,6 +40,8 @@ namespace Jumia.Dtos.ViewModel.Product
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? SelectedPrice { get; set; }
 
         [Required]
         public int StockQuantity { get; set; }

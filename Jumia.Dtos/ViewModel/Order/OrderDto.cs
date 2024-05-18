@@ -13,12 +13,15 @@ namespace Jumia.Dtos.ViewModel.Order
         [Required]
         public string UserID { get; set; }
         [Required] public string UserName { get; set; }
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public List<string> ?Cities { get; set; } = new List<string>(); // Collection of cities
         public List<string> ?Streets { get; set; } = new List<string>();
+        public AddressDto? Address { get; set; }
 
         public string ?Street { get; set; }
         public string ?City { get; set; }
+        public string? State { get; set; }
+        public string? ZipCode { get; set;}
         [Required]
         public DateTime DatePlaced { get; set; }
         public string? BarcodeImageUrl { get; set; }

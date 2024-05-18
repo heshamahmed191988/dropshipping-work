@@ -16,6 +16,7 @@ namespace Jumia.Dtos.ViewModel.Order
         public string Status { get; set; }
         public string BarcodeImageUrl { get; set; }
         public decimal? DeliveryPrice { get; set; }
+        public decimal ?Selectedprice { get; set; }
         public int AddressId { get; set; }
         public string Street { get; set; }
         public string City { get; set; }

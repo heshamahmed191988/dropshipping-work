@@ -32,6 +32,13 @@ namespace Jumia.Dtos.ViewModel.Order
         public string ProductImage { get; set; }
         public string ProductDescription { get; set; }
         public decimal ProductPrice { get; set; }
-        public decimal SelectedPrice { get; set; }
+        public decimal ?SelectedPrice { get; set; }
+        public string? Street {  get; set; }
+        public string? City { get; set; }
+
+        public string? State { get; set; }
+        public string? ZipCode { get; set; }
+
+
     }
 }

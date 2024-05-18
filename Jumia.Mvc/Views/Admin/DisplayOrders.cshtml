@@ -104,7 +104,7 @@ tr:hover {
                         <td>@order.Street</td>
                         <td>@order.Status</td>
                         <td>
-                            <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 400px; height: 50px;">
+                            <img src="data:image/png;base64,@order.BarcodeImageUrl" alt="Barcode Image" class="img-fluid" style="max-width: 300px; height: 50px;">
                         </td>
 
 
@@ -164,7 +164,8 @@ tr:hover {
                         <td class="product-details">
                                 @foreach (var product in order.Products)
                                 {
-                                <div>@localizer["Product Name"]: @product.NameEn - @localizer["Quantity"]: @product.StockQuantity</div>
+                                <div>@localizer["Product Name"]: @product.NameEn - @localizer["Quantity"]: @product.StockQuantity - @localizer["Price"]: @product.SelectedPrice</div>
+                                <br>
                                 }
                         </td>
                     </tr>

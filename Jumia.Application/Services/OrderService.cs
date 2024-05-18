@@ -456,13 +456,15 @@ namespace Jumia.Application.Services
                 {
                     Id = op.Product.Id,
                     NameEn = op.Product.NameEn,
-                    NameAr=op.Product.NameAr,
-                    StockQuantity = op.Quantity
+                    NameAr = op.Product.NameAr,
+                    StockQuantity = op.Quantity,
+                    SelectedPrice = op.SelectedPrice // Add SelectedPrice here
                 }).ToList()
-            });
+            }).ToList();
 
             return orderDTOs;
         }
+
 
 
 

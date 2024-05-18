@@ -10,23 +10,23 @@ namespace Jumia.Dtos
 
         [Required]
         [MaxLength(256)]
-        public string Street { get; set; }
+        public string? Street { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         [MaxLength(100)]
-        public string State { get; set; }
+        public string? State { get; set; }
 
         //[Required]
         //[MaxLength(100)]
         //public string Country { get; set; }
 
         [MaxLength(20)]
-        public string ZipCode { get; set; }
+        public string? ZipCode { get; set; }
 
-        public string UserID { get; set; }
+        public string ?UserID { get; set; }
 
         public List<int>? OrderIds { get; set; } = new List<int>();
         // public virtual ApplicationUserDto User { get; set; }

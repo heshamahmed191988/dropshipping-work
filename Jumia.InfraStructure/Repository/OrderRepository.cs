@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.Order;
 //using System.Data.Entity;
 using Jumia.model;
+using Jumia.Dtos;
 //using System.Data.Entity;
 
 namespace Jumia.InfraStructure.Repository
@@ -111,9 +112,11 @@ namespace Jumia.InfraStructure.Repository
         public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
         {
             var ordersDto = from order in context.orders
-                            join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
+                            join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderdetails.OrderId
                             join product in context.products on orderdetails.ProductId equals product.Id
-                            where order.Id == orderdetails.OrderId
+                            join orderAddress in context.orderAddresses on order.Id equals orderAddress.OrderId
+                            join address in context.addresses on orderAddress.AddressId equals address.Id
+                            where order.Id == orderid
                             select new OrderDetailsDTO
                             {
                                 Quantity = orderdetails.Quantity,
@@ -128,6 +131,11 @@ namespace Jumia.InfraStructure.Repository
                                 ProductDescription = product.DescriptionEn,
                                 ProductImage = product.ProductImages.Select(p => p.Path).FirstOrDefault() ?? "null",
                                 ProductPrice = product.Price,
+                                SelectedPrice = orderdetails.SelectedPrice,
+                                Street = address.Street,
+                                City = address.City,
+                                State = address.State,
+                                ZipCode = address.ZipCode
                             };
 
             return Task.FromResult(ordersDto);
@@ -167,20 +175,47 @@ namespace Jumia.InfraStructure.Repository
         public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId)
         {
             var ordersDto = await context.orders
-           .Where(o => o.UserID == userId && o.IsDeleted == false)
-           .Select(o => new OrderDto
-           {
-               Id = o.Id,
-               UserID = o.UserID,
-               DatePlaced = o.DatePlaced,
-               TotalPrice = o.TotalPrice,
-               Status = o.Status,
-               //BarcodeImageUrl = o.BarcodeImageUrl,
-           })
-           .ToListAsync();
+                .Where(o => o.UserID == userId && o.IsDeleted == false)
+                .Select(o => new
+                {
+                    o.Id,
+                    o.UserID,
+                    o.DatePlaced,
+                    o.TotalPrice,
+                    o.Status,
+                    //o.BarcodeImageUrl,
+                    Address = context.orderAddresses
+                        .Where(oa => oa.OrderId == o.Id)
+                        .Select(oa => new
+                        {
+                            oa.AddressId,
+                            oa.Address.Street,
+                            oa.Address.City,
+                            oa.Address.State,
+                            oa.Address.ZipCode
+                        })
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
 
-            return ordersDto;
+            return ordersDto.Select(o => new OrderDto
+            {
+                Id = o.Id,
+                UserID = o.UserID,
+                DatePlaced = o.DatePlaced, // ISO format for string representation
+                TotalPrice = o.TotalPrice,
+                Status = o.Status,
+                //BarcodeImageUrl = o.BarcodeImageUrl,
+                AddressId = o.Address?.AddressId,
+                Street = o.Address?.Street,
+                City = o.Address?.City,
+                State = o.Address?.State,
+                ZipCode = o.Address?.ZipCode
+            }).ToList();
         }
+
+
+
 
 
         public async Task<Address> GetAddressByIdAsync(int addressId)
