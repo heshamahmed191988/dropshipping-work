@@ -490,12 +490,12 @@ namespace Jumia.Application.Services
             await _orderRepository.UpdateOrderStatusAsync(orderId, newStatus);
         }
 
-        public async Task DeleteOrderAsync(int orderId)
-        {
-            var orderitem = await _orderRepository.GetByIdAsync(orderId);
-            orderitem.IsDeleted = true;
-            await _orderRepository.SaveChangesAsync();
-        }
+        //public async Task DeleteOrderAsync(int orderId)
+        //{
+        //    var orderitem = await _orderRepository.GetByIdAsync(orderId);
+        //    orderitem.IsDeleted = true;
+        //    await _orderRepository.SaveChangesAsync();
+        //}
 
 
 
@@ -577,5 +577,47 @@ namespace Jumia.Application.Services
             return await userRepository.IncreaseEarnings(userId, amountToAdd);
         }
 
+
+        public async Task<ResultViews> DeleteOrderAsync(int orderId)
+        {
+            try
+            {
+                var order = await _orderRepository.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    return new ResultViews
+                    {
+                        IsSuccess = false,
+                        Message = "Order not found."
+                    };
+                }
+
+                bool paymentsDeleted = await _orderRepository.DeleteOrderAsync(orderId);
+                if (!paymentsDeleted)
+                {
+                    throw new Exception("Failed to delete related payments.");
+                }
+
+                bool earningsDecreased = await _orderRepository.DecreaseUserEarningsAsync(order.UserID, order.Totalearning);
+                if (!earningsDecreased)
+                {
+                    throw new Exception("Failed to decrease user earnings.");
+                }
+
+                return new ResultViews
+                {
+                    IsSuccess = true,
+                    Message = "Order and related entities deleted successfully."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResultViews
+                {
+                    IsSuccess = false,
+                    Message = "Failed to delete order: " + ex.Message
+                };
+            }
+        }
     }
 }

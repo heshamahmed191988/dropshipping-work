@@ -157,19 +157,19 @@ namespace AmazonWebSite.Controllers
         }
 
         /// DELETE: api/Order/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                await _orderService.DeleteOrderAsync(id);
-                return Ok("Order deleted successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    try
+        //    {
+        //        await _orderService.DeleteOrderAsync(id);
+        //        return Ok("Order deleted successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, ex.Message);
+        //    }
+        //}
 
         [HttpPut]
         public async Task<IActionResult> UpdateOrderProduct(UpdateOrderProductDto updateOrderProductDto)
@@ -300,6 +300,22 @@ namespace AmazonWebSite.Controllers
                 return NotFound(); // Handle case where user is not found
 
             return Ok(updatedUser);
+        }
+
+
+
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrderAsync(int orderId)
+        {
+            var result = await _orderService.DeleteOrderAsync(orderId);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }

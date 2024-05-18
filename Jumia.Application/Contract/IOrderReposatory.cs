@@ -31,6 +31,8 @@ namespace Jumia.Application.Contract
 
         Task<OrderAddress> CreateOrderAddress(OrderAddress orderAddress);
         Task<List<Order>> GetAllOrdersWithAddressesAsync();
+        Task<bool> DeleteOrderAsync(int orderId);
+        Task<bool> DecreaseUserEarningsAsync(string userId, decimal? totalEarning);
 
 
 

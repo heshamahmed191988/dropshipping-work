@@ -283,31 +283,70 @@ namespace Jumia.InfraStructure.Repository
             await context.SaveChangesAsync();
             return orderAddress;
         }
+        public async Task<bool> DeleteOrderAsync(int orderId)
+        {
+            var order = await context.orders.FindAsync(orderId);
+            if (order == null || order.Status != "Pending")
+            {
+                return false;
+            }
 
+            var user = await context.Users.FindAsync(order.UserID);
+            if (user == null || user.Earning < order.Totalearning)
+            {
+                return false; // Prevent deletion if user earnings are less than order total earnings
+            }
 
-        //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
-        //{
-        //    var ordersDto = from order in context.orders
-        //                    join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
-        //                    join product in context.products on orderdetails.ProductId equals product.Id
-        //                    where order.Id == orderdetails.OrderId
-        //                    select new OrderDetailsDTO
-        //                    {
-        //                        Quantity = orderdetails.Quantity,
-        //                        UserID = order.UserID,
-        //                        productname = product.NameEn,
-        //                        TotalPrice = orderdetails.TotalPrice,
-        //                        DatePlaced = order.DatePlaced,
-        //                        Status = order.Status,
-        //                        orderitemid = orderdetails.Id,
-        //                        orderid = order.Id,
-        //                        productid = product.Id
-        //                    };
+            // Delete related order addresses
+            var orderAddresses = context.orderAddresses.Where(oa => oa.OrderId == orderId);
+            context.orderAddresses.RemoveRange(orderAddresses);
 
-        //    return Task.FromResult(ordersDto);
-        //}
+            // Delete related payments
+            var payments = context.payments.Where(p => p.orderID == orderId);
+            context.payments.RemoveRange(payments);
 
+            // Delete the order
+            context.orders.Remove(order);
+
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DecreaseUserEarningsAsync(string userId, decimal? totalEarning)
+        {
+            var user = await context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.Earning -= totalEarning;
+            return await context.SaveChangesAsync() > 0;
+        }
     }
 
+    //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
+    //{
+    //    var ordersDto = from order in context.orders
+    //                    join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
+    //                    join product in context.products on orderdetails.ProductId equals product.Id
+    //                    where order.Id == orderdetails.OrderId
+    //                    select new OrderDetailsDTO
+    //                    {
+    //                        Quantity = orderdetails.Quantity,
+    //                        UserID = order.UserID,
+    //                        productname = product.NameEn,
+    //                        TotalPrice = orderdetails.TotalPrice,
+    //                        DatePlaced = order.DatePlaced,
+    //                        Status = order.Status,
+    //                        orderitemid = orderdetails.Id,
+    //                        orderid = order.Id,
+    //                        productid = product.Id
+    //                    };
+
+    //    return Task.FromResult(ordersDto);
+    //}
+
 }
+
+
 
