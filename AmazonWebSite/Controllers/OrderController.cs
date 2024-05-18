@@ -59,18 +59,21 @@ namespace AmazonWebSite.Controllers
         {
             try
             {
-                // Pass createorder properties to the service method, including the delivery price
-                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId, createorder.DeliveryPrice);
+                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId, createorder.DeliveryPrice, createorder.Earning);
 
-                // Check the result and return appropriate response
                 if (result.IsSuccess)
                 {
+                    // Check if total earnings is greater than 0
+                    if (createorder.Earning <= 0)
+                    {
+                        return BadRequest("Total earnings must be greater than 0.");
+                    }
+
                     // Increase user earnings after order creation
-                    var increaseEarningResult = await _orderService.IncreaseUserEarnings(createorder.UserID, createorder.Earning); // Assuming TotalPrice represents earnings for this order
+                    var increaseEarningResult = await _orderService.IncreaseUserEarnings(createorder.UserID, createorder.Earning);
 
                     if (increaseEarningResult == null)
                     {
-                        // Handle case where user is not found
                         return StatusCode(500, "Failed to increase user earnings: User not found");
                     }
 
@@ -89,6 +92,7 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
 

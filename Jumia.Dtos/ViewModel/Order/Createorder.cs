@@ -17,6 +17,6 @@ namespace Jumia.Dtos.ViewModel.Order
         public decimal  Earning { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? SelectedPrice { get; set; }
-
+      
     }
 }

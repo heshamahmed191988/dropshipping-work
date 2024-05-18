@@ -39,6 +39,7 @@ namespace Jumia.Application.Mapper
             CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();
             CreateMap<ItemViewModel,Item>().ReverseMap();
             CreateMap<OrderDto,Order>().ReverseMap();
+            CreateMap<Order,OrderDto>().ReverseMap();
             CreateMap<ProductImageDto,ProductImage>().ReverseMap();
             CreateMap<ItemViewModel, Item>()
                             .ForMember(dest => dest.ItemImage, opt => opt.MapFrom(src => src.ItemImagestring))

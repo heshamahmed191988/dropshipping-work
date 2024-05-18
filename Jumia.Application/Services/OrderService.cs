@@ -137,7 +137,7 @@ namespace Jumia.Application.Services
         //    }
         //}
 
-        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId, decimal? DeliveryPrice)
+        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId, decimal? DeliveryPrice,decimal? totalEarning)
         {
             try
             {
@@ -183,7 +183,9 @@ namespace Jumia.Application.Services
                     Status = "Pending",
                     UserID = UserID,
                     AddressId = address.Id, // Assign the address ID
-                    DeliveryPrice = DeliveryPrice
+                    DeliveryPrice = DeliveryPrice,
+                    Totalearning=totalEarning
+                
                 };
 
                 var createdOrder = await _orderRepository.CreateOrder(order);
@@ -218,8 +220,23 @@ namespace Jumia.Application.Services
                 }
                 await _orderProuduct.SaveChangesAsync();
 
-                var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
-                return new ResultView<OrderDto>
+                var createdOrderDto = new OrderDto
+                {
+                    Id = createdOrder.Id,
+                    UserID = createdOrder.UserID,
+                    UserName = createdOrder.User?.UserName ?? string.Empty, // Assuming UserName comes from ApplicationUserDto
+                    AddressId = createdOrder.AddressId,
+                    Street = createdOrder.Address?.Street,
+                    City = createdOrder.Address?.City,
+                    State = createdOrder.Address?.State,
+                    ZipCode = createdOrder.Address?.ZipCode,
+                    DatePlaced = createdOrder.DatePlaced,
+                    BarcodeImageUrl = createdOrder.BarcodeImageUrl,
+                    DeliveryPrice = createdOrder.DeliveryPrice,
+                    TotalPrice = createdOrder.TotalPrice,
+                    Totalearning = createdOrder.Totalearning,
+                    Status = createdOrder.Status
+                }; return new ResultView<OrderDto>
                 {
                     IsSuccess = true,
                     Message = "Order created successfully",
