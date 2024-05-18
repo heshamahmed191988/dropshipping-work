@@ -211,7 +211,9 @@ namespace Jumia.Application.Services
                         ProductId = id.productID,
                         OrderId = order.Id,
                         TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
-                        Quantity = id.quantity
+                        Quantity = id.quantity,
+                        SelectedPrice=id.unitAmount
+                        
                     });
                 }
                 await _orderProuduct.SaveChangesAsync();

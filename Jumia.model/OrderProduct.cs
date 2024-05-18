@@ -21,11 +21,13 @@ namespace Jumia.Model
         public int Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
-
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? SelectedPrice { get; set; }
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+
     }
 
 }

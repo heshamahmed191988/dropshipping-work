@@ -127,7 +127,7 @@ namespace Jumia.InfraStructure.Repository
                                 productid = product.Id,
                                 ProductDescription = product.DescriptionEn,
                                 ProductImage = product.ProductImages.Select(p => p.Path).FirstOrDefault() ?? "null",
-                                ProductPrice = product.Price
+                                ProductPrice = product.Price,
                             };
 
             return Task.FromResult(ordersDto);
