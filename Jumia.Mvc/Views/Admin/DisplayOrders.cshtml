@@ -33,28 +33,24 @@ tr:hover {
 
     <form method="get" action="@Url.Action("DisplayOrders", "Admin")" class="mb-4">
         <div class="form-row align-items-center">
-            <!-- Button to export current page to Excel -->
+            <!-- Export buttons -->
             <div class="col-auto">
-                <a href="@Url.Action("ExportCurrentPageToExcel", "Admin")" class="btn btn-success">Export Current Page to Excel</a>
+                <button formaction="@Url.Action("ExportCurrentPageToExcel", "Admin")" class="btn btn-success" formmethod="get">Export Current Page to Excel</button>
             </div>
-            <!-- Button to export all pages to Excel -->
             <div class="col-auto">
-                <a href="@Url.Action("ExportAllOrdersToExcel", "Admin")" class="btn btn-success">Export All Orders to Excel</a>
+                <button formaction="@Url.Action("ExportAllOrdersToExcel", "Admin")" class="btn btn-success" formmethod="get">Export All Orders to Excel</button>
             </div>
-        </div>
-    </form>
 
-
-
-
-
-
-
-    <form method="get" action="@Url.Action("DisplayOrders", "Admin")" class="mb-4">
-        <div class="form-row align-items-center">
+            <!-- Search and date range inputs -->
             <div class="col-auto">
                 <label for="searchStringInput" class="sr-only">@localizer["Search"]</label>
                 <input type="text" class="form-control" id="searchStringInput" name="searchString" placeholder="@localizer["Search Orders"]">
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Start Date">
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control" id="endDate" name="endDate" placeholder="End Date">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">@localizer["Search"]</button>

@@ -482,6 +482,42 @@ namespace Jumia.Application.Services
             return orderDTOs;
         }
 
+        public async Task<IEnumerable<OrderWithAddressDTO>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate, int pageNumber, int pageSize)
+        {
+            var orders = await _orderRepository.GetOrdersByDateRangeAsync(startDate, endDate);
+
+            var pagedOrders = orders
+                .OrderByDescending(o => o.DatePlaced)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var orderDTOs = pagedOrders.Select(o => new OrderWithAddressDTO
+            {
+                OrderId = o.Id,
+                UserName = o.User.UserName,
+                DatePlaced = o.DatePlaced,
+                TotalPrice = o.TotalPrice,
+                Status = o.Status,
+                BarcodeImageUrl = o.BarcodeImageUrl,
+                DeliveryPrice = o.DeliveryPrice,
+                AddressId = o.Address.Id,
+                Street = o.Address.Street,
+                City = o.Address.City,
+                State = o.Address.State,
+                ZipCode = o.Address.ZipCode,
+                Products = o.Products.Select(op => new ProductDTO
+                {
+                    Id = op.Product.Id,
+                    NameEn = op.Product.NameEn,
+                    NameAr = op.Product.NameAr,
+                    StockQuantity = op.Quantity,
+                    SelectedPrice = op.SelectedPrice
+                }).ToList()
+            }).ToList();
+
+            return orderDTOs;
+        }
 
 
 

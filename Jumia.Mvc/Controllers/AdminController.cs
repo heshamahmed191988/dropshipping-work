@@ -53,34 +53,38 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<IActionResult> DisplayOrders(string searchString, int pageNumber = 1, int pageSize =50)
+        public async Task<IActionResult> DisplayOrders(string searchString, DateTime? startDate, DateTime? endDate, int pageNumber = 1, int pageSize = 50)
         {
             try
             {
-                // Get orders data list for the specified page with addresses
-                var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
-                var ordersDto = ordersDataList.ToList(); // Convert to list
+                IEnumerable<OrderWithAddressDTO> ordersDataList;
 
-                // If a search string is provided, filter orders based on it
-                if (!string.IsNullOrEmpty(searchString))
+                if (startDate.HasValue && endDate.HasValue)
                 {
-                    // Assuming order.Status is the property you want to search in
-                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                                         .ToList();
+                    ordersDataList = await orderService.GetOrdersByDateRangeAsync(startDate.Value, endDate.Value, pageNumber, pageSize);
+                }
+                else
+                {
+                    ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
                 }
 
-                // Calculate total pages
+                var ordersDto = ordersDataList.ToList();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
                 var totalOrders = await orderService.GetTotalOrdersCountAsync();
                 var totalPages = (int)Math.Ceiling((double)totalOrders / pageSize);
 
-                ViewBag.PageNumber = pageNumber; // Pass pageNumber to the view
-                ViewBag.TotalPages = totalPages; // Pass totalPages to the view
+                ViewBag.PageNumber = pageNumber;
+                ViewBag.TotalPages = totalPages;
 
                 return View(ordersDto);
             }
             catch (Exception ex)
             {
-                // Handle any exceptions
                 TempData["ErrorMessage"] = "An error occurred while retrieving orders: " + ex.Message;
                 return RedirectToAction(nameof(DisplayOrders));
             }
@@ -209,27 +213,34 @@ namespace Jumia.Mvc.Controllers
     return pixels * 9525;
 }
 
-        public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, int pageNumber = 1, int pageSize = 70)
+        public async Task<IActionResult> ExportCurrentPageToExcel(string searchString, DateTime? startDate, DateTime? endDate, int pageNumber = 1, int pageSize = 70)
         {
             try
             {
-               // const int pageSize = 5000000; // Set the page size
-                var ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
+                IEnumerable<OrderWithAddressDTO> ordersDataList;
+
+                if (startDate.HasValue && endDate.HasValue)
+                {
+                    ordersDataList = await orderService.GetOrdersByDateRangeAsync(startDate.Value, endDate.Value, pageNumber, pageSize);
+                }
+                else
+                {
+                    ordersDataList = await orderService.GetAllOrdersWithAddressAsync(pageNumber, pageSize);
+                }
+
                 var ordersDto = ordersDataList.ToList(); // Convert to list
 
                 // If a search string is provided, filter orders based on it
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    // Assuming order.Status is the property you want to search in
-                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                                         .ToList();
+                    ordersDto = ordersDto.Where(o => o.Status.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 }
 
                 // Create a new Excel package
                 using (var package = new ExcelPackage())
                 {
                     // Add a new worksheet
-                    var worksheet = package.Workbook.Worksheets.Add("All Orders");
+                    var worksheet = package.Workbook.Worksheets.Add("Filtered Orders");
 
                     // Add headers
                     worksheet.Cells[1, 1].Value = "Order ID";
@@ -241,7 +252,7 @@ namespace Jumia.Mvc.Controllers
                     worksheet.Cells[1, 7].Value = "Status";
                     worksheet.Cells[1, 8].Value = "Product Name"; // Added product name column
                     worksheet.Cells[1, 9].Value = "Quantity";
-                    worksheet.Cells[1, 10].Value = "unit price";// Added quantity column
+                    worksheet.Cells[1, 10].Value = "Unit Price"; // Added quantity column
                     worksheet.Cells[1, 11].Value = "Barcode Image"; // Changed to indicate barcode image
 
                     int rowIndex = 2; // Start from the second row for data
@@ -293,16 +304,17 @@ namespace Jumia.Mvc.Controllers
                     var excelBytes = package.GetAsByteArray();
 
                     // Return the Excel file
-                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AllOrders.xlsx");
+                    return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "FilteredOrders.xlsx");
                 }
             }
             catch (Exception ex)
             {
                 // Handle any exceptions
-                TempData["ErrorMessage"] = "An error occurred while exporting all orders to Excel: " + ex.Message;
+                TempData["ErrorMessage"] = "An error occurred while exporting the orders to Excel: " + ex.Message;
                 return RedirectToAction(nameof(DisplayOrders));
             }
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

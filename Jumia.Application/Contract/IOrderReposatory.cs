@@ -33,7 +33,7 @@ namespace Jumia.Application.Contract
         Task<List<Order>> GetAllOrdersWithAddressesAsync();
         Task<bool> DeleteOrderAsync(int orderId);
         Task<bool> DecreaseUserEarningsAsync(string userId, decimal? totalEarning);
-
+        Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
 
 
     }

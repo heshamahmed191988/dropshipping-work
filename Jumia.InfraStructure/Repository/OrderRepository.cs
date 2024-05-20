@@ -44,6 +44,19 @@ namespace Jumia.InfraStructure.Repository
            .ThenInclude(op => op.Product) // Include the product details
        .ToListAsync();
         }
+
+
+        public async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await context.orders
+                .Include(o => o.Address)
+                .Include(o => o.User)
+                .Include(o => o.Products)
+                    .ThenInclude(op => op.Product)
+                .Where(o => o.DatePlaced >= startDate && o.DatePlaced <= endDate)
+                .ToListAsync();
+        }
+
         //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         //{
         //    var order = await context.orders.FindAsync(orderId);

@@ -27,6 +27,7 @@ namespace Jumia.Application.Services
         Task<bool> UpdateOrderStatusAsync2(int orderId, string newStatus);
         Task<IEnumerable<OrderWithAddressDTO>> GetAllOrdersWithAddressAsync(int pageNumber, int pageSize);
         Task<IncreaseEarning> IncreaseUserEarnings(string userId, decimal amountToAdd);
+        Task<IEnumerable<OrderWithAddressDTO>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate, int pageNumber, int pageSize);
 
 
     }
