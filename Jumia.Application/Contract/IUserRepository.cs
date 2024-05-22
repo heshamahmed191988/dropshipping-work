@@ -18,5 +18,6 @@ namespace Jumia.Application.Contract
         Task<List<Transaction>> GetTransactionsWithPaginationAsync(int skipCount, int pageSize);
         Task<int> GetTotalTransactionCountAsync();
         Task UpdateTransactionStatusAsync(int transactionId, string status);
+        Task<List<Transaction>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize);
     }
 }

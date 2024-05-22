@@ -655,5 +655,9 @@ namespace Jumia.Application.Services
                 };
             }
         }
+
+
+
+
     }
 }

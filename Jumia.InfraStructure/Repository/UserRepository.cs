@@ -114,7 +114,26 @@ namespace Jumia.InfraStructure.Repository
         }
 
 
-        public async Task UpdateTransactionStatusAsync(int transactionId, string status)
+        public async Task<List<Transaction>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize)
+        {
+            if (pageNumber < 1)
+            {
+                pageNumber = 1; // Ensure pageNumber is at least 1
+            }
+
+            // Calculate the number of records to skip
+            int skipCount = (pageNumber - 1) * pageSize;
+
+            return await _jumiaContext.Transactions
+                .Where(t => t.UserId == userId)
+                .OrderByDescending(t => t.DatePlaced)
+                .Skip(skipCount)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+    
+
+    public async Task UpdateTransactionStatusAsync(int transactionId, string status)
         {
             var transaction = await _jumiacontext.Transactions.FindAsync(transactionId);
             if (transaction != null)

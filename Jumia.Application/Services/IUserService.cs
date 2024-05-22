@@ -26,6 +26,6 @@ namespace Jumia.Application.Services
         Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize);
         Task<int> GetTotalTransactionCountAsync();
         Task UpdateTransactionStatusAsync(int transactionId, string status);
-
+        Task<List<TransactionDto>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize);
     }
 }

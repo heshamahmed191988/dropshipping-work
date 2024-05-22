@@ -1,5 +1,6 @@
 ﻿using Jumia.Application.Services;
 using Jumia.Dtos.ViewModel.User;
+using Jumia.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
@@ -70,11 +71,17 @@ namespace AmazonWebSite.Controllers
                 return BadRequest("Withdrawal request failed. Please check your requested amount and try again.");
             }
         }
-
-
-       
+        [HttpGet]
+        public async Task<ActionResult<List<TransactionDto>>> GetTransactionsByUserId(string userId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var transactions = await _userService.GetTransactionsByUserIdAsync(userId, pageNumber, pageSize);
+            return Ok(transactions);
+        }
     }
+
+
 }
+
 
  
 

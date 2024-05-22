@@ -270,12 +270,39 @@ namespace Jumia.InfraStructure.Repository
             if (order != null)
             {
                 order.Status = newStatus;
+
+                // If the new status is "Delivered", credit the user's earnings
+                if (newStatus == "Delivered")
+                {
+                    // Get the order total earnings
+                    decimal totalEarning = order.Totalearning ?? 0;
+
+                    // Increase user's earnings
+                    await IncreaseEarnings(order.UserID, totalEarning);
+                }
+
                 await context.SaveChangesAsync();
                 return true;
             }
             return false;
         }
 
+        public async Task<IncreaseEarning> IncreaseEarnings(string userId, decimal amountToAdd)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                return null; // Handle case where user is not found
+
+            user.Earning = (user.Earning ?? 0) + amountToAdd;
+            await context.SaveChangesAsync();
+
+            return new IncreaseEarning
+            {
+                Id = user.Id,
+                Earning = user.Earning
+            };
+        }
 
 
         public async Task<Order> CreateOrder(Order order)

@@ -171,10 +171,24 @@ namespace Jumia.Application.Services
         {
             return await _userRepository.GetTotalTransactionCountAsync();
         }
+        public async Task<List<TransactionDto>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize)
+        {
+            var transactions = await _userRepository.GetTransactionsByUserIdAsync(userId, pageNumber, pageSize);
+            return transactions.Select(t => new TransactionDto
+            {
+                
+                UserId = t.UserId,
+                Amount = t.Amount,
+                DatePlaced = t.DatePlaced,
+                Status = t.Status,
+                WithdrawalMethod = t.WithdrawalMethod
+            }).ToList();
+        }
     }
-
-
 }
+
+
+
 
 
 

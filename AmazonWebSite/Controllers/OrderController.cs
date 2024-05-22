@@ -70,12 +70,12 @@ namespace AmazonWebSite.Controllers
                     }
 
                     // Increase user earnings after order creation
-                    var increaseEarningResult = await _orderService.IncreaseUserEarnings(createorder.UserID, createorder.Earning);
+                    //var increaseEarningResult = await _orderService.IncreaseUserEarnings(createorder.UserID, createorder.Earning);
 
-                    if (increaseEarningResult == null)
-                    {
-                        return StatusCode(500, "Failed to increase user earnings: User not found");
-                    }
+                    //if (increaseEarningResult == null)
+                    //{
+                    //    return StatusCode(500, "Failed to increase user earnings: User not found");
+                    //}
 
                     // Create payment for the order
                     var paymentDto = await CreatePaymentAsync(result.Entity.Id);

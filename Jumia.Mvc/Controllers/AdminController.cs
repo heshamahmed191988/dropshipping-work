@@ -321,7 +321,7 @@ namespace Jumia.Mvc.Controllers
 
         public async Task<IActionResult> UpdateStatus(int orderId, string status)
         {
-            await orderService.UpdateOrderStatusAsync(orderId, status);
+            await orderService.UpdateOrderStatusAsync2(orderId, status);
             return RedirectToAction("DisplayOrders","Admin");
         }
         [HttpPost]
