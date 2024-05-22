@@ -29,7 +29,9 @@ namespace Jumia.Model
         [Required]
         [MaxLength(20)]
         public string ?WithdrawalMethod { get; set; }
-        
+        public string? Status { get; set; } = "Pending";
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? NumberOfWithdrawl { get; set; }
         [Required]
         public DateTime DatePlaced { get; set; }
     }

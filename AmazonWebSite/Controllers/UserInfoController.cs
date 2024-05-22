@@ -59,7 +59,8 @@ namespace AmazonWebSite.Controllers
         [HttpPost("withdrawal")]
         public async Task<IActionResult> RequestWithdrawal([FromBody] WithdrawalRequest withdrawalRequest)
         {
-            var success = await _userService.RequestWithdrawal(withdrawalRequest.UserId, withdrawalRequest.RequestedAmount, withdrawalRequest.WithdrawalMethod, withdrawalRequest.PhoneNumber);
+            var success = await _userService.RequestWithdrawal(withdrawalRequest.UserId, withdrawalRequest.RequestedAmount, withdrawalRequest.WithdrawalMethod, 
+                withdrawalRequest.PhoneNumber,withdrawalRequest.Status,withdrawalRequest.NumberOfWithdrawl);
             if (success)
             {
                 return Ok("Withdrawal request successful.");

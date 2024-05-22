@@ -11,7 +11,10 @@
             <th>Amount</th>
             <th>Withdrawal Method</th>
             <th>Phone Number</th>
+            <th>Withdrawal Number</th>
+            <th>Status</th>
             <th>Date Placed</th>
+           @*  <th>Actions</th> *@
         </tr>
     </thead>
     <tbody>
@@ -23,7 +26,29 @@
                 <td>@transaction.Amount</td>
                 <td>@transaction.WithdrawalMethod</td>
                 <td>@transaction.Phone</td>
+                <td>@String.Format("{0:0}",transaction.NumberOfWithdrawl)</td>
+
+                <td>
+                    <form asp-action="UpdateTransactionStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="transactionId" value="@transaction.Id" />
+                        <select name="status" onchange="this.form.submit()">
+                            @if (transaction.Status == "Pending")
+                            {
+                                <option value="Pending" selected="selected">Pending</option>
+                                <option value="Completed">Completed</option>
+                            }
+                            else
+                            {
+                                <option value="Pending">Pending</option>
+                                <option value="Completed" selected="selected">Completed</option>
+                            }
+                        </select>
+                    </form>
+                </td>
                 <td>@transaction.DatePlaced</td>
+                <td>
+                    <!-- Add any other action buttons here -->
+                </td>
             </tr>
         }
     </tbody>
@@ -61,4 +86,3 @@
         </ul>
     </div>
 }
-

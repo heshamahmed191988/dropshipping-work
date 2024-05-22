@@ -150,9 +150,10 @@ namespace Jumia.Application.Services
             return await _userRepository.GetEarningByUserIdAsync(userId);
         }
 
-        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber)
+        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod
+            , string phoneNumber, string? status, decimal? NumberOfWithdrawl)
         {
-            return await _userRepository.RequestWithdrawal(userId, requestedAmount, withdrawalMethod, phoneNumber);
+            return await _userRepository.RequestWithdrawal(userId, requestedAmount, withdrawalMethod, phoneNumber,status,NumberOfWithdrawl);
         }
         public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize)
         {
@@ -162,7 +163,10 @@ namespace Jumia.Application.Services
             // Fetch transactions from the repository using pagination
             return await _userRepository.GetTransactionsWithPaginationAsync(skipCount, pageSize);
         }
-
+        public async Task UpdateTransactionStatusAsync(int transactionId, string status)
+        {
+            await _userRepository.UpdateTransactionStatusAsync(transactionId, status);
+        }
         public async Task<int> GetTotalTransactionCountAsync()
         {
             return await _userRepository.GetTotalTransactionCountAsync();

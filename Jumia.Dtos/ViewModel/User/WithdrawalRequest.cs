@@ -12,5 +12,7 @@ namespace Jumia.Dtos.ViewModel.User
         public decimal RequestedAmount { get; set; }
         public string? WithdrawalMethod { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Status { get; set; } = "Pending";
+        public decimal? NumberOfWithdrawl { get; set; }
     }
 }

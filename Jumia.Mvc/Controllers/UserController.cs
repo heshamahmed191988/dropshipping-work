@@ -30,7 +30,7 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<ActionResult> DisplayTransactions(string searchString, int pageNumber = 1, int pageSize = 3)
+        public async Task<ActionResult> DisplayTransactions(string searchString, int pageNumber = 1, int pageSize = 30)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Jumia.Mvc.Controllers
 
                 if (pageSize < 1)
                 {
-                    pageSize = 3; // Default page size
+                    pageSize = 30; // Default page size
                 }
 
                 // Fetch transactions from the service without applying pagination yet
@@ -79,7 +79,21 @@ namespace Jumia.Mvc.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateTransactionStatus(int transactionId, string status)
+        {
+            try
+            {
+                await _userService.UpdateTransactionStatusAsync(transactionId, status);
+                TempData["SuccessMessage"] = "Transaction status updated successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An error occurred while updating the transaction status: " + ex.Message;
+            }
 
+            return RedirectToAction(nameof(DisplayTransactions));
+        }
 
 
 

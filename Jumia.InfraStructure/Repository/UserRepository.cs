@@ -52,7 +52,8 @@ namespace Jumia.InfraStructure.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber)
+        public async Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber,
+            string? status,decimal? NumberOfWithdrawl)
         {
             // Find the user by userId
             var user = await _jumiacontext.Users.FindAsync(userId);
@@ -81,6 +82,8 @@ namespace Jumia.InfraStructure.Repository
                 Amount = requestedAmount,
                 WithdrawalMethod = withdrawalMethod,
                 Phone = phoneNumber,
+                Status=status,
+                NumberOfWithdrawl=NumberOfWithdrawl,
                 DatePlaced = DateTime.Now
             };
 
@@ -110,6 +113,16 @@ namespace Jumia.InfraStructure.Repository
                 .ToListAsync();
         }
 
+
+        public async Task UpdateTransactionStatusAsync(int transactionId, string status)
+        {
+            var transaction = await _jumiacontext.Transactions.FindAsync(transactionId);
+            if (transaction != null)
+            {
+                transaction.Status = status;
+                await _jumiacontext.SaveChangesAsync();
+            }
+        }
 
 
         public async Task<int> GetTotalTransactionCountAsync()
