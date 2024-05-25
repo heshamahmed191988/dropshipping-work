@@ -54,13 +54,21 @@ namespace Jumia.InfraStructure
 
         public async Task<IEnumerable<Product>> GetByBrandAsync(string brandName)
         {
-            return await _jumiacontext.products.Where(p => p.BrandNameEn.Equals(brandName) && !p.IsDeleted).ToListAsync();
+            return await _jumiacontext.products
+                .Where(p => p.BrandNameEn.Equals(brandName) && !p.IsDeleted)
+                .Include(p => p.items)  
+                .ToListAsync();
         }
+
 
         public async Task<IEnumerable<Product>> GetByCategoryAndBrandAsync(int categoryId, string brandName)
         {
-            return await _jumiacontext.products.Where(p => p.CategoryID == categoryId && p.BrandNameEn.Equals(brandName) && !p.IsDeleted).ToListAsync();
+            return await _jumiacontext.products
+                .Where(p => p.CategoryID == categoryId && p.BrandNameEn.Equals(brandName) && !p.IsDeleted)
+                .Include(p => p.items)  // Eager load the Items collection
+                .ToListAsync();
         }
+
 
 
         public async Task<int> GetTotalProductsCountAsync()
@@ -76,6 +84,27 @@ namespace Jumia.InfraStructure
                 // Handle any potential exceptions here
                 // Log or throw as needed
                 throw new Exception("Failed to retrieve total orders count: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<Product> GetOneByIdAsync(int id)
+        {
+            try
+            {
+                var product = await _jumiacontext.products
+                    .Include(p => p.items) 
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                if (product == null)
+                {
+                    throw new KeyNotFoundException($"Product with ID {id} not found.");
+                }
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to retrieve product with ID {id}: " + ex.Message, ex);
             }
         }
     }

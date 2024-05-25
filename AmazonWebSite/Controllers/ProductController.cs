@@ -193,6 +193,7 @@ namespace AmazonWebSite.Controllers
                 BrandNameEn = p.BrandNameEn,
                 MaxPrice = p.MaxPrice,
                 MinPrice = p.MinPrice,
+                Colors=p.itemscolor,
                 ProductImages = new List<string>(), // Initialize to ensure it's not null.
                 itemscolor = new List<string>() // Assuming colors will be populated below.
             }).ToList();
@@ -252,6 +253,8 @@ namespace AmazonWebSite.Controllers
                 BrandNameEn = p.BrandNameEn,
                 MaxPrice = p.MaxPrice,
                 MinPrice = p.MinPrice,
+                Colors=p.itemscolor,
+                
 
                 ProductImages = new List<string>(), // Initialize here to ensure it's not null
                 itemscolor = new List<string>() // Assuming you'll populate this similarly
@@ -379,7 +382,7 @@ namespace AmazonWebSite.Controllers
                 MinPrice = product.MinPrice,
                 Productimages = new List<string>(), // Initialize here to ensure it's not null
                 itemimages = new List<string>(), // Assuming similar adjustment needed
-                colors = new List<string>() // Initialize here; assuming you'll populate this similarly
+                colors =product.Colors, // Initialize here; assuming you'll populate this similarly
             };
 
             var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");

@@ -54,11 +54,10 @@ namespace Jumia.Dtos.ViewModel.Product
         public int CategoryId { get; set; }
         public string? CategoryNameAr { get; set; }
         public string? CategoryNameEn { get; set; }
-
         public virtual LoginViewModel? Seller { get; set; }
         public string? SellerName { get; set; }
         public bool IsDeleted { get; set; } = false;
-
+        public IEnumerable<string> Colors { get; set; }
         // public virtual ICollection<ProductImageViewModel> ProductImages { get; set; }
     }
 }

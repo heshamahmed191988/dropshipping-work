@@ -30,5 +30,7 @@ namespace Jumia.Dtos.ViewModel.Product
         public string DescriptionEn { get; set; }
         public decimal Price { get; set; }
 
+        public IEnumerable<string>? Colors { get; set; }
+
     }
 }

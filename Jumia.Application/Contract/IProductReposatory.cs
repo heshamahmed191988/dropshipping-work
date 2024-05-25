@@ -22,5 +22,6 @@ namespace Jumia.Application.Contract
         Task<IEnumerable<Product>> GetByBrandAsync(string brandName);
         Task<IEnumerable<Product>> GetByCategoryAndBrandAsync(int categoryId, string brandName);
         Task<int> GetTotalProductsCountAsync();
+        Task<Product> GetOneByIdAsync(int id);
     }
 }

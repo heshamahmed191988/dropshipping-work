@@ -110,16 +110,32 @@ namespace Jumia.Application.Services
 
         public async Task<ProuductViewModel> GetOne(int id)
         {
-            var product = await productReposatory.GetByIdAsync(id);
-            var productViewModel = _mapper.Map<ProuductViewModel>(product);
-
+            var product = await productReposatory.GetOneByIdAsync(id);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+            }
 
             var category = await _categoryService.GetById(product.CategoryID);
-            if (category != null)
+
+            var productViewModel = new ProuductViewModel
             {
-                productViewModel.CategoryNameAr = category.NameAr;
-                productViewModel.CategoryNameEn = category.NameEn;
-            }
+                Id = product.Id,
+                NameAr = product.NameAr,
+                NameEn = product.NameEn,
+                BrandNameAr = product.BrandNameAr,
+                BrandNameEn = product.BrandNameEn,
+                CategoryNameAr = category?.NameAr,
+                CategoryNameEn = category?.NameEn,
+                StockQuantity = product.StockQuantity,
+                Price = product.Price,
+                DateListed = product.DateListed,
+                DescriptionAR = product.DescriptionAr,
+                DescriptionEn = product.DescriptionEn,
+                SellerName = product.Seller?.UserName,
+                CategoryId = product.CategoryID,
+                Colors = product.items.Select(i => i.Color).Distinct().ToList()
+            };
 
             return productViewModel;
         }
@@ -145,7 +161,7 @@ namespace Jumia.Application.Services
                 DescriptionEn = p.DescriptionEn,
                 SellerName = p.Seller.UserName,
                 CategoryId = p.Category.Id,
-               
+                Colors = p.items.Select(i => i.Color).Distinct()
                 // IsDeleted=p.IsDeleted,
                 // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();
