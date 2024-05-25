@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240504031806_init2")]
-    partial class init2
+    [Migration("20240525070910_changesontransactionstable2")]
+    partial class changesontransactionstable2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,6 +242,9 @@ namespace Jumia.Context.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal?>("Totalearning")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -274,6 +277,9 @@ namespace Jumia.Context.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("SelectedPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -447,6 +453,49 @@ namespace Jumia.Context.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("reviews");
+                });
+
+            modelBuilder.Entity("Jumia.Model.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DatePlaced")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("NumberOfWithdrawl")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WithdrawalMethod")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("userName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Jumia.model.OrderAddress", b =>
@@ -717,6 +766,17 @@ namespace Jumia.Context.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Jumia.Model.Transaction", b =>
+                {
+                    b.HasOne("Jumia.Model.ApplicationUser", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Jumia.model.OrderAddress", b =>
                 {
                     b.HasOne("Jumia.Model.Address", "Address")
@@ -803,6 +863,8 @@ namespace Jumia.Context.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Jumia.Model.Category", b =>
