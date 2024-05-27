@@ -125,10 +125,10 @@ namespace Jumia.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(int id, ProuductViewModel productViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                try
-                {
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
                     var result = await _proudectService.Update(productViewModel);
                     if (result.IsSuccess)
                     {
@@ -139,12 +139,12 @@ namespace Jumia.Mvc.Controllers
                     {
                         TempData["ErrorMessage"] = result.Message;
                     }
-                }
-                catch (Exception ex)
-                {
-                    TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
-                }
-            }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
+            //    }
+            //}
 
             var categories = await _proudectService.GetAllCategories();
             var sellers = await _proudectService.GetAllSellers();

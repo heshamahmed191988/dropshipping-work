@@ -57,7 +57,7 @@ namespace Jumia.Dtos.ViewModel.Product
         public virtual LoginViewModel? Seller { get; set; }
         public string? SellerName { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public IEnumerable<string> Colors { get; set; }
+        public IEnumerable<string>? Colors { get; set; }
         // public virtual ICollection<ProductImageViewModel> ProductImages { get; set; }
     }
 }

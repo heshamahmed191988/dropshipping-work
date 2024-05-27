@@ -11,16 +11,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Users</h1>
+<h1 style="text-align: center;">@localizer["Users"]</h1>
 
-<table class="table">
+<table class="table" dir="@(isRtl ? "RTL":"LTR")">
     <thead>
         <tr>
             <th>Id</th>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Phone</th>
-            <th></th>
+            <th>@localizer["Email"]</th>
+            <th>@localizer["Username"]</th>
+            <th>@localizer["Phone"]</th>
+            <th>@localizer["Delete"]</th>
         </tr>
     </thead>
     <tbody>

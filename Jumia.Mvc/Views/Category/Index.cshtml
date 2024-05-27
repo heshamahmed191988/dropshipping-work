@@ -26,19 +26,19 @@
         }
     </style>
 </head>
-<div style="background-color:#ebebeb;">
+<div style="background-color:#ebebeb;" dir="@(isRtl ? "RTL":"LTR")">
     <div class="row justify-content-center mt-3" style="text-align: end; background-color:#ebebeb;">
         <div class="col-md-8" style="margin-top: 4vw;
    margin-left: 23vw;">
             <a asp-action="Create" class="btn-1" style="">@localizer["Create"]</a>
         </div>
     </div>
-    <div class="container mt-3 mb-5 @(isRtl ? "RTL" : "LTR")" style="background-color:#ebebeb;">
+    <div class="container mt-3 mb-5 " style="background-color:#ebebeb;">
         <div class="row justify-content-center" style="background-color:#ebebeb;">
             <div class="col-md-8">
                 <div class="card" style="background-color: #F3F6F9 !important;
     color: black;
-        width: 163%;
+        width: 140%;
     margin-left: -227px; border-radius:0.25rem;">
                     <div class="card-body">
                         @if (Model != null && Model.Any())

@@ -1,19 +1,27 @@
-﻿@using Jumia.Model
+﻿
+@using Jumia.Model
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
 @model List<Transaction>
 
-<h2>Transactions</h2>
+<h2 style="text-align: center;">@localizer["Transactions"]</h2>
 
-<table class="table">
+<table class="table" dir="@(isRtl ? "RTL":"LTR")">
     <thead>
         <tr>
             <th>User ID</th>
-            <th>User Name</th>
-            <th>Amount</th>
-            <th>Withdrawal Method</th>
-            <th>Phone Number</th>
-            <th>Withdrawal Number</th>
-            <th>Status</th>
-            <th>Date Placed</th>
+            <th>@localizer["Username"]</th>
+            <th>@localizer["Amount"]</th>
+            <th>@localizer["Withdrawal Method"]</th>
+            <th>@localizer["Phone Number"]</th>
+            <th>@localizer["numberOfWithdrawl"]</th>
+            <th>@localizer["status"]</th>
+            <th>@localizer["Date Placed"]</th>
            @*  <th>Actions</th> *@
         </tr>
     </thead>

@@ -99,6 +99,19 @@
   "Add Orders": "Add Orders",
   "Select": "Select",
   "Update Selected Orders Status": "Update Selected Orders Status",
-  "Transactions": "Transactions"
+  "Transactions": "Transactions",
+  "Username":"Username",
+  "Phone":"Phone",
+  "Withdrawal Amount":"Withdrawal Amount",
+  "Withdrawal Method":"Withdrawal Method",
+  "Phone Number":"Phone Number",
+  "numberOfWithdrawl":"numberOfWithdrawl",
+  "Request Withdrawal":"Request Withdrawal",
+  "number":"number",
+  "Amount":"Amount",
+  "status":"Status",
+  "Date Placed":"Date Placed"
+  
+
 
 }

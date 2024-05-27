@@ -244,16 +244,21 @@ namespace Jumia.Mvc.Controllers
 
                     // Add headers
                     worksheet.Cells[1, 1].Value = "Order ID";
-                    worksheet.Cells[1, 2].Value = "Username";
-                    worksheet.Cells[1, 3].Value = "Date Listed";
-                    worksheet.Cells[1, 4].Value = "Total Price";
-                    worksheet.Cells[1, 5].Value = "City";
-                    worksheet.Cells[1, 6].Value = "Street";
-                    worksheet.Cells[1, 7].Value = "Status";
-                    worksheet.Cells[1, 8].Value = "Product Name"; // Added product name column
-                    worksheet.Cells[1, 9].Value = "Quantity";
-                    worksheet.Cells[1, 10].Value = "Unit Price"; // Added quantity column
-                    worksheet.Cells[1, 11].Value = "Barcode Image"; // Changed to indicate barcode image
+                    worksheet.Cells[1, 2].Value = "رقم الهاتف";
+                    worksheet.Cells[1, 3].Value = "اسم العميل";
+                    //worksheet.Cells[1, 3].Value = "Date Listed";
+                    worksheet.Cells[1, 4].Value = "المنطقة";
+                    worksheet.Cells[1, 5].Value = "المحافظة";
+                    worksheet.Cells[1, 6].Value = "العنوان التفصيلى";
+
+                    worksheet.Cells[1, 7].Value = "الاجمالى";
+                    
+                    
+                    worksheet.Cells[1, 8].Value = "Status";
+                    worksheet.Cells[1, 9].Value = "Product Name"; // Added product name column
+                    worksheet.Cells[1, 10].Value = "Quantity";
+                    worksheet.Cells[1, 11].Value = "Unit Price"; // Added quantity column
+                    worksheet.Cells[1, 12].Value = "Barcode Image"; // Changed to indicate barcode image
 
                     int rowIndex = 2; // Start from the second row for data
 
@@ -264,17 +269,22 @@ namespace Jumia.Mvc.Controllers
                         {
                             // Write order details
                             worksheet.Cells[rowIndex, 1].Value = order.OrderId;
-                            worksheet.Cells[rowIndex, 2].Value = order.UserName;
-                            worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
-                            worksheet.Cells[rowIndex, 4].Value = order.TotalPrice;
+                            worksheet.Cells[rowIndex, 2].Value = order.ZipCode;
+
+                            worksheet.Cells[rowIndex, 3].Value = order.UserName;
+                            //worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
+                            worksheet.Cells[rowIndex, 4].Value = order.Street;
+
                             worksheet.Cells[rowIndex, 5].Value = order.City;
-                            worksheet.Cells[rowIndex, 6].Value = order.Street;
-                            worksheet.Cells[rowIndex, 7].Value = order.Status;
+                            worksheet.Cells[rowIndex, 6].Value = order.State;
+                            worksheet.Cells[rowIndex, 7].Value = order.TotalPrice;
+
+                            worksheet.Cells[rowIndex, 8].Value = order.Status;
 
                             // Write product details
-                            worksheet.Cells[rowIndex, 8].Value = product.NameEn;
-                            worksheet.Cells[rowIndex, 9].Value = product.StockQuantity;
-                            worksheet.Cells[rowIndex, 10].Value = product.SelectedPrice;
+                            worksheet.Cells[rowIndex, 9].Value = product.NameEn;
+                            worksheet.Cells[rowIndex, 10].Value = product.StockQuantity;
+                            worksheet.Cells[rowIndex, 11].Value = product.SelectedPrice;
                             rowIndex++;
                         }
 
@@ -283,7 +293,7 @@ namespace Jumia.Mvc.Controllers
 
                         // Add the barcode image to the worksheet
                         var barcodeImage = worksheet.Drawings.AddPicture("Barcode" + rowIndex, new MemoryStream(imageBytes));
-                        barcodeImage.SetPosition(rowIndex - 2, 0, 11, 0); // This will place the barcode in column 10, at the same row height as the other details
+                        barcodeImage.SetPosition(rowIndex - 2, 0, 12, 0); // This will place the barcode in column 10, at the same row height as the other details
 
                         // Set the size of the barcode image to fit inside the cell
                         barcodeImage.SetSize(100, 20); // Width and height in pixels, adjust as needed

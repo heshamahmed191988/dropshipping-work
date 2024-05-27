@@ -76,7 +76,8 @@ namespace Jumia.Application.Services
                 uproudect.NameEn = proudect.NameEn;
                 uproudect.BrandNameAr = proudect.BrandNameAr;
                 uproudect.BrandNameEn = proudect.BrandNameEn;
-
+                uproudect.MinPrice = proudect.MinPrice;
+                uproudect.MaxPrice = proudect.MaxPrice;
                 uproudect.Price = proudect.Price;
                 uproudect.StockQuantity = proudect.StockQuantity;
                 uproudect.DescriptionAr = proudect.DescriptionAR;
@@ -129,6 +130,8 @@ namespace Jumia.Application.Services
                 CategoryNameEn = category?.NameEn,
                 StockQuantity = product.StockQuantity,
                 Price = product.Price,
+                MaxPrice = product.MaxPrice,
+                MinPrice = product.MinPrice,
                 DateListed = product.DateListed,
                 DescriptionAR = product.DescriptionAr,
                 DescriptionEn = product.DescriptionEn,

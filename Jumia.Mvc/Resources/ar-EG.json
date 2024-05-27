@@ -100,8 +100,16 @@
   "Select": "اختر",
   "Update Selected Orders Status": "حدث الاوردرات المختارة ",
 
-  "Transactions": "عمليات سحب الارباح"
-
+  "Transactions": "عمليات سحب الارباح",
+  "Username":"اسم المستخدم",
+  "Phone":"رقم الهاتف",
+  "Users":"المستخدمين",
+  "numberOfWithdrawl":"رقم الحساب او المحفظة",
+  "Request Withdrawal":"تنفيذ طلبك" ,
+  "number":"رقم",
+  "Amount":"الكمية ",
+  "status":"حالة الطلب",
+  "Date Placed":"توقيت عملية السحب"
 
 
 
