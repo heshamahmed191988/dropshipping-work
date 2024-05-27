@@ -179,7 +179,7 @@ namespace Jumia.Application.Services
                 var order = new Order
                 {
                     DatePlaced = DateTime.Now,
-                    TotalPrice = totalPrice,
+                    TotalPrice = totalPrice+5000,
                     Status = "Pending",
                     UserID = UserID,
                     AddressId = address.Id, // Assign the address ID
