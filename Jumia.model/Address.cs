@@ -22,6 +22,7 @@ namespace Jumia.Model
         public string ?State { get; set; }
         [MaxLength(20)]
         public string? ZipCode { get; set; }
+        public string? clientName { get; set; }
         public string UserID { get; set; }
 
         public int OrderId { get; set; }

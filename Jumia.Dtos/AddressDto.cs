@@ -18,7 +18,7 @@ namespace Jumia.Dtos
 
         [MaxLength(100)]
         public string? State { get; set; }
-
+        public string? clientName { get; set; }
         //[Required]
         //[MaxLength(100)]
         //public string Country { get; set; }

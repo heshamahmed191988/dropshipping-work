@@ -65,7 +65,7 @@ tr:hover {
             <thead>
                 <tr>
                     <th scope="col">@localizer["Order ID"]</th>
-                    <th scope="col">@localizer["UserName"]</th>
+                    <th scope="col">@localizer["Client Name"]</th>
                     <th scope="col">@localizer["DateListed"]</th>
                     <th scope="col">@localizer["Total Price"]</th>
                     <th scope="col">@localizer["City"]</th>
@@ -93,7 +93,7 @@ tr:hover {
                    
                     <tr>
                         <td>@order.OrderId</td>
-                        <td>@order.UserName</td>
+                        <td>@order.ClientName</td>
                         <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
                         <td>@order.TotalPrice</td>
                         <td>@order.City</td>

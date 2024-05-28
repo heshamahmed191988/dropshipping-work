@@ -28,7 +28,8 @@ namespace Jumia.Application.Services
                 City = addressDto.City,
                 State = addressDto.State,
                 ZipCode = addressDto.ZipCode,
-                UserID = addressDto.UserID
+                UserID = addressDto.UserID,
+                clientName=addressDto.clientName
             };
 
             // Assuming an Order exists and we are associating it directly

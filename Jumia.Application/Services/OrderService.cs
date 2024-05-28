@@ -468,6 +468,7 @@ namespace Jumia.Application.Services
                 Street = o.Address.Street,
                 City = o.Address.City,
                 State = o.Address.State,
+                ClientName=o.Address.clientName,
                 ZipCode = o.Address.ZipCode,
                 Products = o.Products.Select(op => new ProductDTO
                 {

@@ -153,7 +153,7 @@ namespace Jumia.Mvc.Controllers
                         {
                             // Write order details
                             worksheet.Cells[rowIndex, 1].Value = order.OrderId;
-                            worksheet.Cells[rowIndex, 2].Value = order.UserName;
+                            worksheet.Cells[rowIndex, 2].Value = order.ClientName;
                             worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
                             worksheet.Cells[rowIndex, 4].Value = order.TotalPrice;
                             worksheet.Cells[rowIndex, 5].Value = order.City;
@@ -271,7 +271,7 @@ namespace Jumia.Mvc.Controllers
                             worksheet.Cells[rowIndex, 1].Value = order.OrderId;
                             worksheet.Cells[rowIndex, 2].Value = order.ZipCode;
 
-                            worksheet.Cells[rowIndex, 3].Value = order.UserName;
+                            worksheet.Cells[rowIndex, 3].Value = order.ClientName;
                             //worksheet.Cells[rowIndex, 3].Value = order.DatePlaced.ToString("dd/MM/yyyy");
                             worksheet.Cells[rowIndex, 4].Value = order.Street;
 
