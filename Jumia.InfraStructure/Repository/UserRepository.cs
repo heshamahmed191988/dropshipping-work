@@ -96,7 +96,7 @@ namespace Jumia.InfraStructure.Repository
             return true;
         }
 
-        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize)
+        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize, DateTime? startDate = null, DateTime? endDate = null)
         {
             if (pageNumber < 1)
             {
@@ -106,12 +106,25 @@ namespace Jumia.InfraStructure.Repository
             // Calculate the number of records to skip
             int skipCount = (pageNumber - 1) * pageSize;
 
-            return await _jumiacontext.Transactions
-                .OrderByDescending(t => t.DatePlaced)
-                .Skip(skipCount)
-                .Take(pageSize)
-                .ToListAsync();
+            // Query with optional date filtration
+            var query = _jumiacontext.Transactions.AsQueryable();
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(t => t.DatePlaced >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(t => t.DatePlaced <= endDate.Value);
+            }
+
+            return await query.OrderByDescending(t => t.DatePlaced)
+                              .Skip(skipCount)
+                              .Take(pageSize)
+                              .ToListAsync();
         }
+
 
 
         public async Task<List<Transaction>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize)

@@ -15,7 +15,7 @@ namespace Jumia.Application.Contract
         Task<decimal?> GetEarningByUserIdAsync(string userId);
         Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod, string phoneNumber,
             string? status, decimal? NumberOfWithdrawl);
-        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int skipCount, int pageSize);
+        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize, DateTime? startDate = null, DateTime? endDate = null);
         Task<int> GetTotalTransactionCountAsync();
         Task UpdateTransactionStatusAsync(int transactionId, string status);
         Task<List<Transaction>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize);

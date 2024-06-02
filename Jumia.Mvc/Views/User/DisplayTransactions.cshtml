@@ -10,7 +10,12 @@
 @model List<Transaction>
 
 <h2 style="text-align: center;">@localizer["Transactions"]</h2>
-
+<form method="get" action="@Url.Action("DisplayTransactions")">
+    @* <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Search by username" /> *@
+    <input type="date" name="startDate" value="@ViewBag.StartDate?.ToString("yyyy-MM-dd")" />
+    <input type="date" name="endDate" value="@ViewBag.EndDate?.ToString("yyyy-MM-dd")" />
+    <button type="submit">Search</button>
+</form>
 <table class="table" dir="@(isRtl ? "RTL":"LTR")">
     <thead>
         <tr>

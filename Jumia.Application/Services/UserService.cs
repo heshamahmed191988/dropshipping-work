@@ -155,13 +155,13 @@ namespace Jumia.Application.Services
         {
             return await _userRepository.RequestWithdrawal(userId, requestedAmount, withdrawalMethod, phoneNumber,status,NumberOfWithdrawl);
         }
-        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize)
+        public async Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize, DateTime? startDate = null, DateTime? endDate = null)
         {
             // Calculate skip count based on page number and page size
             int skipCount = (pageNumber - 1) * pageSize;
 
-            // Fetch transactions from the repository using pagination
-            return await _userRepository.GetTransactionsWithPaginationAsync(skipCount, pageSize);
+            // Fetch transactions from the repository with date filtration
+            return await _userRepository.GetTransactionsWithPaginationAsync(skipCount, pageSize, startDate, endDate);
         }
         public async Task UpdateTransactionStatusAsync(int transactionId, string status)
         {

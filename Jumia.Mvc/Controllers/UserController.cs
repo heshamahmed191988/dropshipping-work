@@ -30,7 +30,7 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        public async Task<ActionResult> DisplayTransactions(string searchString, int pageNumber = 1, int pageSize = 30)
+        public async Task<ActionResult> DisplayTransactions(string searchString, int pageNumber = 1, int pageSize = 30, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
@@ -45,8 +45,8 @@ namespace Jumia.Mvc.Controllers
                     pageSize = 30; // Default page size
                 }
 
-                // Fetch transactions from the service without applying pagination yet
-                var allTransactions = await _userService.GetTransactionsWithPaginationAsync(0, int.MaxValue);
+                // Fetch transactions from the service with date filtration
+                var allTransactions = await _userService.GetTransactionsWithPaginationAsync(0, int.MaxValue, startDate, endDate);
 
                 // If a search string is provided, filter transactions based on it
                 var filteredTransactions = string.IsNullOrEmpty(searchString) ?
@@ -61,12 +61,14 @@ namespace Jumia.Mvc.Controllers
 
                 // Apply pagination after filtering
                 var transactions = filteredTransactions.Skip((pageNumber - 1) * pageSize)
-                                                      .Take(pageSize)
-                                                      .ToList();
+                                                       .Take(pageSize)
+                                                       .ToList();
 
                 ViewBag.PageNumber = pageNumber; // Pass pageNumber to the view
                 ViewBag.TotalPages = totalPages; // Pass totalPages to the view
                 ViewBag.SearchString = searchString; // Pass searchString to the view
+                ViewBag.StartDate = startDate; // Pass startDate to the view
+                ViewBag.EndDate = endDate; // Pass endDate to the view
 
                 return View(transactions);
             }
@@ -77,6 +79,7 @@ namespace Jumia.Mvc.Controllers
                 return RedirectToAction(nameof(DisplayTransactions));
             }
         }
+
 
 
         [HttpPost]

@@ -23,8 +23,7 @@ namespace Jumia.Application.Services
         Task<decimal?> GetUserEarningAsync(string userId);
         Task<bool> RequestWithdrawal(string userId, decimal requestedAmount, string withdrawalMethod
              , string phoneNumber, string? status, decimal? NumberOfWithdrawl);
-        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize);
-        Task<int> GetTotalTransactionCountAsync();
+        Task<List<Transaction>> GetTransactionsWithPaginationAsync(int pageNumber, int pageSize, DateTime? startDate = null, DateTime? endDate = null);        Task<int> GetTotalTransactionCountAsync();
         Task UpdateTransactionStatusAsync(int transactionId, string status);
         Task<List<TransactionDto>> GetTransactionsByUserIdAsync(string userId, int pageNumber, int pageSize);
     }
